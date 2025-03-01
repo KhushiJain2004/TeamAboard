@@ -1,0 +1,11 @@
+:root {
+  --primary: #41b883;
+  --secondary: #83c5be;
+  --gray: #999;
+  --light-black: #555;
+}
+
+:root {
+  --font-poppins: 'Poppins', sans-serif;
+  --font-open-sans: 'Open Sans', sans-serif;
+}

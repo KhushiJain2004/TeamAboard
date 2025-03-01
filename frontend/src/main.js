@@ -1,5 +1,23 @@
+import router from '@/router'
 import { createApp } from 'vue'
 import App from './App.vue'
-import './assets/styles.css' // Import custom CSS
 
-createApp(App).mount('#app')
+// FontAwesome Setup
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+// BootstrapVue (for Vue 3)
+import { BootstrapVue3 } from 'bootstrap-vue-3'
+import 'bootstrap/dist/css/bootstrap.css'
+
+// Create Vue App
+const app = createApp(App)
+app.use(router)
+app.use(BootstrapVue3)
+
+// FontAwesome Configuration
+library.add(fas)
+app.component('font-awesome-icon', FontAwesomeIcon)
+
+app.mount('#app')
