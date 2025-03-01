@@ -15,8 +15,7 @@
         <!-- <b-img src="../assets/images/logo.png" fluid class="logoLogin mb-4" /> -->
         <div class="d-flex justify-content-center mb-4">
           <img src="../assets/images/google.png" fluid class="icons" />
-          <img src="../assets/images/facebook.png" fluid class="icons mx-4" />
-          <img src="../assets/images/twitter.png" fluid class="icons" />
+          <img src="../assets/images/github.png" fluid class="icons mx-4" />
         </div>
         <span class="text-center mb-4 other-account">Or log in with your account</span>
         <b-form-group id="input-group-1" label-for="email">
@@ -150,7 +149,7 @@ body {
 }
 
 #formLogin .icons {
-  width: 35px;
+  width: 80px;
   cursor: pointer;
   margin-bottom: 1rem;
 }
