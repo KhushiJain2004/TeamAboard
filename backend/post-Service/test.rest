@@ -1,0 +1,72 @@
+###  get all posts
+
+GET http://localhost:4000/api/posts
+
+###  get post with id
+GET http://localhost:4000/api/posts/1
+
+### login 
+
+POST  http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "email":"test@gmail.com",
+    "password":"1234"
+}
+
+
+###  get users post  //protected
+GET http://localhost:4000/api/posts/user
+
+###  create new post    //protected
+
+POST http://localhost:4000/api/posts
+Content-Type: application/json
+
+{
+    "tittle":"first post",
+    "description":"first post",
+    "category":"x",
+    "skills":["mern stack","spring"],
+    "location":"remote",
+    "time":"2 days"
+}
+
+### create post //protected
+POST http://localhost:4000/api/posts    
+Content-Type: application/json
+
+{
+    "tittle":"5 post",
+    "description":"third post",
+    "location":"remote"
+}
+### delete post     //protected
+DELETE http://localhost:4000/api/posts/4
+
+### update      //protected
+
+PUT http://localhost:4000/api/posts/9
+Content-Type: application/json
+
+{
+    "tittle":"2 post",
+    "description":"2 post",
+    "category":"new x",
+    "location":"remote",
+    "time":"5 days",
+    "skills":["aws","devops"]
+}
+
+### update 
+
+PUT http://localhost:4000/api/posts/7
+Content-Type: application/json
+
+{
+    "tittle":"7 post",
+    "description":"7 post",
+    "category":"xyz"
+
+}

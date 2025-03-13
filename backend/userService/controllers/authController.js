@@ -2,13 +2,15 @@ import express from "express"
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import userModel from "../models/userModel.js"
+import fs from 'fs';
 
+const secret=fs.readFileSync('./keys/private.pem');
 const createToken=(id)=>
 {
     return jwt.sign({
         id,
         isAdmin:false,
-    },process.env.SECRET_KEY,{expiresIn:'3d'});
+    },secret,{expiresIn:'3d',algorithm:'RS256'});
 }
 
 export const register=async (req,res)=>

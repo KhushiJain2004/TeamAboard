@@ -1,0 +1,24 @@
+services:
+  postgres_db:
+    image:  postgres:latest
+    environment:
+      POSTGRES_USER: my_user
+      POSTGRES_PASSWORD: my_pass
+      POSTGRES_DB: users
+    ports:
+      - "5432:5432"
+    volumes:
+      - user_db:/var/lib/postgresql/data
+
+  user-service:
+    depends-on: 
+      - postgres-db
+    build: ./backend/userService
+    restart: always
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./user-service:/user-service
+    
+volumes:
+  user_db:   

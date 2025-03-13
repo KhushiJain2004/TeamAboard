@@ -5,7 +5,7 @@ Content-Type: application/json
 
 {
     "name":"test user",
-    "email":"test@gmail.com",
+    "email":"test2@gmail.com",
     "password":"1234"
 }
 
@@ -18,7 +18,7 @@ Content-Type: application/json
     "email":"test@gmail.com",
     "password":"1234"
 }
-### get user profile
+### get user profile  //protected route
 
 GET  http://localhost:5000/api/user/
 
@@ -26,7 +26,7 @@ GET  http://localhost:5000/api/user/
 
 GET  http://localhost:5000/api/user/all
 
-### update a user
+### update a user   //protected route
 
 PUT  http://localhost:5000/api/user/67c2eef2e8d735c3c5dbecd0
 Content-Type: application/json
@@ -36,7 +36,7 @@ Content-Type: application/json
     "password":"1234",
     "age":"21"
 }
-### delete a user
+### delete a user  //protected route
 DELETE http://localhost:5000/api/user/67c2eef2e8d735c3c5dbecd0
 
 

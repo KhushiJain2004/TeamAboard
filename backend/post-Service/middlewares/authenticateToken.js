@@ -3,13 +3,15 @@ import fs from 'fs'
 
 const publicKey=fs.readFileSync('./keys/public.pem');
 
-export const verifyToken= (req,res,next)=>
+export const authenticateToken= (req,res,next)=>
 {
+    // console.log("hi")
     const token=req.cookies.token;
     
     jwt.verify(token,publicKey,{algorithms:['RS256']},async(err,payload)=>
     {
         if(err) return res.status(401).json({success:"false",message:"Token not valid, login again"});
+        // console.log(payload);
         req.userId=payload.id;
         next();
     })
