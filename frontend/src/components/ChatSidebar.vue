@@ -69,6 +69,8 @@ export default {
   border-right: 1px solid #4a5568;
   display: flex;
   flex-direction: column;
+  padding-left: 80px;
+
 }
 .sidebar-header {
   padding: 1rem;
