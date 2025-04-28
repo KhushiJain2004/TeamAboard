@@ -1,0 +1,355 @@
+<template>
+  <div class="edit-profile-container">
+    <!-- Sidebar Navigation -->
+    <div class="sidebar-nav">
+      <div class="logo">
+        <img src="@/assets/images/logo.png" alt="Logo" /> <!-- Replace with your logo -->
+      </div>
+      <nav>
+        <ul>
+          <li>
+            <router-link to="/">
+              <img src="@/assets/images/logo.png" alt="Home" /> <!-- Replace with icon -->
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/edit-profile" class="active">
+              <img src="@/assets/images/logo.png" alt="Settings" /> <!-- Replace with icon -->
+            </router-link>
+          </li>
+          <!-- Add more sidebar items as needed -->
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Header -->
+      <header>
+        <h1>Settings</h1>
+        <div class="user-menu">
+          <img src="@/assets/images/logo.png" alt="User Avatar" /> <!-- Replace with user avatar -->
+          <span>▼</span>
+        </div>
+      </header>
+
+      <!-- Profile Section -->
+      <div class="profile-section">
+        <div class="profile-header">
+          <img :src="user.avatar" alt="User Avatar" class="avatar" />
+          <button class="upload-btn">
+            <img src="@/assets/images/logo.png" alt="Upload" /> <!-- Replace with icon -->
+          </button>
+          <div class="user-info">
+            <h2>{{ user.firstName }} {{ user.surname }}</h2>
+            <p>Your account is ready, you can now apply for.</p>
+          </div>
+        </div>
+
+        <!-- Edit Profile Form -->
+        <div class="edit-profile-form">
+          <h3>Edit Profile</h3>
+          <p class="last-update">Last Update August 1</p>
+          <form @submit.prevent="saveProfile">
+            <div class="form-section">
+              <h4>Personal</h4>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>First Name</label>
+                  <input v-model="user.firstName" placeholder="Enter Value" />
+                </div>
+                <div class="form-group">
+                  <label>Surname</label>
+                  <input v-model="user.surname" placeholder="Enter Value" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label>National Code</label>
+                <input v-model="user.nationalCode" placeholder="Enter Value" />
+              </div>
+              <div class="form-group">
+                <label>Date of Birth</label>
+                <input v-model="user.dateOfBirth" placeholder="Enter Value" />
+              </div>
+              <div class="form-group">
+                <label>Education Level</label>
+                <select v-model="user.educationLevel">
+                  <option disabled value="">Select</option>
+                  <option value="High School">High School</option>
+                  <option value="Bachelor's">Bachelor's</option>
+                  <option value="Master's">Master's</option>
+                  <option value="PhD">PhD</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-section">
+              <h4>Contact</h4>
+              <div class="form-group">
+                <label>Email</label>
+                <input v-model="user.email" placeholder="Enter Value" />
+              </div>
+              <div class="form-group">
+                <label>Phone Number</label>
+                <input v-model="user.phoneNumber" placeholder="Enter Value" />
+              </div>
+              <div class="form-group">
+                <label>Country</label>
+                <select v-model="user.country">
+                  <option disabled value="">Select</option>
+                  <option value="USA">USA</option>
+                  <option value="Canada">Canada</option>
+                  <option value="Iran">Iran</option>
+                  <!-- Add more countries as needed -->
+                </select>
+              </div>
+              <div class="form-group">
+                <label>City</label>
+                <select v-model="user.city">
+                  <option disabled value="">Select</option>
+                  <option v-for="city in cities" :key="city" :value="city">{{ city }}</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="save-btn">Save</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'EditProfile',
+  data() {
+    return {
+      user: {
+        avatar: 'https://via.placeholder.com/100', // Replace with actual avatar URL
+        firstName: 'Mobina',
+        surname: 'Mirbagheri',
+        nationalCode: '',
+        dateOfBirth: '',
+        educationLevel: '',
+        email: '',
+        phoneNumber: '+989120000000',
+        country: '',
+        city: '',
+      },
+      cities: [], // Populated based on country selection
+      availableCities: {
+        USA: ['New York', 'Los Angeles', 'Chicago'],
+        Canada: ['Toronto', 'Vancouver', 'Montreal'],
+        Iran: ['Tehran', 'Shiraz', 'Isfahan'],
+        // Add more countries and cities as needed
+      },
+    };
+  },
+  watch: {
+    'user.country'(newCountry) {
+      this.cities = this.availableCities[newCountry] || [];
+      this.user.city = ''; // Reset city when country changes
+    },
+  },
+  methods: {
+    saveProfile() {
+      // Implement save logic (e.g., API call to update user profile)
+      console.log('Profile saved:', this.user);
+      alert('Profile saved successfully!');
+    },
+  },
+};
+</script>
+
+<style scoped>
+.edit-profile-container {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar-nav {
+  width: 80px;
+  background-color: #f7fafc;
+  border-right: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.logo img {
+  width: 40px;
+  height: 40px;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 2rem;
+}
+
+nav ul li {
+  margin: 1rem 0;
+}
+
+nav ul li a {
+  display: block;
+  padding: 0.5rem;
+}
+
+nav ul li a img {
+  width: 24px;
+  height: 24px;
+}
+
+nav ul li a.active {
+  background-color: #e2e8f0;
+  border-radius: 8px;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: url('@/assets/background-pattern.png') repeat; /* Replace with actual pattern */
+  background-size: contain;
+}
+
+header h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-menu img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.profile-section {
+  padding: 2rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.upload-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translate(-50%, -50%);
+  background-color: #48bb78;
+  border-radius: 50%;
+  padding: 0.5rem;
+  border: none;
+  cursor: pointer;
+}
+
+.upload-btn img {
+  width: 16px;
+  height: 16px;
+}
+
+.user-info h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.user-info p {
+  color: #718096;
+}
+
+.edit-profile-form {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.edit-profile-form h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.last-update {
+  color: #a0aec0;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.form-section {
+  margin-bottom: 1.5rem;
+}
+
+.form-section h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-group {
+  flex: 1;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.875rem;
+  color: #4a5568;
+  margin-bottom: 0.25rem;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+  font-size: 0.875rem;
+}
+
+.save-btn {
+  background-color: #48bb78;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.save-btn:hover {
+  background-color: #38a169;
+}
+</style>

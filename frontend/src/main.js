@@ -7,6 +7,12 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
+import { faBell, faCog, faComments, faHeart, faSignOutAlt, faTh } from "@fortawesome/free-solid-svg-icons"
+
+// Add icons to FontAwesome library
+library.add(faTh, faBell, faComments, faHeart, faCog, faSignOutAlt);
+
+
 // BootstrapVue (for Vue 3)
 import { BootstrapVue3 } from 'bootstrap-vue-3'
 import 'bootstrap/dist/css/bootstrap.css'

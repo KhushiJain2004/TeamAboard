@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import FormLogin from "../components/FormLogin.vue";
 import BlobBg from "../components/BlobBg.vue";
+import FormLogin from "../components/FormLogin.vue";
 
 export default {
   components: {
