@@ -1,0 +1,63 @@
+<template>
+  <div class="chat-item" @click="$emit('click')">
+    <img :src="chat.avatar" alt="Avatar" class="avatar" />
+    <div class="chat-info">
+      <div class="chat-header">
+        <h3>{{ chat.name }}</h3>
+        <span>{{ chat.lastMessageTime }}</span>
+      </div>
+      <p>{{ chat.lastMessage }}</p>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'ChatListItem',
+  props: {
+    chat: {
+      type: Object,
+      required: true,
+    },
+  },
+};
+</script>
+
+<style scoped>
+.chat-item {
+  padding: 1rem;
+  border-bottom: 1px solid #4a5568;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.chat-item:hover {
+  background-color: #4a5568;
+}
+.avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+.chat-info {
+  flex: 1;
+}
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+}
+.chat-header h3 {
+  font-weight: 600;
+}
+.chat-header span {
+  font-size: 0.875rem;
+  color: #a0aec0;
+}
+.chat-info p {
+  color: #a0aec0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>
