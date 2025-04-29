@@ -11,8 +11,8 @@
           </router-link>
         </li>
         <li>
-          <router-link to="/chat/2" active-class="active">
-            <img src="@/assets/images/logo.png" alt="Documents" />
+          <router-link to="/friends-and-mentors" active-class="active">
+            <img src="@/assets/images/follow.gif" alt="Documents" />
           </router-link>
         </li>
         <li>
@@ -26,7 +26,7 @@
           </router-link>
         </li>
         <li>
-          <router-link to="/logout" active-class="active">
+          <router-link to="/login" active-class="active">
             <img src="@/assets/images/logout.gif" alt="Logout" />
           </router-link>
         </li>

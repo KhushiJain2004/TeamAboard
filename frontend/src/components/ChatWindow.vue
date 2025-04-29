@@ -49,24 +49,52 @@ export default {
 .chat-header {
   padding: 1rem;
   border-bottom: 1px solid #4a5568;
-  background-color: #2d3748;
-  display: flex;
-  align-items: center;
-}
-.chat-header .avatar {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  margin-right: 1rem;
-}
-.chat-header h2 {
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-.messages {
-  flex: 1;
-  padding: 1rem;
-  overflow-y: auto;
-  background-color: #2d3748;
-}
+    display: flex;
+    align-items: center;
+  }
+
+  .chat-header .avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    margin-right: 1rem;
+  }
+
+  .chat-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .messages {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+  }
+
+  :deep(::-webkit-scrollbar) {
+    width: 8px;
+  }
+
+  :deep(::-webkit-scrollbar-track) {
+    background: #72cba4;
+    border-radius: 10px;
+  }
+
+  :deep(::-webkit-scrollbar-thumb) {
+    background-color: #72cba4;
+    border-radius: 10px;
+    border: 2px solid #72cba4;
+  }
+
+  :deep(::-webkit-scrollbar-thumb:hover) {
+    background-color: #5bb688;
+  }
+
+  :deep(::-webkit-scrollbar-thumb:active) {
+    background-color: #3fa574;
+  }
+
+  :deep(::-webkit-scrollbar-thumb:vertical) {
+    background-color: #72cba4;
+  }
 </style>

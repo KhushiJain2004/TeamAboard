@@ -32,7 +32,7 @@ export default {
   cursor: pointer;
 }
 .chat-item:hover {
-  background-color: #4a5568;
+  background-color: #41b883;
 }
 .avatar {
   width: 3rem;
@@ -52,10 +52,10 @@ export default {
 }
 .chat-header span {
   font-size: 0.875rem;
-  color: #a0aec0;
+  color: #000000;
 }
 .chat-info p {
-  color: #a0aec0;
+  color: #000000;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
