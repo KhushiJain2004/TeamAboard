@@ -41,4 +41,30 @@ export default {
 .main-content.no-sidebar {
   margin-left: 0;
 }
+:deep(::-webkit-scrollbar) {
+  width: 8px;
+}
+
+:deep(::-webkit-scrollbar-track) {
+  background: #72cba4;
+  border-radius: 10px;
+}
+
+:deep(::-webkit-scrollbar-thumb) {
+  background-color: #72cba4;
+  border-radius: 10px;
+  border: 2px solid #72cba4;
+}
+
+:deep(::-webkit-scrollbar-thumb:hover) {
+  background-color: #5bb688;
+}
+
+:deep(::-webkit-scrollbar-thumb:active) {
+  background-color: #3fa574;
+}
+
+:deep(::-webkit-scrollbar-thumb:vertical) {
+  background-color: #72cba4;
+}
 </style>
