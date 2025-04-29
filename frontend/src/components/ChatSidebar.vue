@@ -65,7 +65,7 @@ export default {
 <style scoped>
 .sidebar {
   width: 33%;
-  background-color: #2d3748;
+
   border-right: 1px solid #4a5568;
   display: flex;
   flex-direction: column;
@@ -85,15 +85,41 @@ export default {
   width: 100%;
   padding: 0.5rem;
   border-radius: 5px;
-  background-color: #4a5568;
-  color: #fff;
+  color: #000000;
   border: none;
 }
 .sidebar-header input::placeholder {
-  color: #a0aec0; /* Placeholder text color for better visibility */
+  color: #000000;
+    /* Placeholder text color for better visibility */
 }
 .chat-list {
   flex: 1;
   overflow-y: auto;
+}
+:deep(::-webkit-scrollbar) {
+  width: 8px;
+}
+
+:deep(::-webkit-scrollbar-track) {
+  background: #72cba4;
+  border-radius: 10px;
+}
+
+:deep(::-webkit-scrollbar-thumb) {
+  background-color: #72cba4;
+  border-radius: 10px;
+  border: 2px solid #72cba4;
+}
+
+:deep(::-webkit-scrollbar-thumb:hover) {
+  background-color: #5bb688;
+}
+
+:deep(::-webkit-scrollbar-thumb:active) {
+  background-color: #3fa574;
+}
+
+:deep(::-webkit-scrollbar-thumb:vertical) {
+  background-color: #72cba4;
 }
 </style>
