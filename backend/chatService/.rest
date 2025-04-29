@@ -1,0 +1,78 @@
+###
+
+POST http://localhost:5001/api/chat/create
+Content-Type: application/json
+
+{
+    "isGroupChat":true
+}
+
+###
+POST http://localhost:5001/api/chat/create
+Content-Type: application/json
+
+{
+    
+}
+
+### create one on one chat 
+POST http://localhost:5001/api/chat/create
+Content-Type: application/json
+
+{
+    "users":["67c964d5ad933dacf44583bc","67c2eef2e8d735c3c5dbecd0"]
+}
+
+### create group chat 
+POST http://localhost:5001/api/chat/create
+Content-Type: application/json
+
+{
+    "isGroupChat":true,
+    "groupName":"test Group",
+    "admin":"67c964d5ad933dacf44583bc",
+    "users":["67c964d5ad933dacf44583bc","67c2eef2e8d735c3c5dbecd0","67c964cfad933dacf44583b9"]
+}
+
+
+### login
+
+POST  http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "email":"test2@gmail.com",
+    "password":"1234"
+}
+
+### get user chats
+
+GET http://localhost:5001/api/chat/
+
+### open chat 
+
+GET http://localhost:5001/api/chat/68105745daa5e880add6ce5a
+
+### delete chat 
+
+POST http://localhost:5001/api/chat/delete/68104d847b73cc22cbc45e39
+
+
+
+### add member to grp chat 
+
+POST http://localhost:5001/api/chat/addToGroup/68105745daa5e880add6ce5a
+Content-Type: application/json
+
+{
+    "membersToAdd":["67d5715811b2ad1aa8e01869"]
+}
+
+### remove member from grp chat 
+
+POST http://localhost:5001/api/chat/removeFromGroup/68105745daa5e880add6ce5a
+Content-Type: application/json
+
+{
+    "membersToRemove":["67d5715811b2ad1aa8e01869"]
+}

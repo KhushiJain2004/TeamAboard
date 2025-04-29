@@ -7,10 +7,12 @@ export const createPostTable=async ()=>{
     created_by TEXT NOT NULL ,
     tittle TEXT NOT NULL ,
     description TEXT NOT NULL,
-    category TEXT,
+    purpose TEXT,
     requiredSkills TEXT[],
     location TEXT,
-    time TEXT DEFAULT '',
+    tags TEXT[],
+    deadline TEXT DEFAULT '',
+    teamSize int DEFAULT 2,
     createdAt TIMESTAMP DEFAULT NOW(),
     updatedAt TIMESTAMP DEFAULT NOW()
     )`;
@@ -33,3 +35,4 @@ export const createPostTable=async ()=>{
 
 }
 
+  //category is purpose of team

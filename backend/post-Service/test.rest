@@ -70,3 +70,15 @@ Content-Type: application/json
     "category":"xyz"
 
 }
+
+### apply to post   //requires login
+POST http://localhost:4000/api/posts/apply/9   
+Content-Type: application/json
+
+{
+    "authorId":"67c2eef2e8d735c3c5dbecd0"
+}
+
+
+### view Applications   //requires login
+GET http://localhost:4000/api/posts/viewApplications/9   
