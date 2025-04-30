@@ -7,6 +7,7 @@ import FriendsAndMentors from '@/views/FriendsAndMentors.vue';
 import Login from '@/views/Login.vue';
 import RecoverAccount from '@/views/RecoverAccount.vue';
 import Register from '@/views/Register.vue';
+import VisitorProfile from '@/views/VisitorProfile.vue';
 
 const routes = [
   {
@@ -21,6 +22,7 @@ const routes = [
       { name: 'register', path: '/register', component: Register },
       { name: 'recover', path: '/recover', component: RecoverAccount },
       { name: 'friends-and-mentors', path: 'friends-and-mentors', component: FriendsAndMentors },
+      { name: 'visitor-profile', path: 'visitor', component: VisitorProfile },
     ],
   },
 ];
