@@ -1,13 +1,15 @@
 <template>
   <div class="sidebar">
-    <div class="logo">
-      <img src="@/assets/images/logo.png" alt="Logo" />
-    </div>
     <nav>
       <ul>
         <li>
           <router-link to="/home" active-class="active">
             <img src="@/assets/images/home.gif" alt="Home" />
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/feed" active-class="active">
+            <img src="@/assets/images/activity-feed.gif" alt="Feed" />
           </router-link>
         </li>
         <li>
@@ -56,17 +58,6 @@ export default {
   left: 0;
 }
 
-.logo {
-  margin-bottom: 2rem;
-}
-
-.logo img {
-  width: 40px;
-  height: 40px;
-  background-color: #48bb78;
-  border-radius: 8px;
-  padding: 5px;
-}
 
 nav ul {
   list-style: none;
@@ -75,7 +66,7 @@ nav ul {
 }
 
 nav ul li {
-  margin: 6rem 0;
+  margin: 5rem 0;
   text-align: center;
 }
 

@@ -4,7 +4,6 @@
 
     <!-- Main Content -->
     <div class="main-content">
-      <!-- Header -->
       <header>
         <h1>Settings</h1>
         <div class="user-menu">
@@ -19,10 +18,12 @@
           <div class="user-info">
             <h2>{{ user.firstName }} {{ user.surname }}</h2>
             <p>{{ user.statusMessage }}</p>
+            <p>{{ user.statusMessage }}</p>
           </div>
         </div>
 
-        <!-- Edit Profile Form -->
+
+        <!-- Tab Content -->
         <div class="edit-profile-tabs">
           <!-- Tab Headers -->
           <div class="tab-headers">
@@ -40,6 +41,9 @@
             </div>
             <div class="tab-header" :class="{ active: activeTab === 'Experience' }" @click="activeTab = 'Experience'">
               Experience
+            </div>
+            <div class="tab-header" :class="{ active: activeTab === 'Projects' }" @click="activeTab = 'Projects'">
+              Projects
             </div>
           </div>
 
@@ -194,6 +198,44 @@
               </div>
               <button type="submit" class="save-btn">Save</button>
             </form>
+
+            <form @submit.prevent="saveProfile" v-if="activeTab === 'Projects'">
+              <h3>Edit Profile</h3>
+              <p class="last-update">Last Update August 1</p>
+              <div class="form-section">
+                <h4>Projects</h4>
+                <div class="form-group">
+                  <label>Project Name</label>
+                  <input v-model="newProject.name" placeholder="Enter project name" />
+                </div>
+                <div class="form-group">
+                  <label>GitHub Link</label>
+                  <input v-model="newProject.githubLink" placeholder="Enter GitHub link" type="url" />
+                </div>
+                <div class="form-group">
+                  <label>Tech Stack</label>
+                  <input v-model="newProject.techStack" placeholder="Enter tech stack (e.g., Vue.js, Node.js)" />
+                </div>
+                <div class="form-group">
+                  <label>Team Members</label>
+                  <input v-model="newProject.teamMembers" placeholder="Enter team members (comma-separated)" />
+                </div>
+                <button type="button" @click="addProject" class="add-project-btn">Add</button>
+                <div class="form-group project-list">
+                  <label>Current Projects</label>
+                  <div v-for="(project, index) in user.projects" :key="index" class="project-item">
+                    <div>
+                      <strong>{{ project.name }}</strong><br />
+                      GitHub: <a :href="project.githubLink" target="_blank">{{ project.githubLink }}</a><br />
+                      Tech Stack: {{ project.techStack }}<br />
+                      Team Members: {{ project.teamMembers }}
+                    </div>
+                    <button @click="removeProject(index)" class="remove-project-btn">×</button>
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="save-btn">Save</button>
+            </form>
           </div>
         </div>
       </div>
@@ -208,6 +250,7 @@ export default {
     return {
       user: {
         avatar: '@/assets/images/avatar.jpg',
+        //avatar: '@/assets/images/avatar.jpg',
         firstName: 'Mobina',
         surname: 'Mirbagheri',
         nationalCode: '',
@@ -223,6 +266,9 @@ export default {
         experience: [
           { jobTitle: 'Frontend Developer', company: 'Tech Corp', from: '2020-01-01', to: '2022-12-31' },
         ],
+        projects: [
+          { name: 'ChatApp', githubLink: 'https://github.com/user/chatapp', techStack: 'Vue.js, Node.js', teamMembers: 'Alice, Bob' },
+        ],
       },
       cities: [],
       availableCities: {
@@ -233,6 +279,7 @@ export default {
       newSkill: '',
       newInterest: '',
       newExperience: { jobTitle: '', company: '', from: '', to: '' },
+      newProject: { name: '', githubLink: '', techStack: '', teamMembers: '' },
       activeTab: 'Personal',
     };
   },
@@ -279,11 +326,28 @@ export default {
     removeExperience(index) {
       this.user.experience.splice(index, 1);
     },
+    addProject() {
+      if (
+        this.newProject.name.trim() &&
+        this.newProject.githubLink.trim() &&
+        this.newProject.techStack.trim() &&
+        this.newProject.teamMembers.trim()
+      ) {
+        this.user.projects.push({ ...this.newProject });
+        this.newProject = { name: '', githubLink: '', techStack: '', teamMembers: '' };
+      }
+    },
+    removeProject(index) {
+      this.user.projects.splice(index, 1);
+    },
   },
 };
 </script>
 
 <style scoped>
+/* --------------------------------------
+   Container and Layout
+-------------------------------------- */
 .edit-profile-tabs {
   background-color: #fff;
   padding: 1.5rem;
@@ -433,6 +497,21 @@ export default {
   height: 100vh;
 }
 
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-section {
+  flex: 1;
+  padding-left: 8rem;
+  overflow-y: auto;
+}
+
+/* --------------------------------------
+   Sidebar Navigation
+-------------------------------------- */
 .sidebar-nav {
   width: 80px;
   background-color: #f7fafc;
@@ -473,12 +552,9 @@ nav ul li a.active {
   border-radius: 8px;
 }
 
-.main-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
+/* --------------------------------------
+   Header Section
+-------------------------------------- */
 header {
   display: flex;
   justify-content: space-between;
@@ -490,6 +566,7 @@ header {
 header h1 {
   font-size: 1.5rem;
   font-weight: 600;
+  padding-left: 8rem;
   padding-left: 8rem;
 }
 
@@ -524,132 +601,492 @@ header h1 {
 
 .avatar {
   width: 170px;
-    height: 170px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
+  height: 170px;
+  border-radius: 50%;
+  object-fit: cover;
+}
 
-  .upload-btn {
-    position: relative;
-    bottom: 0;
-    right: 0;
-    transform: translate(-50%, -50%);
-    background-color: #48bb78;
-    border-radius: 50%;
-    padding: 0.5rem;
-    border: none;
-    cursor: pointer;
-  }
+.upload-btn {
+  position: relative;
+  bottom: 0;
+  right: 0;
+  transform: translate(-50%, -50%);
+  background-color: #48bb78;
+  border-radius: 50%;
+  padding: 0.5rem;
+  border: none;
+  cursor: pointer;
+}
 
-  .upload-btn img {
-    width: 16px;
-    height: 16px;
-  }
+/* --------------------------------------
+    Edit Profile Tabs
+  -------------------------------------- */
+.edit-profile-tabs {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  margin-right: 2rem;
+}
 
-  .user-info h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-  }
+.tab-headers {
+  display: flex;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+}
 
-  .user-info p {
-    color: #ffffff;
-  }
+.tab-header {
+  padding: 0.5rem 1rem;
+  background-color: #e6f0fa;
+  border: 1px solid #b3d4fc;
+  border-radius: 5px 5px 0 0;
+  margin-right: -1px;
+  /* Overlap effect */
+  color: #2d3748;
+  font-weight: 600;
+  cursor: pointer;
+}
 
-  .edit-profile-form {
-    background-color: #fff;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem;
-    margin-right: 2rem;
-  }
+.tab-header.active {
+  background-color: #fff;
+  border-bottom: 1px solid #fff;
+  z-index: 2;
+}
 
-  .edit-profile-form h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-  }
+.tab-content {
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0 5px 5px 5px;
+}
 
-  .last-update {
-    color: #a0aec0;
-    font-size: 0.875rem;
-    margin-bottom: 1rem;
-  }
+/* --------------------------------------
+     Form Sections and Inputs
+  -------------------------------------- */
+.edit-profile-form {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  margin-right: 2rem;
+}
 
-  .form-section {
-    margin-bottom: 1.5rem;
-  }
+.edit-profile-form h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
 
-  .form-section h4 {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-  }
+.last-update {
+  color: #a0aec0;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
 
-  .form-row {
-    display: flex;
-    gap: 1rem;
-  }
+.form-section {
+  margin-bottom: 1.5rem;
+}
 
-  .form-group {
-    flex: 1;
-    margin-bottom: 1rem;
-  }
+.form-section h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
 
-  .form-group label {
-    display: block;
-    font-size: 0.875rem;
-    color: #4a5568;
-    margin-bottom: 0.25rem;
-  }
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
 
-  .form-group input,
-  .form-group select {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #e2e8f0;
-    border-radius: 5px;
-    font-size: 0.875rem;
-  }
+.form-group {
+  flex: 1;
+  margin-bottom: 1rem;
+}
 
-  .save-btn {
-    background-color: #48bb78;
-    color: #fff;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-  }
+.form-group label {
+  display: block;
+  font-size: 0.875rem;
+  color: #4a5568;
+  margin-bottom: 0.25rem;
+}
 
-  .save-btn:hover {
-    background-color: #72cba4;
-  }
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+  font-size: 0.875rem;
+}
 
-  :deep(::-webkit-scrollbar) {
-    width: 8px;
-  }
+/* --------------------------------------
+     Skills Section
+  -------------------------------------- */
+.skills-list {
+  margin-top: 0.5rem;
+}
 
-  :deep(::-webkit-scrollbar-track) {
-    background: #72cba4;
-    border-radius: 10px;
-  }
+.skill-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: #f7fafc;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
 
-  :deep(::-webkit-scrollbar-thumb) {
-    background-color: #72cba4;
-    border-radius: 10px;
-    border: 2px solid #72cba4;
-  }
+.add-skill-btn {
+  background-color: #41b883;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  margin-top: 8px;
+  font-size: 0.875rem;
+}
 
-  :deep(::-webkit-scrollbar-thumb:hover) {
-    background-color: #5bb688;
-  }
+.add-skill-btn:hover {
+  background-color: #41b883;
+}
 
-  :deep(::-webkit-scrollbar-thumb:active) {
-    background-color: #3fa574;
-  }
+.remove-skill-btn {
+  background: none;
+  border: none;
+  color: #ff4d4f;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
 
-  :deep(::-webkit-scrollbar-thumb:vertical) {
-    background-color: #72cba4;
-  }
+.remove-skill-btn:hover {
+  color: #e53e3e;
+}
+
+/* --------------------------------------
+     Interests Section
+  -------------------------------------- */
+.interests-list {
+  margin-top: 0.5rem;
+}
+
+.interest-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: #f7fafc;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+.add-interest-btn {
+  background-color: #48bb78;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  margin-top: 5px;
+  font-size: 0.875rem;
+}
+
+.add-interest-btn:hover {
+  background-color: #41b883;
+}
+
+.remove-interest-btn {
+  background: none;
+  border: none;
+  color: #ff4d4f;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+.remove-interest-btn:hover {
+  color: #e53e3e;
+}
+
+/* --------------------------------------
+     Experience Section
+  -------------------------------------- */
+.experience-list {
+  margin-top: 0.5rem;
+}
+
+.experience-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: #f7fafc;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+.add-experience-btn {
+  background-color: #48bb78;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.add-experience-btn:hover {
+  background-color: #41b883;
+}
+
+.remove-experience-btn {
+  background: none;
+  border: none;
+  color: #ff4d4f;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+.remove-experience-btn:hover {
+  color: #e53e3e;
+}
+
+/* --------------------------------------
+     Projects Section
+  -------------------------------------- */
+.project-list {
+  margin-top: 0.5rem;
+}
+
+.project-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0.5rem;
+  background-color: #f7fafc;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+.project-item a {
+  color: #48bb78;
+  text-decoration: none;
+}
+
+.project-item a:hover {
+  text-decoration: underline;
+}
+
+.add-project-btn {
+  background-color: #48bb78;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.add-project-btn:hover {
+  background-color: #41b883;
+}
+
+.remove-project-btn {
+  background: none;
+  border: none;
+  color: #ff4d4f;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+.remove-project-btn:hover {
+  color: #e53e3e;
+}
+
+/* --------------------------------------
+     Save Button
+  -------------------------------------- */
+.save-btn {
+  background-color: #48bb78;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.save-btn:hover {
+  background-color: #72cba4;
+}
+
+/* --------------------------------------
+     Scrollbar Customization
+  -------------------------------------- */
+:deep(::-webkit-scrollbar) {
+  width: 8px;
+}
+
+:deep(::-webkit-scrollbar-track) {
+  background: #72cba4;
+  border-radius: 10px;
+}
+
+:deep(::-webkit-scrollbar-thumb) {
+  background-color: #72cba4;
+  border-radius: 10px;
+  border: 2px solid #72cba4;
+}
+
+:deep(::-webkit-scrollbar-thumb:hover) {
+  background-color: #5bb688;
+}
+
+:deep(::-webkit-scrollbar-thumb:active) {
+  background-color: #3fa574;
+}
+
+:deep(::-webkit-scrollbar-thumb:vertical) {
+  background-color: #72cba4;
+}
+
+.avatar {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.upload-btn {
+  position: relative;
+  bottom: 0;
+  right: 0;
+  transform: translate(-50%, -50%);
+  background-color: #48bb78;
+  border-radius: 50%;
+  padding: 0.5rem;
+  border: none;
+  cursor: pointer;
+}
+
+.upload-btn img {
+  width: 16px;
+  height: 16px;
+}
+
+.user-info h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.user-info p {
+  color: #ffffff;
+}
+
+.edit-profile-form {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  margin-right: 2rem;
+}
+
+.edit-profile-form h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.last-update {
+  color: #a0aec0;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.form-section {
+  margin-bottom: 1.5rem;
+}
+
+.form-section h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-group {
+  flex: 1;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.875rem;
+  color: #4a5568;
+  margin-bottom: 0.25rem;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+  font-size: 0.875rem;
+}
+
+.save-btn {
+  background-color: #48bb78;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.save-btn:hover {
+  background-color: #72cba4;
+}
+
+:deep(::-webkit-scrollbar) {
+  width: 8px;
+}
+
+:deep(::-webkit-scrollbar-track) {
+  background: #72cba4;
+  border-radius: 10px;
+}
+
+:deep(::-webkit-scrollbar-thumb) {
+  background-color: #72cba4;
+  border-radius: 10px;
+  border: 2px solid #72cba4;
+}
+
+:deep(::-webkit-scrollbar-thumb:hover) {
+  background-color: #5bb688;
+}
+
+:deep(::-webkit-scrollbar-thumb:active) {
+  background-color: #3fa574;
+}
+
+:deep(::-webkit-scrollbar-thumb:vertical) {
+  background-color: #72cba4;
+}
 </style>
