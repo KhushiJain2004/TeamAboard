@@ -1,26 +1,6 @@
 <template>
   <div class="edit-profile-container">
-    <!-- Sidebar Navigation -->
-    <div class="sidebar-nav">
-      <div class="logo">
-        <img src="@/assets/images/logo.png" alt="Logo" /> <!-- Replace with your logo -->
-      </div>
-      <nav>
-        <ul>
-          <li>
-            <router-link to="/">
-              <img src="@/assets/images/logo.png" alt="Home" /> <!-- Replace with icon -->
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/edit-profile" class="active">
-              <img src="@/assets/images/logo.png" alt="Settings" /> <!-- Replace with icon -->
-            </router-link>
-          </li>
-          <!-- Add more sidebar items as needed -->
-        </ul>
-      </nav>
-    </div>
+
 
     <!-- Main Content -->
     <div class="main-content">
@@ -270,7 +250,7 @@ export default {
     return {
       user: {
         avatar: '@/assets/images/avatar.jpg',
-        avatar: '@/assets/images/avatar.jpg',
+        //avatar: '@/assets/images/avatar.jpg',
         firstName: 'Mobina',
         surname: 'Mirbagheri',
         nationalCode: '',
