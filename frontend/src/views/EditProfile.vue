@@ -1,5 +1,28 @@
 <template>
   <div class="edit-profile-container">
+    <!-- Sidebar Navigation -->
+    <div class="sidebar-nav">
+      <div class="logo">
+        <img src="@/assets/images/logo.png" alt="Logo" /> <!-- Replace with your logo -->
+      </div>
+      <nav>
+        <ul>
+          <li>
+            <router-link to="/">
+              <img src="@/assets/images/logo.png" alt="Home" /> <!-- Replace with icon -->
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/edit-profile" class="active">
+              <img src="@/assets/images/logo.png" alt="Settings" /> <!-- Replace with icon -->
+            </router-link>
+          </li>
+          <!-- Add more sidebar items as needed -->
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Main Content -->
     <div class="main-content">
       <header>
         <h1>Settings</h1>
@@ -14,6 +37,7 @@
           <img src="@/assets/images/avatar.jpg" alt="User Avatar" class="avatar" />
           <div class="user-info">
             <h2>{{ user.firstName }} {{ user.surname }}</h2>
+            <p>{{ user.statusMessage }}</p>
             <p>{{ user.statusMessage }}</p>
           </div>
         </div>
@@ -246,6 +270,7 @@ export default {
     return {
       user: {
         avatar: '@/assets/images/avatar.jpg',
+        avatar: '@/assets/images/avatar.jpg',
         firstName: 'Mobina',
         surname: 'Mirbagheri',
         nationalCode: '',
@@ -343,6 +368,150 @@ export default {
 /* --------------------------------------
    Container and Layout
 -------------------------------------- */
+.edit-profile-tabs {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  margin-right: 2rem;
+}
+
+
+.add-experience-btn {
+  background-color: #48bb78;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 0.5rem;
+
+  font-size: 0.875rem;
+}
+
+.add-interest-btn {
+  background-color: #48bb78;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  margin-top: 5px;
+  font-size: 0.875rem;
+}
+
+.add-interest-btn:hover,
+.add-experience-btn:hover {
+  background-color: #41b883;
+}
+
+.interests-list,
+.experience-list {
+  margin-top: 0.5rem;
+}
+
+.interest-item,
+.experience-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: #f7fafc;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+.remove-interest-btn,
+.remove-experience-btn {
+  background: none;
+  border: none;
+  color: #ff4d4f;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+.remove-interest-btn:hover,
+.remove-experience-btn:hover {
+  color: #e53e3e;
+}
+
+.tab-headers {
+  display: flex;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.tab-header {
+  padding: 0.5rem 1rem;
+  background-color: #e6f0fa;
+  border: 1px solid #b3d4fc;
+  border-radius: 5px 5px 0 0;
+  cursor: pointer;
+  margin-right: -1px;
+  /* Overlap effect */
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.tab-header.active {
+  background-color: #fff;
+  border-bottom: 1px solid #fff;
+  z-index: 2;
+}
+
+.tab-content {
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0 5px 5px 5px;
+}
+
+.add-skill-btn {
+  background-color: #41b883;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  margin-top: 8px;
+  font-size: 0.875rem;
+}
+
+.add-skill-btn:hover {
+  background-color: #41b883;
+}
+
+.skills-list {
+  margin-top: 0.5rem;
+}
+
+.skill-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: #f7fafc;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+.remove-skill-btn {
+  background: none;
+  border: none;
+  color: #ff4d4f;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+.remove-skill-btn:hover {
+  color: #e53e3e;
+}
+
 .edit-profile-container {
   display: flex;
   height: 100vh;
@@ -418,6 +587,7 @@ header h1 {
   font-size: 1.5rem;
   font-weight: 600;
   padding-left: 8rem;
+  padding-left: 8rem;
 }
 
 .user-menu {
@@ -432,9 +602,12 @@ header h1 {
   border-radius: 50%;
 }
 
-/* --------------------------------------
-   Profile Header
--------------------------------------- */
+.profile-section {
+  padding-left: 8rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
 .profile-header {
   display: flex;
   align-items: center;
@@ -450,488 +623,489 @@ header h1 {
   width: 170px;
   height: 170px;
   border-radius: 50%;
-    object-fit: cover;
-  }
-  
-  .upload-btn {
-    position: relative;
-    bottom: 0;
-    right: 0;
-    transform: translate(-50%, -50%);
-    background-color: #48bb78;
-    border-radius: 50%;
-    padding: 0.5rem;
-    border: none;
-    cursor: pointer;
-  }
-  
-  /* --------------------------------------
+  object-fit: cover;
+}
+
+.upload-btn {
+  position: relative;
+  bottom: 0;
+  right: 0;
+  transform: translate(-50%, -50%);
+  background-color: #48bb78;
+  border-radius: 50%;
+  padding: 0.5rem;
+  border: none;
+  cursor: pointer;
+}
+
+/* --------------------------------------
     Edit Profile Tabs
   -------------------------------------- */
-  .edit-profile-tabs {
-    background-color: #fff;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem;
-    margin-right: 2rem;
-  }
-  
-  .tab-headers {
-    display: flex;
-    margin-bottom: 1rem;
-    position: relative;
-    z-index: 1;
-  }
-  
-  .tab-header {
-    padding: 0.5rem 1rem;
-    background-color: #e6f0fa;
-    border: 1px solid #b3d4fc;
-    border-radius: 5px 5px 0 0;
-    margin-right: -1px;
-    /* Overlap effect */
-    color: #2d3748;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  
-  .tab-header.active {
-    background-color: #fff;
-    border-bottom: 1px solid #fff;
-    z-index: 2;
-  }
-  
-  .tab-content {
-    padding: 1rem;
-    border: 1px solid #e2e8f0;
-    border-radius: 0 5px 5px 5px;
-  }
-  
-  /* --------------------------------------
+.edit-profile-tabs {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  margin-right: 2rem;
+}
+
+.tab-headers {
+  display: flex;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.tab-header {
+  padding: 0.5rem 1rem;
+  background-color: #e6f0fa;
+  border: 1px solid #b3d4fc;
+  border-radius: 5px 5px 0 0;
+  margin-right: -1px;
+  /* Overlap effect */
+  color: #2d3748;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tab-header.active {
+  background-color: #fff;
+  border-bottom: 1px solid #fff;
+  z-index: 2;
+}
+
+.tab-content {
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0 5px 5px 5px;
+}
+
+/* --------------------------------------
      Form Sections and Inputs
   -------------------------------------- */
-  .edit-profile-form {
-    background-color: #fff;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem;
-    margin-right: 2rem;
-  }
-  
-  .edit-profile-form h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-  }
-  
-  .last-update {
-    color: #a0aec0;
-    font-size: 0.875rem;
-    margin-bottom: 1rem;
-  }
-  
-  .form-section {
-    margin-bottom: 1.5rem;
-  }
-  
-  .form-section h4 {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-  }
-  
-  .form-row {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .form-group {
-    flex: 1;
-    margin-bottom: 1rem;
-  }
-  
-  .form-group label {
-    display: block;
-    font-size: 0.875rem;
-    color: #4a5568;
-    margin-bottom: 0.25rem;
-  }
-  
-  .form-group input,
-  .form-group select {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #e2e8f0;
-    border-radius: 5px;
-    font-size: 0.875rem;
-  }
-  
-  /* --------------------------------------
+.edit-profile-form {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  margin-right: 2rem;
+}
+
+.edit-profile-form h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.last-update {
+  color: #a0aec0;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.form-section {
+  margin-bottom: 1.5rem;
+}
+
+.form-section h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-group {
+  flex: 1;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.875rem;
+  color: #4a5568;
+  margin-bottom: 0.25rem;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+  font-size: 0.875rem;
+}
+
+/* --------------------------------------
      Skills Section
   -------------------------------------- */
-  .skills-list {
-    margin-top: 0.5rem;
-  }
-  
-  .skill-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem;
-    background-color: #f7fafc;
-    border-radius: 5px;
-    margin-bottom: 0.5rem;
-  }
-  
-  .add-skill-btn {
-    background-color: #41b883;
-    color: #fff;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-left: 0.5rem;
-    margin-top: 8px;
-    font-size: 0.875rem;
-  }
-  
-  .add-skill-btn:hover {
-    background-color: #41b883;
-  }
-  
-  .remove-skill-btn {
-    background: none;
-    border: none;
-    color: #ff4d4f;
-    cursor: pointer;
-    font-size: 1rem;
-    padding: 0 0.5rem;
-  }
-  
-  .remove-skill-btn:hover {
-    color: #e53e3e;
-  }
-  
-  /* --------------------------------------
+.skills-list {
+  margin-top: 0.5rem;
+}
+
+.skill-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: #f7fafc;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+.add-skill-btn {
+  background-color: #41b883;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  margin-top: 8px;
+  font-size: 0.875rem;
+}
+
+.add-skill-btn:hover {
+  background-color: #41b883;
+}
+
+.remove-skill-btn {
+  background: none;
+  border: none;
+  color: #ff4d4f;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+.remove-skill-btn:hover {
+  color: #e53e3e;
+}
+
+/* --------------------------------------
      Interests Section
   -------------------------------------- */
-  .interests-list {
-    margin-top: 0.5rem;
-  }
-  
-  .interest-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem;
-    background-color: #f7fafc;
-    border-radius: 5px;
-    margin-bottom: 0.5rem;
-  }
-  
-  .add-interest-btn {
-    background-color: #48bb78;
-    color: #fff;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-left: 0.5rem;
-    margin-top: 5px;
-    font-size: 0.875rem;
-  }
-  
-  .add-interest-btn:hover {
-    background-color: #41b883;
-  }
-  
-  .remove-interest-btn {
-    background: none;
-    border: none;
-    color: #ff4d4f;
-    cursor: pointer;
-    font-size: 1rem;
-    padding: 0 0.5rem;
-  }
-  
-  .remove-interest-btn:hover {
-    color: #e53e3e;
-  }
-  
-  /* --------------------------------------
+.interests-list {
+  margin-top: 0.5rem;
+}
+
+.interest-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: #f7fafc;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+.add-interest-btn {
+  background-color: #48bb78;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  margin-top: 5px;
+  font-size: 0.875rem;
+}
+
+.add-interest-btn:hover {
+  background-color: #41b883;
+}
+
+.remove-interest-btn {
+  background: none;
+  border: none;
+  color: #ff4d4f;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+.remove-interest-btn:hover {
+  color: #e53e3e;
+}
+
+/* --------------------------------------
      Experience Section
   -------------------------------------- */
-  .experience-list {
-    margin-top: 0.5rem;
-  }
-  
-  .experience-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem;
-    background-color: #f7fafc;
-    border-radius: 5px;
-    margin-bottom: 0.5rem;
-  }
-  
-  .add-experience-btn {
-    background-color: #48bb78;
-    color: #fff;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-left: 0.5rem;
-    font-size: 0.875rem;
-  }
-  
-  .add-experience-btn:hover {
-    background-color: #41b883;
-  }
-  
-  .remove-experience-btn {
-    background: none;
-    border: none;
-    color: #ff4d4f;
-    cursor: pointer;
-    font-size: 1rem;
-    padding: 0 0.5rem;
-  }
-  
-  .remove-experience-btn:hover {
-    color: #e53e3e;
-  }
-  
-  /* --------------------------------------
+.experience-list {
+  margin-top: 0.5rem;
+}
+
+.experience-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: #f7fafc;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+.add-experience-btn {
+  background-color: #48bb78;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.add-experience-btn:hover {
+  background-color: #41b883;
+}
+
+.remove-experience-btn {
+  background: none;
+  border: none;
+  color: #ff4d4f;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+.remove-experience-btn:hover {
+  color: #e53e3e;
+}
+
+/* --------------------------------------
      Projects Section
   -------------------------------------- */
-  .project-list {
-    margin-top: 0.5rem;
-  }
-  
-  .project-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 0.5rem;
-    background-color: #f7fafc;
-    border-radius: 5px;
-    margin-bottom: 0.5rem;
-  }
-  
-  .project-item a {
-    color: #48bb78;
-    text-decoration: none;
-  }
-  
-  .project-item a:hover {
-    text-decoration: underline;
-  }
-  
-  .add-project-btn {
-    background-color: #48bb78;
-    color: #fff;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-left: 0.5rem;
-    font-size: 0.875rem;
-  }
-  
-  .add-project-btn:hover {
-    background-color: #41b883;
-  }
-  
-  .remove-project-btn {
-    background: none;
-    border: none;
-    color: #ff4d4f;
-    cursor: pointer;
-    font-size: 1rem;
-    padding: 0 0.5rem;
-  }
-  
-  .remove-project-btn:hover {
-    color: #e53e3e;
-  }
-  
-  /* --------------------------------------
+.project-list {
+  margin-top: 0.5rem;
+}
+
+.project-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0.5rem;
+  background-color: #f7fafc;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+.project-item a {
+  color: #48bb78;
+  text-decoration: none;
+}
+
+.project-item a:hover {
+  text-decoration: underline;
+}
+
+.add-project-btn {
+  background-color: #48bb78;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.add-project-btn:hover {
+  background-color: #41b883;
+}
+
+.remove-project-btn {
+  background: none;
+  border: none;
+  color: #ff4d4f;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+.remove-project-btn:hover {
+  color: #e53e3e;
+}
+
+/* --------------------------------------
      Save Button
   -------------------------------------- */
-  .save-btn {
-    background-color: #48bb78;
-    color: #fff;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-  }
-  
-  .save-btn:hover {
-    background-color: #72cba4;
-  }
-  
-  /* --------------------------------------
+.save-btn {
+  background-color: #48bb78;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.save-btn:hover {
+  background-color: #72cba4;
+}
+
+/* --------------------------------------
      Scrollbar Customization
   -------------------------------------- */
-  :deep(::-webkit-scrollbar) {
-    width: 8px;
-  }
-  
-  :deep(::-webkit-scrollbar-track) {
-    background: #72cba4;
-    border-radius: 10px;
-  }
-  
-  :deep(::-webkit-scrollbar-thumb) {
-    background-color: #72cba4;
-    border-radius: 10px;
-    border: 2px solid #72cba4;
-  }
-  
-  :deep(::-webkit-scrollbar-thumb:hover) {
-    background-color: #5bb688;
-  }
-  
-  :deep(::-webkit-scrollbar-thumb:active) {
-    background-color: #3fa574;
-  }
-  
-  :deep(::-webkit-scrollbar-thumb:vertical) {
-    background-color: #72cba4;
-  }
-  
-  .avatar {
-    width: 170px;
-    height: 170px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  
-  .upload-btn {
-    position: relative;
-    bottom: 0;
-    right: 0;
-    transform: translate(-50%, -50%);
-    background-color: #48bb78;
-    border-radius: 50%;
-    padding: 0.5rem;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .upload-btn img {
-    width: 16px;
-    height: 16px;
-  }
-  
-  .user-info h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-  }
-  
-  .user-info p {
-    color: #ffffff;
-  }
-  
-  .edit-profile-form {
-    background-color: #fff;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem;
-    margin-right: 2rem;
-  }
-  
-  .edit-profile-form h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-  }
-  
-  .last-update {
-    color: #a0aec0;
-    font-size: 0.875rem;
-    margin-bottom: 1rem;
-  }
-  
-  .form-section {
-    margin-bottom: 1.5rem;
-  }
-  
-  .form-section h4 {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-  }
-  
-  .form-row {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .form-group {
-    flex: 1;
-    margin-bottom: 1rem;
-  }
-  
-  .form-group label {
-    display: block;
-    font-size: 0.875rem;
-    color: #4a5568;
-    margin-bottom: 0.25rem;
-  }
-  
-  .form-group input,
-  .form-group select {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #e2e8f0;
-    border-radius: 5px;
-    font-size: 0.875rem;
-  }
-  
-  .save-btn {
-    background-color: #48bb78;
-    color: #fff;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-  }
-  
-  .save-btn:hover {
-    background-color: #72cba4;
-  }
-  
-  :deep(::-webkit-scrollbar) {
-    width: 8px;
-  }
-  
-  :deep(::-webkit-scrollbar-track) {
-    background: #72cba4;
-    border-radius: 10px;
-  }
-  
-  :deep(::-webkit-scrollbar-thumb) {
-    background-color: #72cba4;
-    border-radius: 10px;
-    border: 2px solid #72cba4;
-  }
-  
-  :deep(::-webkit-scrollbar-thumb:hover) {
-    background-color: #5bb688;
-  }
-  
-  :deep(::-webkit-scrollbar-thumb:active) {
-    background-color: #3fa574;
-  }
+:deep(::-webkit-scrollbar) {
+  width: 8px;
+}
+
+:deep(::-webkit-scrollbar-track) {
+  background: #72cba4;
+  border-radius: 10px;
+}
+
+:deep(::-webkit-scrollbar-thumb) {
+  background-color: #72cba4;
+  border-radius: 10px;
+  border: 2px solid #72cba4;
+}
+
+:deep(::-webkit-scrollbar-thumb:hover) {
+  background-color: #5bb688;
+}
+
+:deep(::-webkit-scrollbar-thumb:active) {
+  background-color: #3fa574;
+}
+
+:deep(::-webkit-scrollbar-thumb:vertical) {
+  background-color: #72cba4;
+}
+
+.avatar {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.upload-btn {
+  position: relative;
+  bottom: 0;
+  right: 0;
+  transform: translate(-50%, -50%);
+  background-color: #48bb78;
+  border-radius: 50%;
+  padding: 0.5rem;
+  border: none;
+  cursor: pointer;
+}
+
+.upload-btn img {
+  width: 16px;
+  height: 16px;
+}
+
+.user-info h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.user-info p {
+  color: #ffffff;
+}
+
+.edit-profile-form {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  margin-right: 2rem;
+}
+
+.edit-profile-form h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.last-update {
+  color: #a0aec0;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.form-section {
+  margin-bottom: 1.5rem;
+}
+
+.form-section h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-group {
+  flex: 1;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.875rem;
+  color: #4a5568;
+  margin-bottom: 0.25rem;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+  font-size: 0.875rem;
+}
+
+.save-btn {
+  background-color: #48bb78;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.save-btn:hover {
+  background-color: #72cba4;
+}
+
+:deep(::-webkit-scrollbar) {
+  width: 8px;
+}
+
+:deep(::-webkit-scrollbar-track) {
+  background: #72cba4;
+  border-radius: 10px;
+}
+
+:deep(::-webkit-scrollbar-thumb) {
+  background-color: #72cba4;
+  border-radius: 10px;
+  border: 2px solid #72cba4;
+}
+
+:deep(::-webkit-scrollbar-thumb:hover) {
+  background-color: #5bb688;
+}
+
+:deep(::-webkit-scrollbar-thumb:active) {
+  background-color: #3fa574;
+}
+
 :deep(::-webkit-scrollbar-thumb:vertical) {
   background-color: #72cba4;
 }
