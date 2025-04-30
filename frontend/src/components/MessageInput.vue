@@ -29,8 +29,7 @@ export default {
 <style scoped>
 .message-input {
   padding: 1rem;
-  border-top: 1px solid #4a5568;
-  background-color: #2d3748;
+  border-top: 1px solid #000000;
 }
 .message-input form {
   display: flex;
@@ -40,15 +39,14 @@ export default {
   flex: 1;
   padding: 0.5rem;
   border-radius: 5px 0 0 5px;
-  background-color: #4a5568;
-  color: #fff;
+  color: #000000;
   border: none;
 }
 .message-input button {
   padding: 0.5rem 1rem;
   border-radius: 0 5px 5px 0;
   background-color: #25d366;
-  color: #fff;
+  color: #000000;
   border: none;
   cursor: pointer;
 }

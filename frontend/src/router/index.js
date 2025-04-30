@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import AppLayout from '@/components/AppLayout.vue';
 import ChatView from '@/views/ChatView.vue';
 import EditProfile from '@/views/EditProfile.vue';
+import FriendsAndMentors from '@/views/FriendsAndMentors.vue';
 import Login from '@/views/Login.vue';
 import RecoverAccount from '@/views/RecoverAccount.vue';
 import Register from '@/views/Register.vue';
@@ -19,6 +20,7 @@ const routes = [
       { name: 'login', path: '/login', component: Login },
       { name: 'register', path: '/register', component: Register },
       { name: 'recover', path: '/recover', component: RecoverAccount },
+      { name: 'friends-and-mentors', path: 'friends-and-mentors', component: FriendsAndMentors },
     ],
   },
 ];
