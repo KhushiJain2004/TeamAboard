@@ -7,44 +7,73 @@ const schema=mongoose.Schema(
         password:{type:String,required:true},
         avatar :{type:String},
         age:{type:Number},
+        bio: { type: String, default: "" },
         gender: { 
             type: String, 
             enum: ["Male", "Female", "Other"]
         },
-        bio: { type: String, default: "" },
-        skills: [{ type: String }], 
-        interests: [{ type: String }],  
         location: { type: String, default: "" },
-        education: { 
-            college: { type: String},
-            degree: { type: String },
+
+
+        role: { type: String, enum: ['Student', 'Mentor', 'Other'], default:'Other',required: true },
+
+        fieldOfExpertise:[{type:String}],
+         
+        userSkills:[{
+            category:String,
+            skill:[{type:String}]
+        }],
+        codingRanks: [{ 
+            platform:String,
+            rank:Number,
+            profileLink:String
+        }],
+        codingLevel:{type:String,enum:['beginner','intermediate','advanced']},
+
+        interests: [{ type: String }],  
+        education: [{ 
+            institution: { type: String},       //or institution
+            degreeType: { type: String, enum: ["Bachelors", "Masters", "PhD","High School"],},
+            course: { type: String },
+            startYear:{type:Number},
             yearOfCompletion: { type: Number }
+        }],
+        // Only for Students
+        currentCollegeYear:{type:Number},
+        
+        availability:{
+            type:String,
+            enum:['openToJoin','NotAvailaible']
         },
-        experience: [{ 
-            company: String,
-            role: String,
-            duration: String
-        }],
-        projects: [{ 
-            title: String,
-            description:String,
-            techUsed:[{type:String}],
-            role: String,
-            duration: String,
-            link:String
-        }],
+             
         socialLinks: {  
             linkedin: { type: String, default: "" },
             github: { type: String, default: "" },
-            website: { type: String, default: "" }
+            Others:[{platform:String,link:String}]
         },
         createdAt:{type:Date , default:Date.now},
         updatedAt:{type:Date,default:Date.now},
         // authProvider: { type: String, enum: ["local", "google", "github"], required: true },
-        posts: [{ type: String }],
     },{timestamps:true}
 );
 
 const userModel=mongoose.model('users',schema);
 
 export default userModel;
+
+// //experience: [{ 
+//     
+// }],
+              //can be massive eg lets say we have 10mprojects for one user
+// reputation:[{rating:Number,feedback:String}],  
+// skills: {
+        //     technical :[{type:String}],
+        //     design:[{type:String}],
+        //     marketing:[{type:String}],
+        //     finance:[{type:String}],
+        //     coding:{
+        //         level:{type:String, enum:['beginner','intermediate','advanced']},
+        //         platforms:[{platform:String, rank:String}]
+        //     },
+        //     Others:[{type:String}]
+        // },

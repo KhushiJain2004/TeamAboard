@@ -10,7 +10,10 @@ export const authenticateToken= (req,res,next)=>
     
     jwt.verify(token,publicKey,{algorithms:['RS256']},async(err,payload)=>
     {
-        if(err) return res.status(401).json({success:"false",message:"Token not valid, login again"});
+        if(err) {
+            // console.log(err.message)
+            return res.status(401).json({success:"false",message:"Token not valid, login again"});
+        }
         // console.log(payload);
         req.userId=payload.id;
         next();

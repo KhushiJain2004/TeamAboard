@@ -15,15 +15,15 @@ const createToken=(id)=>
 
 export const register=async (req,res)=>
 {
-    const {name,email,password} = req.body;
-    console.log(name);
+    const {email,password,...rest} = req.body;
+    // console.log(name);
     const salt =await bcrypt.genSalt(10);
     const hash =await bcrypt.hash(password,salt);
     
     const user = new userModel({
-        name,
         email,
-        password:hash
+        password:hash,
+        ...rest
     });
     
     try {
@@ -42,6 +42,35 @@ export const register=async (req,res)=>
     }
 
 }
+
+// export const register=async (req,res)=>
+// {
+//     const {email,password} = req.body;
+//     // console.log(name);
+//     const salt =await bcrypt.genSalt(10);
+//     const hash =await bcrypt.hash(password,salt);
+    
+//     const user = new userModel({
+//         email,
+//         password:hash,
+//     });
+    
+//     try {
+        
+//         const exists=await userModel.findOne({email});
+//         if(exists) return res.json({success:false,message:'email already registered'});
+
+//         const newUser=user.save();
+//         if(newUser)
+//         {
+//             // const token=createToken(newUser._id);
+//             return res.json({success:true,message:'registered'});
+//         }
+//     } catch (error) {
+//         res.json({success:false,message:error.message});
+//     }
+
+// }
 
 export const login=async (req,res)=>
 {

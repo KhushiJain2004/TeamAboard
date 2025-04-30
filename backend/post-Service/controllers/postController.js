@@ -122,6 +122,7 @@ export const updatePost=async (req,res,next)=>{
 }
 
 export const filterPosts=async(req,res,next)=>{
+    const {skills,purpose,tags,location,teamSize,tittle,deadline,uploadDate}=req.query;
     try {
         
     } catch (error) {
