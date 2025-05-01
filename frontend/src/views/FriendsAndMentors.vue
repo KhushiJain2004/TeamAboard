@@ -17,9 +17,9 @@
             <div class="friend-info">
               <img :src="request.avatar" alt="Friend Avatar" class="friend-avatar" />
               <div class="friend-details">
-                <h3>{{ request.name }}</h3>
+                <h3 class="clickable-name" @click="goToProfile(request.id)">{{ request.name }}</h3>
                 <p>{{ request.time }} • {{ request.mutualFriends }} mutual friend{{ request.mutualFriends > 1 ? 's' : ''
-                }}</p>
+}}</p>
               </div>
             </div>
             <div class="friend-actions">
@@ -33,7 +33,7 @@
             <div class="friend-info">
               <img :src="request.avatar" alt="Friend Avatar" class="friend-avatar" />
               <div class="friend-details">
-                <h3>{{ request.name }}</h3>
+                <h3 class="clickable-name" @click="goToProfile(request.id)">{{ request.name }}</h3>
                 <p>Sent {{ request.time }} ago</p>
               </div>
             </div>
@@ -58,7 +58,7 @@
         <div v-for="(suggestion, index) in filteredSuggestions" :key="index" class="suggestion-card">
           <img :src="suggestion.avatar" alt="Suggestion Avatar" class="suggestion-avatar" />
           <div class="suggestion-details">
-            <h3>{{ suggestion.name }}</h3>
+            <h3 class="clickable-name" @click="goToProfile(suggestion.id)">{{ suggestion.name }}</h3>
             <p>{{ suggestion.tag }}</p>
           </div>
           <button @click="followSuggestion(index)" class="follow-btn">Follow</button>
@@ -85,9 +85,11 @@ const generateMockData = {
   getTime: () => mockData.timePeriods[Math.floor(Math.random() * mockData.timePeriods.length)],
   getTag: () => mockData.tags[Math.floor(Math.random() * mockData.tags.length)],
   getMutualFriends: () => Math.floor(Math.random() * 10),
+  getId: () => Date.now() + Math.random().toString(36).substr(2, 9), // Generate a unique ID
 
   requests: (count, isSent = false) => {
     return Array.from({ length: count }, () => ({
+      id: generateMockData.getId(),
       name: generateMockData.getName(),
       time: generateMockData.getTime(),
       ...(!isSent && { mutualFriends: generateMockData.getMutualFriends() }),
@@ -97,6 +99,7 @@ const generateMockData = {
 
   suggestions: (count) => {
     return Array.from({ length: count }, () => ({
+      id: generateMockData.getId(),
       name: generateMockData.getName(),
       tag: generateMockData.getTag(),
       avatar: getRandomImage()
@@ -134,7 +137,6 @@ export default {
       }
     },
 
-    // Mock Data Implementation
     async loadMockData() {
       this.receivedRequests = generateMockData.requests(15);
       this.sentRequests = generateMockData.requests(10, true);
@@ -142,7 +144,6 @@ export default {
       this.filteredSuggestions = [...this.suggestions];
     },
 
-    // Mock Action Methods
     async confirmRequest(index) {
       const request = this.receivedRequests[index];
       console.log('Confirmed request:', request.name);
@@ -167,7 +168,6 @@ export default {
       this.filteredSuggestions.splice(index, 1);
     },
 
-    // UI Methods
     toggleTab() {
       this.activeTab = this.activeTab === 'received' ? 'sent' : 'received';
     },
@@ -178,6 +178,10 @@ export default {
         suggestion.name.toLowerCase().includes(query) ||
         suggestion.tag.toLowerCase().includes(query)
       );
+    },
+
+    goToProfile(userId) {
+      this.$router.push(`/profile/${userId}`);
     }
   }
 };
@@ -259,6 +263,14 @@ export default {
   margin: 0;
 }
 
+.clickable-name {
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.clickable-name:hover {
+  color: #48bb78;
+}
 .friend-details p {
   font-size: 0.75rem;
   color: #718096;
@@ -322,7 +334,6 @@ export default {
 /* Suggestions Section (2/3) */
 .suggestions-container {
   width: 66.67%;
-  /* 2/3 of the page width */
   padding: 2rem;
   overflow-y: auto;
 }
@@ -353,7 +364,6 @@ export default {
 
 .suggestion-card {
   flex: 1 1 calc(33.33% - 1rem);
-  /* 3 cards per row */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -396,32 +406,33 @@ export default {
 
 .follow-btn:hover {
   background-color: #38a169;
+}
 
-  :deep(::-webkit-scrollbar) {
-    width: 8px;
-  }
+/* Custom Scrollbar */
+:deep(::-webkit-scrollbar) {
+  width: 8px;
+}
 
-  :deep(::-webkit-scrollbar-track) {
-    background: #72cba4;
-    border-radius: 10px;
-  }
+:deep(::-webkit-scrollbar-track) {
+  background: #72cba4;
+  border-radius: 10px;
+}
 
-  :deep(::-webkit-scrollbar-thumb) {
-    background-color: #72cba4;
-    border-radius: 10px;
-    border: 2px solid #72cba4;
-  }
+:deep(::-webkit-scrollbar-thumb) {
+  background-color: #72cba4;
+  border-radius: 10px;
+  border: 2px solid #72cba4;
+}
 
-  :deep(::-webkit-scrollbar-thumb:hover) {
-    background-color: #5bb688;
-  }
+:deep(::-webkit-scrollbar-thumb:hover) {
+  background-color: #5bb688;
+}
 
-  :deep(::-webkit-scrollbar-thumb:active) {
-    background-color: #3fa574;
-  }
+:deep(::-webkit-scrollbar-thumb:active) {
+  background-color: #3fa574;
+}
 
-  :deep(::-webkit-scrollbar-thumb:vertical) {
-    background-color: #72cba4;
-  }
+:deep(::-webkit-scrollbar-thumb:vertical) {
+  background-color: #72cba4;
 }
 </style>

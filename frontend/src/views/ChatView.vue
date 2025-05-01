@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { getRandomImage } from '@/Utils/randomImages'; // Import the utility
 import { computed, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import ChatSidebar from '../components/ChatSidebar.vue';
@@ -28,13 +29,13 @@ export default {
     const currentUser = 'You'; // Static user for now
     const currentUserId = 'user-you'; // Mock ID for the current user
 
-    // Mock chat data
+    // Mock chat data with avatars using getRandomImage
     const chats = ref([
       {
-        id: 'chat1', // Changed to string
+        id: 'chat1',
         name: 'Abhay Pawiya',
-        avatar: 'https://via.placeholder.com/40',
-        type: 'individual', // Added type
+        avatar: getRandomImage(), // Use getRandomImage for avatar
+        type: 'individual',
         lastMessage: 'We apply krr dheee',
         lastMessageTime: '10:07',
         messages: [
@@ -43,11 +44,11 @@ export default {
         ],
       },
       {
-        id: 'chat2', // Changed to string
+        id: 'chat2',
         name: 'Community group (B)',
-        avatar: 'https://via.placeholder.com/40',
-        type: 'group', // Added type
-        members: ['user-abhay', 'user-bunty', 'user-you'], // Added members
+        avatar: getRandomImage(), // Use getRandomImage for avatar
+        type: 'group',
+        members: ['user-abhay', 'user-bunty', 'user-you'],
         lastMessage: 'Boba day is calling, You + bubble te...',
         lastMessageTime: '15:47',
         messages: [
@@ -56,10 +57,10 @@ export default {
         ],
       },
       {
-        id: 'chat3', // Changed to string
+        id: 'chat3',
         name: 'Bunty',
-        avatar: 'https://via.placeholder.com/40',
-        type: 'individual', // Added type
+        avatar: getRandomImage(), // Use getRandomImage for avatar
+        type: 'individual',
         lastMessage: 'spcm la lab files submit krde',
         lastMessageTime: '14:23',
         messages: [
@@ -84,14 +85,14 @@ export default {
 
     const messages = ref([]);
     const selectedChat = computed(() => {
-      const chatId = route.params.id; // Removed parseInt to handle string IDs
+      const chatId = route.params.id;
       return chats.value.find((chat) => chat.id === chatId) || null;
     });
 
     watch(
       () => route.params.id,
       (newId) => {
-        const chatId = newId; // Removed parseInt
+        const chatId = newId;
         const chat = chats.value.find((chat) => chat.id === chatId);
         messages.value = chat ? chat.messages : [];
       },
@@ -120,6 +121,8 @@ export default {
     const handleCreateGroup = (newGroup) => {
       // Add the current user to the group members
       newGroup.members.push(currentUserId);
+      // Assign a random avatar to the new group using getRandomImage
+      newGroup.avatar = getRandomImage();
       chats.value.push(newGroup);
     };
 
@@ -135,16 +138,19 @@ export default {
   width: 100%;
   color: #000000;
 }
+
 .chat-window-placeholder {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .chat-window-placeholder p {
   color: #000000;
   font-size: 1.2rem;
 }
+
 :deep(::-webkit-scrollbar) {
   width: 8px;
 }

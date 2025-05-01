@@ -1,5 +1,8 @@
 <template>
   <div class="business-deal-container">
+    <router-link to="/visitor" class="user-menu">
+      <img :src="user.avatar" alt="User Avatar" class="user-avatar" />
+    </router-link>
     <div class="background-blur"></div>
     <div class="content-wrapper" v-scroll-reveal="{ origin: 'bottom', distance: '40px', duration: 1000, delay: 100 }">
       <div class="text-section">
@@ -38,6 +41,7 @@
 </template>
 
 <script>
+import avatarImage from '@/assets/images/avatar.jpg';
 import businessPeopleImage from '@/assets/images/home.png';
 import ScrollReveal from 'scrollreveal';
 
@@ -45,6 +49,10 @@ export default {
   name: 'HomePage',
   data() {
     return {
+      user: {
+        avatar: avatarImage,
+        id: 'current-user-id' // Add user ID or username
+      },
       businessPeopleImage
     };
   },
@@ -71,6 +79,27 @@ export default {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.user-menu {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  cursor: pointer;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #24AD6A;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.user-avatar:hover {
+  transform: scale(1.1);
+  border-color: #1C8C55;
+}
 .background-blur {
   position: absolute;
   top: 20%;

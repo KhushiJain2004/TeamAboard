@@ -30,50 +30,66 @@ export default {
 
 <style scoped>
 .sender-name {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #4a5568;
-  margin-bottom: 0.25rem;
-}
-.message {
-  margin-bottom: 0.5rem;
-  display: flex;
-}
-
-.message-own {
-  justify-content: flex-end;
-  /* Sent messages on the right */
-}
-
-.message-other {
-  justify-content: flex-start;
-  /* Received messages on the left */
-}
-
-.message-content {
-  max-width: 70%;
-  padding: 0.75rem;
-  border-radius: 10px;
-}
-
-.message-own .message-content {
-  background-color: #ffffff;
-  color: #000000;
-}
-
-.message-other .message-content {
-  background-color: #005eff;
-  color: #fff;
-}
-
-.message-content p {
-  margin: 0;
-}
-
-.message-content span {
-  font-size: 0.75rem;
-  color: #a0aec0;
+  font-size: 0.95rem;
+    padding: 2px 10px;
+    margin: 0 0 6px 12px;
+    font-weight: 600;
+    color: #1f1f1f;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ffffffcc;
+    border-radius: 12px;
+    display: inline-block;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    max-width: fit-content;
+  }
+  
+  .message {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .message-own {
+    align-items: flex-end;
+  }
+  
+  .message-other {
+    align-items: flex-start;
+  }
+  
+  .message-content {
+    max-width: 70%;
+    padding: 0.85rem 1rem;
+    border-radius: 14px;
+    position: relative;
+    word-wrap: break-word;
+    line-height: 1.4;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  }
+  
+  .message-own .message-content {
+    background-color: #ffffff;
+    color: #000000;
+    border-bottom-right-radius: 0;
+  }
+  
+  .message-other .message-content {
+    background-color: #005eff;
+    color: #ffffff;
+    border-bottom-left-radius: 0;
+  }
+  
+  .message-content p {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+  
+  .message-content span {
+    font-size: 0.7rem;
+    color: #dbe2ef;
   display: block;
   text-align: right;
+  margin-top: 4px;
 }
 </style>
