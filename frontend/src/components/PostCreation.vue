@@ -74,7 +74,7 @@
 
 <script>
 import avatarImage from '@/assets/images/avatar.jpg';
-
+import { userState } from '../stores/store';
 export default {
   name: 'PostCreation',
   data() {
@@ -82,7 +82,7 @@ export default {
       userAvatar: avatarImage,
       isFormExpanded: false,
       post: {
-        created_by: 'user123',
+        created_by: userState.user._id,
         title: '',
         description: '',
         purpose: '',
@@ -177,9 +177,8 @@ export default {
           ...this.post,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
-          id: Date.now(),
         };
-        console.log('Post to be created:', postToCreate);
+        // console.log('Post to be created:', postToCreate);
         this.$emit('create-post', postToCreate);
         console.log('Event emitted');
 

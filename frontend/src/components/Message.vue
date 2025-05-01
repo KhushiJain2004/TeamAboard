@@ -1,9 +1,10 @@
 <template>
+  <h1>hi</h1>
   <div class="message" :class="{ 'message-own': isOwn, 'message-other': !isOwn }">
-    <div v-if="isGroup && !isOwn" class="sender-name">{{ message.sender }}</div>
+    <div v-if="isGroup && !isOwn" class="sender-name">{{ message.senderId}}</div>
     <div class="message-content">
       <p>{{ message.text }}</p>
-      <span class="message-time">{{ message.time }}</span>
+      <!-- <span class="message-time">{{ message.time }}</span> -->
     </div>
   </div>
 </template>
