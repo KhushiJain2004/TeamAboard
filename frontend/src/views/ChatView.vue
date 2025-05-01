@@ -19,11 +19,6 @@ import { useRoute, useRouter } from 'vue-router';
 import ChatSidebar from '../components/ChatSidebar.vue';
 import ChatWindow from '../components/ChatWindow.vue';
 
-// Import avatar images from the assets folder
-import avatar1 from '@/assets/images/avatar1.avif';
-import avatar2 from '@/assets/images/avatar2.avif';
-import avatar3 from '@/assets/images/avatar3.avif';
-
 export default {
   name: 'ChatView',
   components: { ChatSidebar, ChatWindow },
@@ -33,16 +28,13 @@ export default {
     const currentUser = 'You'; // Static user for now
     const currentUserId = 'user-you'; // Mock ID for the current user
 
-    // Array of imported avatars
-    const avatars = [avatar1, avatar2, avatar3];
-
-    // Mock chat data with dynamically assigned avatars
+    // Mock chat data
     const chats = ref([
       {
-        id: 'chat1',
+        id: 'chat1', // Changed to string
         name: 'Abhay Pawiya',
-        avatar: avatars[0], // Assign avatar1.jpg
-        type: 'individual',
+        avatar: 'https://via.placeholder.com/40',
+        type: 'individual', // Added type
         lastMessage: 'We apply krr dheee',
         lastMessageTime: '10:07',
         messages: [
@@ -51,11 +43,11 @@ export default {
         ],
       },
       {
-        id: 'chat2',
+        id: 'chat2', // Changed to string
         name: 'Community group (B)',
-        avatar: avatars[1], // Assign avatar2.jpg
-        type: 'group',
-        members: ['user-abhay', 'user-bunty', 'user-you'],
+        avatar: 'https://via.placeholder.com/40',
+        type: 'group', // Added type
+        members: ['user-abhay', 'user-bunty', 'user-you'], // Added members
         lastMessage: 'Boba day is calling, You + bubble te...',
         lastMessageTime: '15:47',
         messages: [
@@ -64,10 +56,10 @@ export default {
         ],
       },
       {
-        id: 'chat3',
+        id: 'chat3', // Changed to string
         name: 'Bunty',
-        avatar: avatars[2], // Assign avatar3.jpg
-        type: 'individual',
+        avatar: 'https://via.placeholder.com/40',
+        type: 'individual', // Added type
         lastMessage: 'spcm la lab files submit krde',
         lastMessageTime: '14:23',
         messages: [
@@ -92,14 +84,14 @@ export default {
 
     const messages = ref([]);
     const selectedChat = computed(() => {
-      const chatId = route.params.id;
+      const chatId = route.params.id; // Removed parseInt to handle string IDs
       return chats.value.find((chat) => chat.id === chatId) || null;
     });
 
     watch(
       () => route.params.id,
       (newId) => {
-        const chatId = newId;
+        const chatId = newId; // Removed parseInt
         const chat = chats.value.find((chat) => chat.id === chatId);
         messages.value = chat ? chat.messages : [];
       },
@@ -128,8 +120,6 @@ export default {
     const handleCreateGroup = (newGroup) => {
       // Add the current user to the group members
       newGroup.members.push(currentUserId);
-      // Assign a random avatar to the new group
-      newGroup.avatar = avatars[Math.floor(Math.random() * avatars.length)];
       chats.value.push(newGroup);
     };
 
