@@ -31,9 +31,9 @@
 
         <b-form-group id="input-group-2" label-for="input-2">
           <b-form-input
-            id="passord"
+            id="password"
             class="input"
-            v-model="form.name"
+            v-model="form.password"
             placeholder="Password"
             type="password"
             required
@@ -58,9 +58,10 @@
         </div> -->
 
         <div class="d-flex justify-content-center mt-3">
-          <a href="#">
-            <font-awesome-icon icon="arrow-right" class="arrow-btn" />
-          </a>
+          <b-button type="submit" variant="link" class="arrow-btn p-0 border-0 shadow-none">
+            <font-awesome-icon icon="arrow-right"  class="arrow-btn"/>
+          </b-button>
+
         </div>
 
         <div class="d-flex justify-content-center flex-wrap mt-4 register">
@@ -73,22 +74,39 @@
 </template>
 
 <script>
+import axios from "axios";
+import { userState } from "@/stores/store";
 export default {
   data() {
     return {
       form: {
         email: "",
-        name: "",
-        food: null,
+        password: "",
         checked: [],
       },
       show: true,
     };
   },
   methods: {
-    onSubmit(event) {
+    async onSubmit(event) {
       event.preventDefault();
-      alert(JSON.stringify(this.form));
+      try {
+        const res=await axios.post("http://localhost:5000/api/auth/login",{
+        email:this.form.email,
+        password:this.form.password
+      },{
+        withCredentials:true
+      })
+      console.log(res)
+      if(res.data.success) {
+        userState.setUser(res.data.user)
+        this.$router.push('/home');
+      }
+      // alert(res.data.message);
+      } catch (error) {
+        console.log(error.message)
+        alert(error.message)
+      }
     },
     onReset(event) {
       event.preventDefault();

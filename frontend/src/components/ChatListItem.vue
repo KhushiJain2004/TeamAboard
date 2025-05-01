@@ -3,11 +3,11 @@
     <img :src="chat.avatar" alt="Avatar" class="avatar" />
     <div class="chat-info">
       <div class="chat-header">
-        <h3>{{ chat.name }}</h3>
+        <h3>{{ chat.isGroupChat ? chat.groupName : chat.receiver.name }}</h3>
         <span>{{ chat.lastMessageTime }}</span>
       </div>
       <p>{{ chat.lastMessage }}</p>
-      <span v-if="chat.type === 'group'" class="group-label">(Group Chat)</span> <!-- Added -->
+      <span v-if="chat.isGroupChat" class="group-label">(Group Chat)</span>
     </div>
   </div>
 </template>
@@ -23,6 +23,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 .group-label {

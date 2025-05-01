@@ -57,12 +57,13 @@ const routes = [
       },
       {
         path: 'chat',
-        redirect: '/chat/1',
+        component:ChatView
       },
       {
         path: 'chat/:id',
         name: 'chat',
         component: ChatView,
+        props:true
       },
       {
         path: 'edit-profile',

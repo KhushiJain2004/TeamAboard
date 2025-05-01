@@ -11,7 +11,8 @@ const schema=mongoose.Schema({
         start:{month:String,year:String},
         end:{month:String,year:String}
     },
-    link:String,
+    githubLink:String,
+    websiteLink:String,
     type:[{
         type:String,
         // enum:['Personal','Open Source','Hackathon','Research Paper','Startups','Internship','Job']

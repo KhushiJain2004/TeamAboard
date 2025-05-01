@@ -27,10 +27,15 @@
             <img src="@/assets/images/information.gif" alt="Settings" />
           </router-link>
         </li>
-        <li>
-          <router-link to="/login" active-class="active">
+        <!-- <li>
+          <router-link @click="onClick" active-class="active">
             <img src="@/assets/images/logout.gif" alt="Logout" />
           </router-link>
+        </li> -->
+        <li>
+          <button @click="onClick" active-class="active">
+            <img src="@/assets/images/logout.gif" alt="Logout" />
+          </button>
         </li>
       </ul>
     </nav>
@@ -38,8 +43,24 @@
 </template>
 
 <script>
+import { userState } from '@/stores/store';
+import axios from "axios"
 export default {
   name: 'SideBar',
+  methods:{
+    async onClick(){
+      // console.log("hi")
+      try {
+        const res=await axios.post("http://localhost:5000/api/auth/logout");
+        if(res.data.success){
+          userState.clearUser();
+          this.$router.push('/login')
+        }
+      } catch (error) {
+        console.log(error.message)
+      }
+    }
+  }
 };
 </script>
 
@@ -110,4 +131,31 @@ nav ul li:nth-child(3) a::after {
   background-color: #ff4d4f;
   border-radius: 50%;
 }
+nav ul li button {
+  all: unset; /* removes default button styles */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem;
+  color: #718096;
+  text-decoration: none;
+  position: relative;
+  cursor: pointer;
+}
+
+nav ul li button:hover {
+  background-color: #edf2f7;
+  border-radius: 8px;
+}
+
+nav ul li button img {
+  width: 80%;
+  height: 50%;
+}
+nav ul li button {
+  width: 80%;
+  height: 50%;
+}
+
 </style>

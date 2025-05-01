@@ -31,7 +31,7 @@ export const getUser=async (req,res)=>
     // console.log(id);
     try {
         const user = await userModel.findOne({_id:id}).select('-password');
-        if(!user) return res.status(500).json({message:'User Not found!'});
+        if(!user) return res.status(500).json({success:false,message:'User Not found!'});
         res.status(200).json({success:true,user});
     } catch (error) {
         console.log(error);
@@ -189,6 +189,18 @@ export const deleteUser=async (req,res)=>
         }
         res.clearCookie("token");
         res.status(200).json({message:" user deleted and cookie cleared"});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:error.message});
+    }
+}
+
+export const userInterests=async (req,res)=>{
+    const userId=req.params.id
+    try {
+        const user=await userModel.findById(userId).select('interests');
+        console.log(user)
+        return res.json({interests:user.interests});
     } catch (error) {
         console.log(error);
         res.status(500).json({message:error.message});

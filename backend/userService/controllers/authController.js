@@ -35,7 +35,7 @@ export const register=async (req,res)=>
         if(newUser)
         {
             // const token=createToken(newUser._id);
-            return res.json({success:true,message:'registered'});
+            return res.json({success:true,message:'registered',newUser});
         }
     } catch (error) {
         res.json({success:false,message:error.message});
@@ -90,9 +90,10 @@ export const login=async (req,res)=>
                 res.cookie("token",token,{
                     httpOnly:true ,
                     // secure:true,
+                    sameSite: 'Lax',
                     maxAge:1000*60*60*24*3
                 }).
-                status(200).json(userInfo);
+                status(200).json({success:true,message:"User logged in successfully",user:userInfo});
             }
             else res.json({success:false,message:'incorrect password'});
         }
@@ -104,6 +105,6 @@ export const login=async (req,res)=>
 
 export const logout=(req,res)=>
 {
-    res.clearCookie("token").status(200).json({message:'Logged out successfully'});
+    res.clearCookie("token").status(200).json({success:true,message:'Logged out successfully'});
 
 }

@@ -44,9 +44,14 @@
           </b-form-checkbox>
         </div>
 
+        <!-- <div class="d-flex justify-content-center mt-3">
+          <a href="#">
+            <font-awesome-icon icon="arrow-right" class="arrow-btn" />
+          </a>
+        </div> -->
         <div class="d-flex justify-content-center mt-3">
-          <b-button variant="primary" type="submit" class="arrow-btn">
-            <font-awesome-icon icon="arrow-right" />
+          <b-button type="submit" variant="link" class="arrow-btn p-0 border-0 shadow-none">
+            <font-awesome-icon icon="arrow-right"  class="arrow-btn"/>
           </b-button>
         </div>
 
@@ -60,6 +65,7 @@
 </template>
 
 <script>
+import axios from "axios"
 export default {
   data() {
     return {
@@ -75,8 +81,21 @@ export default {
     };
   },
   methods: {
-    onSubmit(event) {
+   async onSubmit(event) {
       event.preventDefault();
+      try {
+        const res=await axios.post("http://localhost:5000/api/auth/register",{
+          name:this.form.name,
+          email:this.form.email,
+          password:this.form.password
+        })
+        console.log(res.data)
+        alert(res.data.message);
+        if(res.data.success) this.$router.push('/login')
+      } catch (error) {
+        console.log(error.message)
+        alert(error.message)
+      }
       if (!this.form.agreeToTerms) {
         alert("Please agree to the terms of use.");
         return;

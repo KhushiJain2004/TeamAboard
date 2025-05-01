@@ -1,9 +1,10 @@
-import mongoose from "mongoose";
+import mongoose, { Mongoose } from "mongoose";
 
 const schema=mongoose.Schema(
     {
         name:{type: String,required:true},
         email:{type:String,unique:true,required:true},
+        contactNo:{String},
         password:{type:String,required:true},
         avatar :{type:String},
         age:{type:Number},
@@ -13,16 +14,11 @@ const schema=mongoose.Schema(
             enum: ["Male", "Female", "Other"]
         },
         location: { type: String, default: "" },
-
-
-        role: { type: String, enum: ['Student', 'Mentor', 'Other'], default:'Other',required: true },
+        role: { type: String, enum: ['Student', 'Mentor','Other'], default:'Student',required: true },
 
         fieldOfExpertise:[{type:String}],
          
-        userSkills:[{
-            category:String,
-            skill:[{type:String}]
-        }],
+        userSkills:[{type:String}],
         codingRanks: [{ 
             platform:String,
             rank:Number,
