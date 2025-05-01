@@ -1,21 +1,23 @@
 <template>
+  <h2>hi</h2>
   <div class="chat-window">
     <div class="chat-header">
-      <img :src="selectedChat.avatar" alt="Avatar" class="avatar" />
+      <img :src="chatState.selectedChat?.avatar" alt="Avatar" class="avatar" />
       <div class="chat-info">
-        <h2>{{ selectedChat.name }}</h2>
-        <p v-if="selectedChat.type === 'group'">(Group Chat)</p> <!-- Added -->
+        <h2>{{ chatState.selectedChat.isGroupChat ? chatState.selectedChat.groupName : chatState.selectedChat.receiver.name }}</h2>
+        <p v-if="chatState.selectedChat.isGroupChat">(Group Chat)</p>
       </div>
     </div>
     <div class="messages">
-      <message v-for="message in messages" :key="message.id" :message="message" :is-own="message.sender === currentUser"
-        :is-group="selectedChat.type === 'group'" />
+      <message v-for="message in messages" :key="message.id" :message="message" :is-own="message.sender._id === currentUser._id"
+        :is-group="chatState.selectedChat.isGroupChat" />
     </div>
     <message-input @send="$emit('send-message', $event)" />
   </div>
 </template>
 
 <script>
+import { chatState } from '@/stores/chatStore';
 import Message from './Message.vue';
 import MessageInput from './MessageInput.vue';
 
@@ -23,21 +25,23 @@ export default {
   name: 'ChatWindow',
   components: { Message, MessageInput },
   props: {
-    selectedChat: {
-      type: Object,
-      required: true,
-    },
     messages: {
       type: Array,
       required: true,
     },
     currentUser: {
-      type: String,
+      type: Object,
       required: true,
     },
   },
+  setup() {
+    return {
+      chatState,
+    };
+  },
 };
 </script>
+
 
 <style scoped>
 .chat-info p {

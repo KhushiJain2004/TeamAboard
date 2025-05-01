@@ -10,8 +10,8 @@
       </div>
     </div>
     <div class="chat-list">
-      <chat-list-item v-for="chat in filteredChats" :key="chat.id" :chat="chat"
-        @click="$emit('select-chat', chat.id)" />
+      <chat-list-item v-for="chat in filteredChats" :key="chat._id" :chat="chat"
+        @click="$emit('select-chat', chat._id)" />
     </div>
 
     <!-- Create Group Modal -->
@@ -50,73 +50,51 @@
 </template>
 
 <script>
+import { chatState } from '@/stores/chatStore';
 import ChatListItem from './ChatListItem.vue';
 
 export default {
   name: 'ChatSidebar',
   components: { ChatListItem },
-  props: {
-    chats: {
-      type: Array,
-      required: true,
-    },
-    existingContacts: { // Added prop
-      type: Array,
-      required: true,
-    },
-  },
   data() {
     return {
       searchQuery: '',
-      filteredChats: this.chats,
-      showCreateGroupModal: false, // Added
-      newGroup: { // Added
+      showCreateGroupModal: false,
+      newGroup: {
         name: '',
         members: [],
       },
     };
   },
-  methods: {
-    filterChats() {
-      const query = this.searchQuery.toLowerCase().trim();
-      if (!query) {
-        this.filteredChats = this.chats;
-      } else {
-        this.filteredChats = this.chats.filter((chat) =>
-          chat.name.toLowerCase().includes(query)
-        );
-      }
+  computed: {
+    existingContacts() {
+      return chatState.getExistingContacts();
     },
-    createGroup() { // Added
+    filteredChats() {
+    const query = this.searchQuery.toLowerCase().trim();
+    if (!query) return chatState.chats;
+
+    return chatState.chats.filter((chat) => {
+      const name = chat.isGroupChat ? chat.name : chat.receiver.name;
+      return name.toLowerCase().includes(query);
+    });
+  },
+  },
+  methods: {
+    createGroup() {
       if (!this.newGroup.name || this.newGroup.members.length === 0) {
         alert('Please provide a group name and select at least one member.');
         return;
       }
-
-      const newGroup = {
-        id: `group-${Date.now()}`,
-        name: this.newGroup.name,
-        type: 'group',
-        members: this.newGroup.members,
-        avatar: 'https://via.placeholder.com/40',
-        lastMessage: null,
-        lastMessageTime: null,
-        messages: [],
-      };
-
-      this.$emit('create-group', newGroup);
+      this.$emit('create-group', { ...this.newGroup });
       this.newGroup = { name: '', members: [] };
       this.showCreateGroupModal = false;
     },
   },
-  watch: {
-    chats(newChats) {
-      this.filteredChats = newChats;
-      this.filterChats();
-    },
-  },
+
 };
 </script>
+
 
 <style scoped>
 .sidebar {

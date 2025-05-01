@@ -18,6 +18,8 @@ Content-Type: application/json
     "email":"test2@gmail.com",
     "password":"1234"
 }
+### get user
+GET http://localhost:5000/api/user
 
 ### logout
 
@@ -86,7 +88,7 @@ Content-Type: application/json
             }
     ],
     "codingLevel": "intermediate",
-    "interests": ["AI", "Blockchain", "Competitive Programming"],
+    "interests": ["AI", "Blockchain", "Competitive Programming","mern"],
     "education": [
         {
         "institution": "MIT",

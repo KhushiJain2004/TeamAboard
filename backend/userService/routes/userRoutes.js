@@ -1,10 +1,11 @@
 import express from 'express'
 import { verifyToken } from '../midddlewares/verifyToken.js';
-import { getAllUsers,getUser,updateUser,deleteUser, getUserProfileWithPosts, findUserWithId } from '../controllers/userController.js';
+import { getAllUsers,getUser,updateUser,deleteUser, getUserProfileWithPosts, findUserWithId, userInterests } from '../controllers/userController.js';
 import { filterUsers, filterWithText } from '../controllers/filterUsersController.js';
 const userRouter=express.Router();
 
 userRouter.get('/all',getAllUsers);
+userRouter.get('/interests/:id',userInterests);
 userRouter.get('/',verifyToken,getUser);
 userRouter.get('/profile',verifyToken,getUserProfileWithPosts);
 userRouter.get('/filter',filterUsers);

@@ -121,11 +121,86 @@ export const updatePost=async (req,res,next)=>{
     }
 }
 
-export const filterPosts=async(req,res,next)=>{
-    const {skills,purpose,tags,location,teamSize,tittle,deadline,uploadDate}=req.query;
-    try {
-        
-    } catch (error) {
-        next(error)
+import axios from "axios";
+
+export const filterPosts = async (req, res, next) => {
+  const { skills, purpose, tags, location, teamSize, tittle, deadline, uploadDate } = req.query;
+  const userId = req.userId;
+
+  try {
+    const filters = [];
+    const values = [];
+    let index = 1;
+
+    if (skills) {
+      filters.push(`skills && $${index++}::text[]`);
+      values.push(skills.split(','));
     }
-}
+    if (purpose) {
+      filters.push(`purpose ILIKE $${index++}`);
+      values.push(`%${purpose}%`);
+    }
+    if (tags) {
+      filters.push(`tags && $${index++}::text[]`);
+      values.push(tags.split(','));
+    }
+    if (location) {
+      filters.push(`location ILIKE $${index++}`);
+      values.push(`%${location}%`);
+    }
+    if (teamSize) {
+      filters.push(`team_size = $${index++}`);
+      values.push(parseInt(teamSize));
+    }
+    if (tittle) {
+      filters.push(`title ILIKE $${index++}`);
+      values.push(`%${tittle}%`);
+    }
+    if (deadline) {
+      filters.push(`deadline <= $${index++}`);
+      values.push(deadline);
+    }
+    if (uploadDate) {
+      filters.push(`upload_date >= $${index++}`);
+      values.push(uploadDate);
+    }
+
+    if (filters.length > 0) {
+
+      const whereClause = filters.length > 0 ? `WHERE ${filters.join(' AND ')}` : '';
+      const filteredQuery = `SELECT * FROM posts ${whereClause} ORDER BY createdAt DESC`;
+
+      const { rows } = await pool.query(filteredQuery, values);
+      return res.json({ posts: rows });
+    } else {
+      // No filters → get user interests
+      const response = await axios.get(`http://localhost:5000/api/user/interests/${userId}`);
+      const userInterests = response.data.interests || [];
+      console.log(response.data)
+
+      // Match posts where tags, skills or purpose matches interests
+      const interestQuery = `
+        SELECT *, 1 AS priority
+        FROM posts
+        WHERE tags && $1::text[] OR requiredSkills && $1::text[] OR purpose ILIKE ANY (
+          SELECT '%' || unnest($1::text[]) || '%'
+        )
+        UNION
+        SELECT *, 2 AS priority
+        FROM posts
+        WHERE id NOT IN (
+          SELECT id FROM posts
+          WHERE tags && $1::text[] OR requiredSkills && $1::text[] OR purpose ILIKE ANY (
+            SELECT '%' || unnest($1::text[]) || '%'
+          )
+        )
+        ORDER BY priority, createdAt DESC
+      `;
+
+      const { rows } = await pool.query(interestQuery, [userInterests]);
+      return res.json({ posts: rows });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
