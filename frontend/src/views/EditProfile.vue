@@ -3,9 +3,6 @@
     <div class="main-content">
       <header>
         <h1>Settings</h1>
-        <div class="user-menu">
-          <img :src="user.avatar" alt="User Avatar" />
-        </div>
       </header>
 
       <div class="profile-section">
@@ -35,6 +32,12 @@
             <div class="tab-header" :class="{ active: activeTab === 'Interests' }" @click="activeTab = 'Interests'">
               Interests
             </div>
+            <div class="tab-header" :class="{ active: activeTab === 'Experience' }" @click="activeTab = 'Experience'">
+              Experience
+            </div>
+            <div class="tab-header" :class="{ active: activeTab === 'Projects' }" @click="activeTab = 'Projects'">
+              Projects
+            </div>
             <div class="tab-header" :class="{ active: activeTab === 'Education' }" @click="activeTab = 'Education'">
               Education
             </div>
@@ -45,6 +48,7 @@
               Coding Ranks
             </div>
           </div>
+
 
           <!-- Tab Content -->
           <div class="tab-content">
@@ -208,6 +212,83 @@
               <button type="submit" class="save-btn">Save</button>
             </form>
 
+            <!-- Experience Tab -->
+
+            <form @submit.prevent="saveProfile" v-if="activeTab === 'Experience'">
+              <h3>Edit Profile</h3>
+              <div class="form-section">
+                <h4>Experience</h4>
+                <div class="form-group">
+                  <label>Job Title</label>
+                  <input v-model="newExperience.jobTitle" placeholder="Enter job title" />
+                </div>
+                <div class="form-group">
+                  <label>Company</label>
+                  <input v-model="newExperience.company" placeholder="Enter company name" />
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>From</label>
+                    <input v-model="newExperience.from" type="date" placeholder="Start date" />
+                  </div>
+                  <div class="form-group">
+                    <label>To</label>
+                    <input v-model="newExperience.to" type="date" placeholder="End date" />
+                  </div>
+                </div>
+                <button type="button" @click="addExperience" class="add-experience-btn">Add</button>
+                <div class="form-group experience-list">
+                  <label>Work Experience</label>
+                  <div v-for="(exp, index) in user.experience" :key="index" class="experience-item">
+                    <div>
+                      <strong>{{ exp.jobTitle }}</strong> at {{ exp.company }} ({{ exp.from }} - {{ exp.to }})
+                    </div>
+                    <button @click="removeExperience(index)" class="remove-experience-btn">×</button>
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="save-btn">Save</button>
+            </form>
+
+            <!-- Projects Tab -->
+
+            <form @submit.prevent="saveProfile" v-if="activeTab === 'Projects'">
+              <h3>Edit Profile</h3>
+              <div class="form-section">
+                <h4>Projects</h4>
+                <div class="form-group">
+                  <label>Project Name</label>
+                  <input v-model="newProject.name" placeholder="Enter project name" />
+                </div>
+                <div class="form-group">
+                  <label>GitHub Link</label>
+                  <input v-model="newProject.githubLink" placeholder="Enter GitHub link" type="url" />
+                </div>
+                <div class="form-group">
+                  <label>Tech Stack</label>
+                  <input v-model="newProject.techStack" placeholder="Enter tech stack (e.g., Vue.js, Node.js)" />
+                </div>
+                <div class="form-group">
+                  <label>Team Members</label>
+                  <input v-model="newProject.teamMembers" placeholder="Enter team members (comma-separated)" />
+                </div>
+                <button type="button" @click="addProject" class="add-project-btn">Add</button>
+                <div class="form-group project-list">
+                  <label>Current Projects</label>
+                  <div v-for="(project, index) in user.projects" :key="index" class="project-item">
+                    <div>
+                      <strong>{{ project.name }}</strong><br />
+                      GitHub: <a :href="project.githubLink" target="_blank">{{ project.githubLink }}</a><br />
+                      Tech Stack: {{ project.techStack }}<br />
+                      Team Members: {{ project.teamMembers }}
+                    </div>
+                    <button @click="removeProject(index)" class="remove-project-btn">×</button>
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="save-btn">Save</button>
+            </form>
+
             <!-- Education Tab -->
             <form @submit.prevent="saveProfile" v-if="activeTab === 'Education'">
               <h3>Edit Profile</h3>
@@ -248,7 +329,7 @@
                   <div v-for="(edu, index) in user.education" :key="index" class="education-item">
                     <div>
                       <strong>{{ edu.degreeType }}</strong> in {{ edu.course }} at {{ edu.institution }} ({{
-                        edu.startYear }} - {{ edu.yearOfCompletion }})
+                      edu.startYear }} - {{ edu.yearOfCompletion }})
                     </div>
                     <button @click="removeEducation(index)" class="remove-education-btn">×</button>
                   </div>
@@ -293,7 +374,6 @@
             <!-- Coding Ranks Tab -->
             <form @submit.prevent="saveProfile" v-if="activeTab === 'CodingRanks'">
               <h3>Edit Profile</h3>
-
               <div class="form-section">
                 <h4>Coding Ranks</h4>
                 <div class="form-group">
@@ -351,6 +431,12 @@ export default {
         codingRanks: [],
         codingLevel: '',
         interests: ['Photography', 'Traveling'],
+        experience: [
+          { jobTitle: 'Frontend Developer', company: 'Tech Corp', from: '2020-01-01', to: '2022-12-31' },
+        ],
+        projects: [
+          { name: 'ChatApp', githubLink: 'https://github.com/user/chatapp', techStack: 'Vue.js, Node.js', teamMembers: 'Alice, Bob' },
+        ],
         education: [],
         currentCollegeYear: null,
         availability: '',
@@ -371,6 +457,8 @@ export default {
       newSkillCategory: '',
       newSkill: '',
       newFieldOfExpertise: '',
+      newExperience: { jobTitle: '', company: '', from: '', to: '' },
+      newProject: { name: '', githubLink: '', techStack: '', teamMembers: '' },
       newInterest: '',
       newEducation: { institution: '', degreeType: '', course: '', startYear: null, yearOfCompletion: null },
       newSocialLink: { platform: '', link: '' },
@@ -426,6 +514,34 @@ export default {
     },
     removeInterest(index) {
       this.user.interests.splice(index, 1);
+    },
+    addExperience() {
+      if (
+        this.newExperience.jobTitle.trim() &&
+        this.newExperience.company.trim() &&
+        this.newExperience.from.trim() &&
+        this.newExperience.to.trim()
+      ) {
+        this.user.experience.push({ ...this.newExperience });
+        this.newExperience = { jobTitle: '', company: '', from: '', to: '' };
+      }
+    },
+    removeExperience(index) {
+      this.user.experience.splice(index, 1);
+    },
+    addProject() {
+      if (
+        this.newProject.name.trim() &&
+        this.newProject.githubLink.trim() &&
+        this.newProject.techStack.trim() &&
+        this.newProject.teamMembers.trim()
+      ) {
+        this.user.projects.push({ ...this.newProject });
+        this.newProject = { name: '', githubLink: '', techStack: '', teamMembers: '' };
+      }
+    },
+    removeProject(index) {
+      this.user.projects.splice(index, 1);
     },
     addEducation() {
       if (
@@ -662,6 +778,7 @@ export default {
 .remove-coding-rank-btn:hover {
   color: #e53e3e;
 }
+
 /* --------------------------------------
    Container and Layout
 -------------------------------------- */
@@ -674,96 +791,84 @@ export default {
   margin-right: 2rem;
 }
 
-
-.add-experience-btn {
-  background-color: #48bb78;
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-left: 0.5rem;
-
-  font-size: 0.875rem;
-}
-
-.add-interest-btn {
-  background-color: #48bb78;
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-left: 0.5rem;
-  margin-top: 5px;
-  font-size: 0.875rem;
-}
-
-.add-interest-btn:hover,
-.add-experience-btn:hover {
-  background-color: #41b883;
-}
-
-.interests-list,
-.experience-list {
-  margin-top: 0.5rem;
-}
-
-.interest-item,
-.experience-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem;
-  background-color: #f7fafc;
-  border-radius: 5px;
-  margin-bottom: 0.5rem;
-}
-
-.remove-interest-btn,
-.remove-experience-btn {
-  background: none;
-  border: none;
-  color: #ff4d4f;
-  cursor: pointer;
-  font-size: 1rem;
-  padding: 0 0.5rem;
-}
-
-.remove-interest-btn:hover,
-.remove-experience-btn:hover {
-  color: #e53e3e;
-}
-
 .tab-headers {
   display: flex;
+  flex-wrap: nowrap;
+  /* Prevent wrapping */
+  overflow-x: auto;
+  /* Allow horizontal scrolling if needed */
   margin-bottom: 1rem;
   position: relative;
   z-index: 1;
+  gap: 0.25rem;
+  /* Add small gap between tabs */
+  padding-bottom: 1px;
+  /* Ensure border alignment */
 }
 
 .tab-header {
-  padding: 0.5rem 1rem;
+  flex: 0 0 auto;
+  /* Prevent shrinking/stretching */
+  padding: 0.75rem 1.5rem;
+  /* Increased padding for better click area */
   background-color: #e6f0fa;
   border: 1px solid #b3d4fc;
-  border-radius: 5px 5px 0 0;
-  cursor: pointer;
-  margin-right: -1px;
-  /* Overlap effect */
+  border-bottom: none;
+  /* Remove bottom border for active effect */
+  border-radius: 6px 6px 0 0;
+  /* Rounded top corners */
   color: #2d3748;
   font-weight: 600;
+  font-size: 0.95rem;
+  /* Consistent font size */
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  /* Smooth transitions */
+  white-space: nowrap;
+  /* Prevent text wrapping */
+}
+
+.tab-header:hover {
+  background-color: #d1e4ff;
+  /* Hover effect */
+  color: #1a202c;
+  /* Darker text on hover */
 }
 
 .tab-header.active {
   background-color: #fff;
-  border-bottom: 1px solid #fff;
+  border-bottom: 2px solid #41b883;
+  /* Highlight active tab with app's green color */
+  color: #41b883;
+  /* Active tab text color */
   z-index: 2;
 }
 
 .tab-content {
-  padding: 1rem;
+  padding: 1.5rem;
   border: 1px solid #e2e8f0;
-  border-radius: 0 5px 5px 5px;
+  border-radius: 0 6px 6px 6px;
+  /* Rounded corners except top */
+  background-color: #fff;
+}
+
+.tab-headers::-webkit-scrollbar {
+  height: 6px;
+}
+
+.tab-headers::-webkit-scrollbar-track {
+  background: #e2e8f0;
+  border-radius: 10px;
+}
+
+.tab-headers::-webkit-scrollbar-thumb {
+  background-color: #72cba4;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.tab-headers::-webkit-scrollbar-thumb:hover {
+  background-color: #5bb688;
 }
 
 .add-skill-btn {
@@ -885,18 +990,6 @@ header h1 {
   font-weight: 600;
   padding-left: 8rem;
   padding-left: 8rem;
-}
-
-.user-menu {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.user-menu img {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
 }
 
 .profile-section {

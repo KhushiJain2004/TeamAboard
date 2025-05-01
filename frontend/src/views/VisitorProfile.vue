@@ -28,6 +28,12 @@
               <a :href="link.link" target="_blank" class="social-icon">{{ link.platform }}</a>
             </p>
           </div>
+          <!-- Add Friend and Follow Buttons (Visible if not the current user's profile) -->
+          <!-- <div v-if="showButtons" class="header-actions"> -->
+          <div class="header-actions">
+            <button @click="addFriend" class="action-btn friend-btn">+Friend</button>
+            <button @click="followUser" class="action-btn follow-btn">Follow</button>
+          </div>
         </div>
       </div>
 
@@ -99,11 +105,19 @@
 
 <script>
 import avatarImage from '@/assets/images/avatar.jpg';
+
 export default {
   name: 'VisitorProfile',
+  props: {
+    currentUserId: {
+      type: String,
+      default: null
+    }
+  },
   data() {
     return {
       user: {
+        id: 'user123456', // Unique ID added
         name: 'Mobina Mirbagheri',
         email: 'mobina@example.com',
         password: 'securepassword123', // Not displayed
@@ -141,6 +155,22 @@ export default {
         phoneNumber: '+989120000000',
       },
     };
+  },
+  computed: {
+    showButtons() {
+      console.log('currentUserId:', this.currentUserId, 'user.id:', this.user.id); // Debug log
+      return this.currentUserId && this.currentUserId !== this.user.id;
+    }
+  },
+  methods: {
+    addFriend() {
+      console.log(`Sending friend request to ${this.user.name} (ID: ${this.user.id})`);
+      // Replace with actual API call or logic
+    },
+    followUser() {
+      console.log(`Following ${this.user.name} (ID: ${this.user.id})`);
+      // Replace with actual API call or logic
+    },
   },
 };
 </script>
@@ -183,184 +213,253 @@ export default {
   background: linear-gradient(135deg, #41b883 0%, #2ecc71 100%);
   color: #ffffff;
   padding: 1.5rem;
+  position: relative;
+  /* Ensure proper positioning context */
 }
 
 .header-content {
   display: flex;
   align-items: center;
   gap: 1rem;
-}
-
-.avatar {
-  width: 250px;
-  height: 250px;
-  border-radius: 50%;
-  border: 3px solid #ffffff;
-  object-fit: cover;
-}
-
-.header-info {
-  flex: 1;
-}
-
-.header-info h1 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin: 0;
-  color: #ffffff;
-}
-
-.role {
-  font-size: 0.9rem;
-  font-weight: 500;
-  margin: 0.25rem 0;
-  color: #e6f4ea;
-}
-
-.availability {
-  font-size: 0.85rem;
-  font-weight: 500;
-  margin: 0.25rem 0;
-  color: #ffffff;
-}
-
-.availability.available {
-  color: #ffeb3b;
-}
-
-.contact-info p {
-  font-size: 0.85rem;
-  margin: 0.25rem 0;
-  color: #e6f4ea;
-}
-
-.social-links {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-
-}
-
-.social-icon {
-  background: #ffffff;
-  color: #41b883;
-  padding: 0.4rem 0.8rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  text-decoration: none;
-  transition: background 0.3s ease;
-}
-
-.social-icon:hover {
-  background: #e6f4ea;
-  color: #2c3e50;
-}
-
-.portfolio-card h2 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #2c3e50;
-  margin: 0 0 0.5rem 0;
-  padding-bottom: 0.25rem;
-  border-bottom: 2px solid #41b883;
-}
-
-.portfolio-card p {
-  font-size: 0.85rem;
-  color: #4a5568;
-  margin: 0.25rem 0;
-  line-height: 1.4;
-}
-
-.sub-card {
-  background: #f9fafb;
-  border-radius: 6px;
-  padding: 0.5rem;
-  margin: 0.5rem 0;
-  border-left: 3px solid #41b883;
-}
-
-.sub-card p {
-  margin: 0;
-}
-
-.sub-card a {
-  color: #2ecc71;
-  text-decoration: none;
-}
-
-.sub-card a:hover {
-  text-decoration: underline;
-  color: #27ae60;
-}
-
-.expertise-list,
-.interests-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.expertise-tag,
-.interest-tag {
-  background: #e6f4ea;
-  color: #2c3e50;
-  padding: 0.3rem 0.75rem;
-  border-radius: 15px;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-:deep(::-webkit-scrollbar) {
-  width: 8px;
-}
-
-:deep(::-webkit-scrollbar-track) {
-  background: #72cba4;
-  border-radius: 10px;
-}
-
-:deep(::-webkit-scrollbar-thumb) {
-  background-color: #72cba4;
-  border-radius: 10px;
-  border: 2px solid #72cba4;
-}
-
-:deep(::-webkit-scrollbar-thumb:hover) {
-  background-color: #5bb688;
-}
-
-:deep(::-webkit-scrollbar-thumb:active) {
-  background-color: #3fa574;
-}
-
-:deep(::-webkit-scrollbar-thumb:vertical) {
-  background-color: #72cba4;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .portfolio-container {
-    grid-template-columns: 1fr;
+  width: 100%;
   }
-
-  .header-content {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+  
+  .header-actions {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    z-index: 10;
+    /* Ensure buttons are above other content */
   }
-
+  
+  .action-btn {
+    background: #ffffff;
+    color: #41b883;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  
+  .friend-btn {
+    background: #005eff;
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  
+  .follow-btn {
+    background: #cc1b1b;
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  
+  .friend-btn:hover {
+    background: #e6f4ea;
+    color: #2c3e50;
+  }
+  
+  .follow-btn:hover {
+    background: #e6f4ea;
+    color: #2c3e50;
+  }
+  
   .avatar {
-    width: 60px;
-    height: 60px;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    object-fit: cover;
   }
-
+  
+  .header-info {
+    flex: 1;
+  }
+  
   .header-info h1 {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: #ffffff;
   }
-
+  
+  .role {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0.25rem 0;
+    color: #e6f4ea;
+  }
+  
+  .availability {
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin: 0.25rem 0;
+    color: #ffffff;
+  }
+  
+  .availability.available {
+    color: #ffeb3b;
+  }
+  
+  .contact-info p {
+    font-size: 0.85rem;
+    margin: 0.25rem 0;
+    color: #e6f4ea;
+  }
+  
   .social-links {
-    justify-content: center;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
+  
+  .social-icon {
+    background: #ffffff;
+    color: #41b883;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+  
+  .social-icon:hover {
+    background: #e6f4ea;
+    color: #2c3e50;
+  }
+  
+  .portfolio-card h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0 0 0.5rem 0;
+    padding-bottom: 0.25rem;
+    border-bottom: 2px solid #41b883;
+  }
+  
+  .portfolio-card p {
+    font-size: 0.85rem;
+    color: #4a5568;
+    margin: 0.25rem 0;
+    line-height: 1.4;
+  }
+  
+  .sub-card {
+    background: #f9fafb;
+    border-radius: 6px;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    border-left: 3px solid #41b883;
+  }
+  
+  .sub-card p {
+    margin: 0;
+  }
+  
+  .sub-card a {
+    color: #2ecc71;
+    text-decoration: none;
+  }
+  
+  .sub-card a:hover {
+    text-decoration: underline;
+    color: #27ae60;
+  }
+  
+  .expertise-list,
+  .interests-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .expertise-tag,
+  .interest-tag {
+    background: #e6f4ea;
+    color: #2c3e50;
+    padding: 0.3rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  
+  /* Custom Scrollbar */
+  :deep(::-webkit-scrollbar) {
+    width: 8px;
+  }
+  
+  :deep(::-webkit-scrollbar-track) {
+    background: #72cba4;
+    border-radius: 10px;
+  }
+  
+  :deep(::-webkit-scrollbar-thumb) {
+    background-color: #72cba4;
+    border-radius: 10px;
+    border: 2px solid #72cba4;
+  }
+  
+  :deep(::-webkit-scrollbar-thumb:hover) {
+    background-color: #5bb688;
+  }
+  
+  :deep(::-webkit-scrollbar-thumb:active) {
+    background-color: #3fa574;
+  }
+  
+  :deep(::-webkit-scrollbar-thumb:vertical) {
+    background-color: #72cba4;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .portfolio-container {
+      grid-template-columns: 1fr;
+    }
+  
+    .header-content {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+  
+    .avatar {
+      width: 60px;
+      height: 60px;
+    }
+  
+    .header-info h1 {
+      font-size: 1.25rem;
+    }
+  
+    .social-links {
+      justify-content: center;
+    }
+  
+    .header-actions {
+      position: static;
+      flex-direction: column;
+      width: 100%;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+  
+    .action-btn {
+      width: 100%;
+    }
 }
 </style>

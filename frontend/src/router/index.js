@@ -1,14 +1,15 @@
-import AppLayout from '@/components/AppLayout.vue';
-import ChatView from '@/views/ChatView.vue';
-import EditProfile from '@/views/EditProfile.vue';
-import FriendsAndMentors from '@/views/FriendsAndMentors.vue';
-import Home from '@/views/Home.vue';
-import Landing from '@/views/Landing.vue';
-import Login from '@/views/Login.vue';
-import RecoverAccount from '@/views/RecoverAccount.vue';
-import Register from '@/views/Register.vue';
-import VisitorProfile from '@/views/VisitorProfile.vue';
-import { createRouter, createWebHistory } from 'vue-router';
+import AppLayout from '@/components/AppLayout.vue'
+import ChatView from '@/views/ChatView.vue'
+import EditProfile from '@/views/EditProfile.vue'
+import Feed from '@/views/Feed.vue'
+import FriendsAndMentors from '@/views/FriendsAndMentors.vue'
+import Home from '@/views/Home.vue'
+import Landing from '@/views/Landing.vue'
+import Login from '@/views/Login.vue'
+import RecoverAccount from '@/views/RecoverAccount.vue'
+import Register from '@/views/Register.vue'
+import VisitorProfile from '@/views/VisitorProfile.vue'
+import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
@@ -28,66 +29,76 @@ const routes = [
         path: 'login',
         name: 'login',
         component: Login,
-        meta: { hideSidebar: true }
+        meta: { hideSidebar: true },
       },
       {
         path: 'register',
         name: 'register',
         component: Register,
-        meta: { hideSidebar: true }
+        meta: { hideSidebar: true },
       },
       {
         path: 'recover',
         name: 'recover',
         component: RecoverAccount,
-        meta: { hideSidebar: true }
+        meta: { hideSidebar: true },
       },
 
       // App pages (with sidebar)
       {
         path: 'home',
         name: 'home',
-        component: Home
+        component: Home,
+      },
+      {
+        path: 'feed',
+        name: 'feed',
+        component: Feed,
       },
       {
         path: 'chat',
-        redirect: '/chat/1'
+        redirect: '/chat/1',
       },
       {
         path: 'chat/:id',
         name: 'chat',
-        component: ChatView
+        component: ChatView,
       },
       {
         path: 'edit-profile',
         name: 'edit-profile',
-        component: EditProfile
+        component: EditProfile,
       },
       {
         path: 'friends-and-mentors',
         name: 'friends-and-mentors',
-        component: FriendsAndMentors
+        component: FriendsAndMentors,
       },
       {
         path: 'visitor',
         name: 'visitor-profile',
-        component: VisitorProfile
-      }
-    ]
+        component: VisitorProfile,
+      },
+      {
+        path: '/profile/:username',
+        name: 'UserProfile',
+        component: VisitorProfile,
+      },
+    ],
   },
   // Catch-all route
   {
     path: '/:pathMatch(.*)*',
-    redirect: '/'
-  }
-];
+    redirect: '/',
+  },
+]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior() {
-    return { top: 0 }; // Always scroll to top on route change
-  }
-});
+    return { top: 0 } // Always scroll to top on route change
+  },
+})
 
-export default router;
+export default router
