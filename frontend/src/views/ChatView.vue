@@ -1,16 +1,12 @@
 <template>
   <div class="chat-container">
     <!-- Sidebar -->
-    <chat-sidebar :chats="chats" @select-chat="selectChat" />
+    <chat-sidebar :chats="chats" :existing-contacts="existingContacts" @select-chat="selectChat"
+      @create-group="handleCreateGroup" />
 
     <!-- Chat Window -->
-    <chat-window
-      v-if="selectedChat"
-      :selected-chat="selectedChat"
-      :messages="messages"
-      :current-user="currentUser"
-      @send-message="sendMessage"
-    />
+    <chat-window v-if="selectedChat" :selected-chat="selectedChat" :messages="messages" :current-user="currentUser"
+      @send-message="sendMessage" />
     <div v-else class="chat-window-placeholder">
       <p>Select a chat to start messaging</p>
     </div>
@@ -30,13 +26,15 @@ export default {
     const router = useRouter();
     const route = useRoute();
     const currentUser = 'You'; // Static user for now
+    const currentUserId = 'user-you'; // Mock ID for the current user
 
     // Mock chat data
     const chats = ref([
       {
-        id: 1,
+        id: 'chat1', // Changed to string
         name: 'Abhay Pawiya',
         avatar: 'https://via.placeholder.com/40',
+        type: 'individual', // Added type
         lastMessage: 'We apply krr dheee',
         lastMessageTime: '10:07',
         messages: [
@@ -45,9 +43,11 @@ export default {
         ],
       },
       {
-        id: 2,
+        id: 'chat2', // Changed to string
         name: 'Community group (B)',
         avatar: 'https://via.placeholder.com/40',
+        type: 'group', // Added type
+        members: ['user-abhay', 'user-bunty', 'user-you'], // Added members
         lastMessage: 'Boba day is calling, You + bubble te...',
         lastMessageTime: '15:47',
         messages: [
@@ -56,9 +56,10 @@ export default {
         ],
       },
       {
-        id: 3,
+        id: 'chat3', // Changed to string
         name: 'Bunty',
         avatar: 'https://via.placeholder.com/40',
+        type: 'individual', // Added type
         lastMessage: 'spcm la lab files submit krde',
         lastMessageTime: '14:23',
         messages: [
@@ -71,16 +72,26 @@ export default {
       },
     ]);
 
+    // Compute existing contacts from individual chats
+    const existingContacts = computed(() => {
+      return chats.value
+        .filter(chat => chat.type === 'individual')
+        .map(chat => ({
+          id: chat.id,
+          name: chat.name,
+        }));
+    });
+
     const messages = ref([]);
     const selectedChat = computed(() => {
-      const chatId = parseInt(route.params.id);
+      const chatId = route.params.id; // Removed parseInt to handle string IDs
       return chats.value.find((chat) => chat.id === chatId) || null;
     });
 
     watch(
       () => route.params.id,
       (newId) => {
-        const chatId = parseInt(newId);
+        const chatId = newId; // Removed parseInt
         const chat = chats.value.find((chat) => chat.id === chatId);
         messages.value = chat ? chat.messages : [];
       },
@@ -106,7 +117,13 @@ export default {
       }
     };
 
-    return { chats, selectedChat, messages, currentUser, selectChat, sendMessage };
+    const handleCreateGroup = (newGroup) => {
+      // Add the current user to the group members
+      newGroup.members.push(currentUserId);
+      chats.value.push(newGroup);
+    };
+
+    return { chats, selectedChat, messages, currentUser, existingContacts, selectChat, sendMessage, handleCreateGroup };
   },
 };
 </script>
@@ -123,10 +140,9 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #ffffff;
 }
 .chat-window-placeholder p {
-  color: #a0aec0;
+  color: #000000;
   font-size: 1.2rem;
 }
 :deep(::-webkit-scrollbar) {

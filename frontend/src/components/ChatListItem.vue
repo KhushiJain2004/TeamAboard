@@ -7,6 +7,7 @@
         <span>{{ chat.lastMessageTime }}</span>
       </div>
       <p>{{ chat.lastMessage }}</p>
+      <span v-if="chat.type === 'group'" class="group-label">(Group Chat)</span> <!-- Added -->
     </div>
   </div>
 </template>
@@ -24,6 +25,12 @@ export default {
 </script>
 
 <style scoped>
+.group-label {
+  font-size: 0.75rem;
+  color: #000000;
+  margin-top: 0.25rem;
+  display: block;
+}
 .chat-item {
   padding: 1rem;
   border-bottom: 1px solid #4a5568;
