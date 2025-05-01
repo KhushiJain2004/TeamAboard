@@ -1,6 +1,8 @@
 <template>
   <div class="business-deal-container">
+    <p class="logo">Team Aboard</p>
     <router-link to="/visitor" class="user-menu">
+      <span class="user-name">{{ user.name }}</span>
       <img :src="user.avatar" alt="User Avatar" class="user-avatar" />
     </router-link>
     <div class="background-blur"></div>
@@ -51,7 +53,8 @@ export default {
     return {
       user: {
         avatar: avatarImage,
-        id: 'current-user-id' // Add user ID or username
+        id: 'current-user-id',
+        name: 'Mobina Mirbagheri',
       },
       businessPeopleImage
     };
@@ -69,6 +72,24 @@ export default {
 </script>
 
 <style scoped>
+@font-face {
+  font-family: 'HappyDaySchool';
+  src: url('@/assets/font/HappyDaySchoolOpposed-Black.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.logo {
+  position: absolute;
+  top: 0px;
+  left: 100px;
+  font-size: 150px;
+  font-family: 'HappyDaySchool', sans-serif;
+  color: #0c502c;
+  text-transform: capitalize;
+  letter-spacing: 1px;
+  z-index: 1000;
+}
 .business-deal-container {
   position: relative;
   min-height: 100vh;
@@ -88,8 +109,8 @@ export default {
 }
 
 .user-avatar {
-  width: 40px;
-  height: 40px;
+  width: 100px;
+    height: 100px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #24AD6A;
@@ -136,6 +157,23 @@ export default {
   line-height: 1.2;
 }
 
+:deep(a) {
+  text-decoration: none;
+}
+
+:deep(a:hover) {
+  text-decoration: none;
+}
+
+.user-name {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #2c3e50;
+  margin-right: 10px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
 .description {
   font-size: 18px;
   line-height: 1.7;

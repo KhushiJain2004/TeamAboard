@@ -161,7 +161,7 @@ export default {
 .feed-container {
   display: flex;
   max-width: 90vw;
-    height: 45vw;
+    height: 80vh;
     margin-left: 8rem;
     margin-bottom: 5rem;
     margin-top: 5rem;
@@ -171,11 +171,11 @@ export default {
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
       transition: box-shadow 0.3s ease;
     }
-    
+
     .feed-container:hover {
       box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
     }
-    
+
     .sidebar {
       width: 250px;
       padding: 1.5rem;
@@ -184,12 +184,12 @@ export default {
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
       margin-right: 2rem;
     }
-    
+
     .main-content {
       flex: 2;
       margin-right: 2rem;
     }
-    
+
     .news-section {
       flex: 1;
       padding: 1.5rem;
@@ -199,100 +199,100 @@ export default {
       max-height: 70vh;
       overflow-y: auto;
     }
-    
+
     .news-section h3 {
       font-size: 1.2rem;
       color: #2d3748;
       margin-bottom: 1rem;
       font-weight: 600;
     }
-    
+
     .news-list {
       display: flex;
       flex-direction: column;
       gap: 1rem;
     }
-    
+
     .news-card {
       padding: 1rem;
       background: #f7fafc;
       border-radius: 8px;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    
+
     .news-card:hover {
       transform: translateY(-3px);
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
-    
+
     .news-card h4 {
       font-size: 1.1rem;
       color: #1a202c;
       margin: 0 0 0.5 defences;
     }
-    
+
     .news-card p {
       font-size: 0.95rem;
       color: #4a5568;
       margin: 0 0 0.5rem;
       line-height: 1.5;
     }
-    
+
     .news-link {
       color: #41b883;
       text-decoration: none;
       font-weight: 500;
       transition: color 0.2s ease;
     }
-    
+
     .news-link:hover {
       color: #2ecc71;
     }
-    
+
     .news-date {
       font-size: 0.85rem;
       color: #718096;
       margin-top: 0.5rem;
     }
-    
+
     .no-news {
       text-align: center;
       padding: 1rem;
       color: #4a5568;
       font-size: 1rem;
     }
-    
+
     .news-section::-webkit-scrollbar {
       width: 8px;
     }
-    
+
     .news-section::-webkit-scrollbar-track {
       background: #e6f4ea;
       border-radius: 10px;
     }
-    
+
     .news-section::-webkit-scrollbar-thumb {
       background-color: #41b883;
       border-radius: 10px;
     }
-    
+
     .news-section {
       scrollbar-width: thin;
       scrollbar-color: #41b883 #e6f4ea;
     }
-    
+
     .sidebar h3 {
       font-size: 1.2rem;
       color: #2d3748;
       margin-bottom: 1rem;
       font-weight: 600;
     }
-    
+
     .sidebar ul {
       list-style: none;
       padding: 0;
     }
-    
+
     .sidebar li {
       padding: 0.75rem 0;
       color: #4a5568;
@@ -300,19 +300,19 @@ export default {
       cursor: pointer;
       transition: color 0.2s ease, transform 0.2s ease;
     }
-    
+
     .sidebar li:hover {
       color: #41b883;
       transform: translateX(5px);
     }
-    
+
     .posts-list {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 1.5rem;
       margin-top: 2rem;
     }
-    
+
     .post-card {
       background: #ffffff;
       border-radius: 12px;
@@ -320,12 +320,12 @@ export default {
       padding: 1.5rem;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    
+
     .post-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
     }
-    
+
     .post-header {
       display: flex;
       align-items: center;
@@ -333,7 +333,7 @@ export default {
       margin-bottom: 1rem;
       text-decoration: none;
     }
-    
+
     .avatar {
       width: 50px;
       height: 50px;
@@ -342,11 +342,11 @@ export default {
       border: 3px solid #41b883;
       transition: border-color 0.3s ease;
     }
-    
+
     .avatar:hover {
       border-color: #2ecc71;
     }
-    
+
     .post-info h3 {
       font-size: 1.2rem;
       font-weight: 600;
@@ -354,21 +354,21 @@ export default {
       margin: 0;
       transition: color 0.2s ease;
     }
-    
+
     .post-info h3:hover {
       color: #41b883;
     }
-    
+
     .post-info .date {
       font-size: 0.9rem;
       color: #718096;
       margin: 0.25rem 0 0;
     }
-    
+
     .post-content {
       margin-bottom: 1.5rem;
     }
-    
+
     .post-content h2 {
       font-size: 1.5rem;
       font-weight: 700;
@@ -376,23 +376,23 @@ export default {
       margin: 0.75rem 0;
       line-height: 1.3;
     }
-    
+
     .post-content p {
       margin: 0.5rem 0;
       color: #4a5568;
       line-height: 1.6;
       font-size: 1rem;
     }
-    
+
     .post-content strong {
       color: #2d3748;
       font-weight: 500;
     }
-    
+
     .post-actions {
       text-align: right;
     }
-    
+
     .apply-btn {
       background-color: #41b883;
       color: #ffffff;
@@ -405,18 +405,18 @@ export default {
       transition: background-color 0.3s ease, transform 0.2s ease;
       box-shadow: 0 2px 6px rgba(65, 184, 131, 0.3);
     }
-    
+
     .apply-btn:hover {
       background-color: #2ecc71;
       transform: translateY(-2px);
       box-shadow: 0 4px 10px rgba(46, 204, 113, 0.4);
     }
-    
+
     .apply-btn:active {
       transform: translateY(0);
       box-shadow: 0 1px 3px rgba(65, 184, 131, 0.3);
     }
-    
+
     .no-posts {
       text-align: center;
       padding: 2rem;
@@ -426,123 +426,123 @@ export default {
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
-    
+
     @media (max-width: 1200px) {
       .feed-container {
         max-width: 95vw;
         flex-wrap: wrap;
       }
-    
+
       .main-content {
         flex: 1 1 100%;
         margin-right: 0;
         margin-bottom: 2rem;
       }
-    
+
       .news-section {
         flex: 1 1 100%;
         max-height: none;
       }
     }
-    
+
     @media (max-width: 1024px) {
       .feed-container {
         flex-direction: column;
       }
-    
+
       .sidebar {
         width: 100%;
         margin-right: 0;
         margin-bottom: 2rem;
       }
-    
+
       .sidebar ul {
         display: flex;
         flex-wrap: wrap;
         gap: 1rem;
       }
-    
+
       .sidebar li {
         padding: 0.5rem 1rem;
         background: #f7fafc;
         border-radius: 6px;
       }
     }
-    
+
     @media (max-width: 768px) {
       .feed-container {
         max-width: 90vw;
         padding: 1rem;
         border-radius: 8px;
       }
-    
+
       .posts-list {
         grid-template-columns: 1fr;
         gap: 1rem;
       }
-    
+
       .post-card {
         padding: 1rem;
       }
-    
+
       .post-header {
         gap: 1rem;
       }
-    
+
       .avatar {
         width: 40px;
         height: 40px;
       }
-    
+
       .post-content h2 {
         font-size: 1.25rem;
       }
-    
+
       .post-content p {
         font-size: 0.95rem;
       }
-    
+
       .post-actions {
         text-align: center;
       }
-    
+
       .apply-btn {
         width: 100%;
         padding: 0.5rem 1rem;
       }
-    
+
       .news-card h4 {
         font-size: 1rem;
       }
-    
+
       .news-card p {
         font-size: 0.9rem;
       }
     }
-    
+
     @media (max-width: 480px) {
       .feed-container {
         max-width: 100vw;
         padding: 0.5rem;
       }
-    
+
       .post-info h3 {
         font-size: 1.1rem;
       }
-    
+
       .post-info .date {
         font-size: 0.85rem;
       }
-    
+
       .news-card h4 {
         font-size: 0.95rem;
       }
-    
+
       .news-card p {
         font-size: 0.85rem;
       }
     }
-    
+
     .posts-container,
     .feed-container {
       max-height: 70vh;
@@ -550,24 +550,24 @@ export default {
       padding-right: 5px;
       margin-top: 1rem;
     }
-    
+
     .posts-container,
     .feed-container::-webkit-scrollbar {
       width: 8px;
     }
-    
+
     .posts-container,
     .feed-container::-webkit-scrollbar-track {
       background: #e6f4ea;
       border-radius: 10px;
     }
-    
+
     .posts-container,
     .feed-container::-webkit-scrollbar-thumb {
       background-color: #41b883;
       border-radius: 10px;
     }
-    
+
     .posts-container,
     .feed-container {
   scrollbar-width: thin;
