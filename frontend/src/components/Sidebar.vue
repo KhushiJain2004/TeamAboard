@@ -27,11 +27,6 @@
             <img src="@/assets/images/information.gif" alt="Settings" />
           </router-link>
         </li>
-        <!-- <li>
-          <router-link @click="onClick" active-class="active">
-            <img src="@/assets/images/logout.gif" alt="Logout" />
-          </router-link>
-        </li> -->
         <li>
           <button @click="onClick" active-class="active">
             <img src="@/assets/images/logout.gif" alt="Logout" />
@@ -44,7 +39,7 @@
 
 <script>
 import { userState } from '@/stores/store';
-import axios from "axios"
+import axios from "axios";
 export default {
   name: 'SideBar',
   methods:{
@@ -120,7 +115,6 @@ nav ul li a:hover {
   border-radius: 8px;
 }
 
-/* Add a red dot for the chat icon */
 nav ul li:nth-child(3) a::after {
   content: '';
   position: absolute;
@@ -132,7 +126,7 @@ nav ul li:nth-child(3) a::after {
   border-radius: 50%;
 }
 nav ul li button {
-  all: unset; /* removes default button styles */
+  all: unset;
   display: flex;
   justify-content: center;
   align-items: center;

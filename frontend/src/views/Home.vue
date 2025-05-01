@@ -1,6 +1,5 @@
 <template>
   <div class="business-deal-container">
-    <p class="logo">Team Aboard</p>
     <router-link to="/visitor" class="user-menu">
       <span class="user-name">{{ user.name }}</span>
       <img :src="user.avatar" alt="User Avatar" class="user-avatar" />
@@ -8,7 +7,7 @@
     <div class="background-blur"></div>
     <div class="content-wrapper" v-scroll-reveal="{ origin: 'bottom', distance: '40px', duration: 1000, delay: 100 }">
       <div class="text-section">
-        <h1 class="title">Your Collaborative HUB</h1>
+        <h1 class="title">TeamAboard - Your collaborative HUB</h1>
         <p class="description">
           Ignite your learning with our innovative educational social media platform. We are more than just a network;
           we are your committed partner for growth. We provide you with the essential resources to thrive: connect with
