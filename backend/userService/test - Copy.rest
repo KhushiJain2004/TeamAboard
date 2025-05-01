@@ -1,0 +1,186 @@
+### register
+
+POST  http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+    "name":"test user",
+    "email":"test2@gmail.com",
+    "password":"1234"
+}
+
+### login
+
+POST  http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "email":"test2@gmail.com",
+    "password":"1234"
+}
+### get user
+GET http://localhost:5000/api/user
+
+### logout
+
+POST  http://localhost:5000/api/auth/logout
+
+### get user   //protected route
+
+GET  http://localhost:5000/api/user/
+
+
+
+### get user  with posts //protected route
+
+GET  http://localhost:5000/api/user/profile
+
+### get all users
+
+GET  http://localhost:5000/api/user/all
+
+### update a user   //protected route
+
+PUT  http://localhost:5000/api/user/67c2eef2e8d735c3c5dbecd0
+Content-Type: application/json
+
+{
+    "name":"test user",
+    "password":"1234",
+    "age":"21"
+}
+ 
+### update 
+
+PUT  http://localhost:5000/api/user/67c964d5ad933dacf44583bc
+Content-Type: application/json
+
+{
+    "name":"test user",
+    "password":"1234",
+    "age":"21",
+    "role": "Student",
+    "gender": "Male",
+    "age": 22,
+    "bio": "Aspiring software developer",
+    "location": "New York, USA",
+    "fieldOfExpertise": ["Web Development", "Machine Learning"],
+    "userSkills": [
+        {
+        "category": "Programming",
+        "skill": ["JavaScript", "Python", "C++"]
+        },
+        {
+        "category": "Databases",
+        "skill": ["MongoDB", "PostgreSQL"]
+        }
+    ],
+    "codingRanks": [
+        {
+        "platform": "LeetCode",
+        "rank": 1200,
+        "profileLink": "https://leetcode.com/sample"
+        },
+        {
+        "platform": "Codeforces",
+        "rank": 1500,
+        "profileLink": "https://codeforces.com/profile/sample"
+            }
+    ],
+    "codingLevel": "intermediate",
+    "interests": ["AI", "Blockchain", "Competitive Programming","mern"],
+    "education": [
+        {
+        "institution": "MIT",
+        "degreeType": "Bachelors",
+        "course": "Computer Science",
+        "startYear": 2021,
+        "yearOfCompletion": 2025
+        }
+    ],
+    "currentCollegeYear": 3,
+    "availability": "openToJoin",
+    "socialLinks": {
+        "linkedin": "https://linkedin.com/in/sample",
+        "github": "https://github.com/asmple",
+        "Others": [
+        {
+            "platform": "Twitter",
+            "link": "https://twitter.com/sample"
+        }
+        ]
+    }
+}
+### delete a user  //protected route
+DELETE http://localhost:5000/api/user/67d587b7112fbc750454d50b
+
+
+
+
+### ....
+### register
+
+POST  http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+    "name":"filter test user",
+    "email":"test10@gmail.com",
+    "password":"1234",
+    "role":"Mentor",
+    "fieldOfExpertise":["aiml","devops"],
+    "education":[{
+        "institution":"UPES"
+    }],
+    "age":30
+}
+
+### filter 
+
+GET http://localhost:5000/api/user/filter?role=Mentor&institution=upes&fieldOfExpertise=aiml
+
+### filter 
+
+GET http://localhost:5000/api/user/filter?role=Mentor
+### filter 
+
+GET http://localhost:5000/api/user/filter?institution:upes
+
+
+
+### filter 
+
+GET http://localhost:5000/api/user/filter?fieldOfExpertise=aiml&sortBy=age&order=desc
+
+###
+
+POST  http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+    "name": "Alice Johnson",
+    "email": "alice@example.com",
+    "password": "1234",
+    "role": "Mentor",
+    "education": {
+      "institution": "UPES",
+      "degreeType": "Bachelors",
+      "course": "Computer Science"
+    },
+    "fieldOfExpertise": ["AI", "ML","Computer Science"],
+    "userSkills": [
+      { "skill": "Deep Learning" },
+      { "skill": "Natural Language Processing" }
+    ],
+    "location": "Dehradun, India",
+    "codingLevel": "advanced",
+    "interests": ["AI Ethics", "Open Source"],
+    "availability": "openToJoin"
+  }
+
+
+### filter
+GET http://localhost:5000/api/user/search?text=upes student with specialisation in machine learning
+
+
+    

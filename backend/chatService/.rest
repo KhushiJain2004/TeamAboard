@@ -41,7 +41,7 @@ POST  http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-    "email":"test2@gmail.com",
+    "email":"test@gmail.com",
     "password":"1234"
 }
 
@@ -75,4 +75,13 @@ Content-Type: application/json
 
 {
     "membersToRemove":["67d5715811b2ad1aa8e01869"]
+}
+
+###
+
+POST http://localhost:5001/api/chat/sendMsg/680fa738281e3ae090a4751c
+Content-Type: application/json
+
+{
+    "text":"hi"
 }

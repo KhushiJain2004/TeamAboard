@@ -8,7 +8,7 @@ const schema=mongoose.Schema({
 
     users:[{type:mongoose.Schema.Types.ObjectId}],
     lastMsg:{type:String},
-    msgs:[{type:mongoose.Schema.Types.ObjectId}],
+    msgs:[{type:mongoose.Schema.Types.ObjectId, ref:"messages"}],
     metadata:{
         icon:String,
     }

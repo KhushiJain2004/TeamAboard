@@ -46,6 +46,7 @@
 import avatarImage from '@/assets/images/avatar.jpg';
 import businessPeopleImage from '@/assets/images/home.png';
 import ScrollReveal from 'scrollreveal';
+import { userState } from '../stores/store';
 
 export default {
   name: 'HomePage',
@@ -53,8 +54,8 @@ export default {
     return {
       user: {
         avatar: avatarImage,
-        id: 'current-user-id',
-        name: 'Mobina Mirbagheri',
+        id: userState.user._id,
+        name:userState.user.name
       },
       businessPeopleImage
     };

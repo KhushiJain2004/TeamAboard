@@ -17,7 +17,7 @@
     <div class="main-content">
       <post-creation @create-post="addPost" />
       <div class="posts-list">
-        <div v-for="post in posts" :key="post.id" class="post-card">
+        <div v-for="post in posts" :key="post._id" class="post-card">
           <router-link :to="`/profile/${post.created_by}`" class="post-header">
             <img :src="userAvatar" alt="User Avatar" class="avatar" />
             <div class="post-info">
@@ -29,14 +29,14 @@
             <h2>{{ post.title }}</h2>
             <p>{{ post.description }}</p>
             <p><strong>Purpose:</strong> {{ post.purpose }}</p>
-            <p><strong>Skills:</strong> {{ post.requiredSkills.join(', ') }}</p>
+            <p><strong>Skills:</strong> {{ requiredSkills && post.requiredSkills.join(',') }}</p>
             <p><strong>Location:</strong> {{ post.location }}</p>
-            <p><strong>Tags:</strong> {{ post.tags.join(', ') }}</p>
+            <p><strong>Tags:</strong> {{tags &&  post.tags.join(', ') }}</p>
             <p><strong>Deadline:</strong> {{ formatDate(post.deadline) }}</p>
             <p><strong>Team Size:</strong> {{ post.teamSize }}</p>
           </div>
           <div class="post-actions">
-            <button class="apply-btn" @click="openApplyModal(post.id)">Apply</button>
+            <button class="apply-btn" @click="openApplyModal(post)">Apply</button>
           </div>
         </div>
       </div>
@@ -67,6 +67,7 @@ import avatarImage from '@/assets/images/avatar.jpg';
 import ApplyModal from '@/components/ApplyModal.vue';
 import PostCreation from '@/components/PostCreation.vue';
 import axios from 'axios';
+// import { userState } from '../stores/store';
 
 export default {
   name: 'FeedView',
@@ -74,54 +75,102 @@ export default {
   data() {
     return {
       userAvatar: avatarImage,
-      posts: [
-        {
-          id: 1,
-          created_by: 'user456',
-          title: 'Need a Backend Developer',
-          description: 'Building a REST API for our app.',
-          purpose: 'Launch beta version',
-          requiredSkills: ['Node.js', 'Express'],
-          location: 'Remote',
-          tags: ['API', 'Backend'],
-          deadline: '2025-06-01',
-          teamSize: 2,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-        {
-          id: 2,
-          created_by: 'user789',
-          title: 'UI/UX Designer Wanted',
-          description: 'Designing a new dashboard.',
-          purpose: 'User testing',
-          requiredSkills: ['Figma', 'Adobe XD'],
-          location: 'On-site',
-          tags: ['Design', 'UI/UX'],
-          deadline: '2025-05-20',
-          teamSize: 1,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-      ],
       selectedPostId: null,
       newsItems: [],
+      posts: [ ],
+      filters: {
+        location: null,
+        category: null,
+      }
     };
   },
   mounted() {
     this.fetchNews();
+    this.fetchFilteredPosts()
   },
   methods: {
-    addPost(post) {
-      console.log('Received post in Feed:', post);
-      this.posts.push(post);
-      console.log('Updated posts:', this.posts);
+  async fetchFilteredPosts(filters = {}) {
+  try {
+    const queryParams = new URLSearchParams();
+
+    if (filters.skills && filters.skills.length > 0) {
+      queryParams.append('skills', filters.skills.join(','));
+    }
+
+    if (filters.tags && filters.tags.length > 0) {
+      queryParams.append('tags', filters.tags.join(','));
+    }
+
+    if (filters.location) {
+      queryParams.append('location', filters.location);
+    }
+
+    if (filters.purpose) {
+      queryParams.append('purpose', filters.purpose);
+    }
+
+    if (filters.teamSize) {
+      queryParams.append('teamSize', filters.teamSize);
+    }
+
+    if (filters.title) {
+      queryParams.append('title', filters.title);
+    }
+
+    if (filters.deadline) {
+      queryParams.append('deadline', filters.deadline); // format: 'YYYY-MM-DD'
+    }
+
+    if (filters.uploadDate) {
+      queryParams.append('uploadDate', filters.uploadDate); // format: 'YYYY-MM-DD'
+    }
+
+    const response = await axios.get(`http://localhost:4000/api/posts/filter?${queryParams.toString()}`, {
+      withCredentials:true
+    });
+    console.log(response.data.posts)
+
+     this.posts=response.data.posts;
+
+  } catch (error) {
+    console.error('Error fetching filtered posts:', error);
+    return [];
+  }
+  },
+    async addPost(post) {
+      // console.log('Received post in Feed:', post);
+      // this.posts.push(post);
+      // console.log('Updated posts:', this.posts);
+      try {
+        const response = await axios.post("http://localhost:4000/api/posts/", {
+        tittle: post.title,             
+        description: post.description,
+        skills: post.requiredSkills || [],
+        location: post.location || null,
+        deadline: post.deadline || null
+    }, { withCredentials: true });
+        console.log(response)
+      } catch (error) {
+        console.log(error)
+      }
+
     },
     formatDate(dateStr) {
-      return new Date(dateStr).toLocaleDateString();
+  if (!dateStr) return 'N/A'; 
+  const date = new Date(dateStr);
+  return isNaN(date.getTime()) ? 'Invalid Date' : date.toLocaleDateString('en-GB'); // or 'en-US'
+
     },
-    openApplyModal(postId) {
-      this.selectedPostId = postId;
+    async openApplyModal(post) {
+      try {
+        // console.log(post)
+        const res=await axios.post(`http://localhost:4000/api/posts/apply/${post.id}`,{
+          authorId:post.created_by},{withCredentials:true});
+          alert(res.data.message)
+      } catch (error) {
+        console.log(error)
+      }
+
     },
     async fetchNews() {
       try {

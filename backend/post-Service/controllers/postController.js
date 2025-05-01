@@ -45,7 +45,7 @@ export const getUsersPost= async(req,res,next)=>{
 }
 export const createPost= async(req,res,next)=>{
     const userId=req.userId;
-    const {tittle,description,category=null,skills=[],location=null,time}=req.body;
+    const {tittle,description,skills=[],location=null,deadline}=req.body;
     try {
 
         if (!userId || !tittle || !description) {
@@ -55,7 +55,7 @@ export const createPost= async(req,res,next)=>{
             });
         }
         const post=await pool.query(
-            "INSERT INTO posts (created_by,tittle,description,category,requiredSkills,location,time) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *",[userId,tittle,description,category,skills,location,time]);
+            "INSERT INTO posts (created_by,tittle,description,requiredSkills,location,deadline) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *",[userId,tittle,description,skills,location,deadline]);
 
         return res.status(200).json({
             success:true,

@@ -1,3 +1,4 @@
+import userModel from '../../userService/models/userModel.js';
 import chatModel from '../models/chatModel.js'
 import userStatusModel from '../models/userStatusModel.js'
 import axios from 'axios';
@@ -80,7 +81,7 @@ export const openChatWithId=async(req,res,next)=>{
         const chatId=req.params.chatId;
         const userId=req.userId;
 
-        const chat=await chatModel.findById(chatId);
+        const chat=await chatModel.findById(chatId).populate("msgs");
         if(!chat) return next({status:404,message:"chat with given id does not exist"});
 
         // console.log(chat._id)
@@ -96,7 +97,7 @@ export const getUserChats=async(req,res,next)=>{
     try {
        const userId=req.userId;
 
-       const chats=await chatModel.find({users:{$in:[userId]}}).sort({updatedAt:-1,_id:-1});
+       const chats=await chatModel.find({users:{$in:[userId]}}).populate('msgs').sort({updatedAt:-1,_id:-1});
     //    console.log(chats)
 
        const completeChats=[]
@@ -234,17 +235,18 @@ const getDetailsOfUsersInChat=async (chat,userId,setMsgsAsRead)=>{
     const chatObj=chat.toObject();
     chatObj.receivers=[]
     for(const id of chat.users){
+        var status=await userStatusModel.findOne({userId:id,chatId:chat._id});
         if(id!=userId) {
             const res=await axios.get(`http://localhost:5000/api/user/${id}`)
             const receiver=res.data.user
-            receiver.userStatus=await userStatusModel.findOne({userId:id,chatId:chat._id});
+            receiver.userStatus=status
             chatObj.receivers.push(receiver);
         }
         else {
-            const status=await userStatusModel.findOne({userId:id,chatId:chat._id});
+            
             if(setMsgsAsRead){
-                status.unreadMsgCount=1
-                await status.save()
+                // status.unreadMsgCount=1
+                // await status.save()
             }
             chatObj.senderStatus=status
 
