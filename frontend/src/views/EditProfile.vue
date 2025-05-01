@@ -1,31 +1,24 @@
 <template>
   <div class="edit-profile-container">
-
-
-    <!-- Main Content -->
     <div class="main-content">
       <header>
         <h1>Settings</h1>
         <div class="user-menu">
-          <img src="@/assets/images/avatar.jpg" alt="User Avatar" /> <!-- Replace with user avatar -->
+          <img :src="user.avatar" alt="User Avatar" />
         </div>
       </header>
 
-      <!-- Profile Section -->
       <div class="profile-section">
         <div class="profile-header">
-          <img src="@/assets/images/avatar.jpg" alt="User Avatar" class="avatar" />
+          <img :src="user.avatar" alt="User Avatar" class="avatar" />
           <div class="user-info">
-            <h2>{{ user.firstName }} {{ user.surname }}</h2>
-            <p>{{ user.statusMessage }}</p>
-            <p>{{ user.statusMessage }}</p>
+            <h2>{{ user.name }}</h2>
+            <p>{{ user.role }}</p>
+            <p>{{ user.bio }}</p>
           </div>
         </div>
 
-
-        <!-- Tab Content -->
         <div class="edit-profile-tabs">
-          <!-- Tab Headers -->
           <div class="tab-headers">
             <div class="tab-header" :class="{ active: activeTab === 'Personal' }" @click="activeTab = 'Personal'">
               Personal
@@ -33,117 +26,170 @@
             <div class="tab-header" :class="{ active: activeTab === 'Contact' }" @click="activeTab = 'Contact'">
               Contact
             </div>
+            <div class="tab-header" :class="{ active: activeTab === 'Account' }" @click="activeTab = 'Account'">
+              Account
+            </div>
             <div class="tab-header" :class="{ active: activeTab === 'Skills' }" @click="activeTab = 'Skills'">
               Skills
             </div>
             <div class="tab-header" :class="{ active: activeTab === 'Interests' }" @click="activeTab = 'Interests'">
               Interests
             </div>
-            <div class="tab-header" :class="{ active: activeTab === 'Experience' }" @click="activeTab = 'Experience'">
-              Experience
+            <div class="tab-header" :class="{ active: activeTab === 'Education' }" @click="activeTab = 'Education'">
+              Education
             </div>
-            <div class="tab-header" :class="{ active: activeTab === 'Projects' }" @click="activeTab = 'Projects'">
-              Projects
+            <div class="tab-header" :class="{ active: activeTab === 'SocialLinks' }" @click="activeTab = 'SocialLinks'">
+              Social Links
+            </div>
+            <div class="tab-header" :class="{ active: activeTab === 'CodingRanks' }" @click="activeTab = 'CodingRanks'">
+              Coding Ranks
             </div>
           </div>
 
           <!-- Tab Content -->
           <div class="tab-content">
+            <!-- Personal Tab -->
             <form @submit.prevent="saveProfile" v-if="activeTab === 'Personal'">
               <h3>Edit Profile</h3>
-              <p class="last-update">Last Update August 1</p>
+
               <div class="form-section">
                 <h4>Personal</h4>
-                <div class="form-row">
-                  <div class="form-group">
-                    <label>First Name</label>
-                    <input v-model="user.firstName" placeholder="Enter Value" />
-                  </div>
-                  <div class="form-group">
-                    <label>Surname</label>
-                    <input v-model="user.surname" placeholder="Enter Value" />
-                  </div>
+                <div class="form-group">
+                  <label>Name</label>
+                  <input v-model="user.name" placeholder="Enter your name" required />
                 </div>
                 <div class="form-group">
-                  <label>About</label>
-                  <input v-model="user.statusMessage" placeholder="Enter Value" />
+                  <label>Bio</label>
+                  <input v-model="user.bio" placeholder="Tell us about yourself" />
                 </div>
                 <div class="form-group">
-                  <label for="dob">Date of Birth</label>
-                  <input id="dob" v-model="user.dateOfBirth" type="date" class="form-control"
-                    placeholder="Enter your date of birth" />
+                  <label>Age</label>
+                  <input v-model.number="user.age" type="number" placeholder="Enter your age" />
                 </div>
                 <div class="form-group">
-                  <label>Education Level</label>
-                  <select v-model="user.educationLevel">
+                  <label>Gender</label>
+                  <select v-model="user.gender">
                     <option disabled value="">Select</option>
-                    <option value="High School">High School</option>
-                    <option value="Bachelor's">Bachelor's</option>
-                    <option value="Master's">Master's</option>
-                    <option value="PhD">PhD</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Location</label>
+                  <input v-model="user.location" placeholder="Enter your location" />
+                </div>
+                <div class="form-group">
+                  <label>Role</label>
+                  <select v-model="user.role" required>
+                    <option disabled value="">Select</option>
+                    <option value="Student">Student</option>
+                    <option value="Mentor">Mentor</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div class="form-group" v-if="user.role === 'Student'">
+                  <label>Current College Year</label>
+                  <input v-model.number="user.currentCollegeYear" type="number"
+                    placeholder="Enter your current college year" />
+                </div>
+                <div class="form-group">
+                  <label>Availability</label>
+                  <select v-model="user.availability">
+                    <option disabled value="">Select</option>
+                    <option value="openToJoin">Open to Join</option>
+                    <option value="NotAvailaible">Not Available</option>
                   </select>
                 </div>
               </div>
               <button type="submit" class="save-btn">Save</button>
             </form>
 
+            <!-- Contact Tab -->
             <form @submit.prevent="saveProfile" v-if="activeTab === 'Contact'">
               <h3>Edit Profile</h3>
-              <p class="last-update">Last Update August 1</p>
+
               <div class="form-section">
                 <h4>Contact</h4>
                 <div class="form-group">
                   <label>Email</label>
-                  <input v-model="user.email" placeholder="Enter Value" />
+                  <input v-model="user.email" placeholder="Enter your email" required />
                 </div>
                 <div class="form-group">
                   <label>Phone Number</label>
-                  <input v-model="user.phoneNumber" placeholder="Enter Value" />
-                </div>
-                <div class="form-group">
-                  <label>Country</label>
-                  <select v-model="user.country">
-                    <option disabled value="">Select</option>
-                    <option value="USA">USA</option>
-                    <option value="Canada">Canada</option>
-                    <option value="Iran">Iran</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label>City</label>
-                  <select v-model="user.city">
-                    <option disabled value="">Select</option>
-                    <option v-for="city in cities" :key="city" :value="city">{{ city }}</option>
-                  </select>
+                  <input v-model="user.phoneNumber" placeholder="Enter your phone number" />
                 </div>
               </div>
               <button type="submit" class="save-btn">Save</button>
             </form>
 
+            <!-- Account Tab -->
+            <form @submit.prevent="saveProfile" v-if="activeTab === 'Account'">
+              <h3>Edit Account</h3>
+
+              <div class="form-section">
+                <h4>Account Settings</h4>
+                <div class="form-group">
+                  <label>Password</label>
+                  <input v-model="user.password" type="password" placeholder="Enter new password" required />
+                </div>
+              </div>
+              <button type="submit" class="save-btn">Save</button>
+            </form>
+
+            <!-- Skills Tab -->
             <form @submit.prevent="saveProfile" v-if="activeTab === 'Skills'">
               <h3>Edit Profile</h3>
-              <p class="last-update">Last Update August 1</p>
+
               <div class="form-section">
                 <h4>Skills</h4>
                 <div class="form-group">
+                  <label>Skill Category</label>
+                  <input v-model="newSkillCategory" placeholder="Enter skill category (e.g., Frontend)" />
+                </div>
+                <div class="form-group">
                   <label>Add Skill</label>
-                  <input v-model="newSkill" placeholder="Enter a skill" />
+                  <input v-model="newSkill" placeholder="Enter a skill (e.g., React)" />
                   <button type="button" @click="addSkill" class="add-skill-btn">Add</button>
                 </div>
                 <div class="form-group skills-list">
                   <label>Current Skills</label>
-                  <div v-for="(skill, index) in user.skills" :key="index" class="skill-item">
-                    {{ skill }}
+                  <div v-for="(skillEntry, index) in user.userSkills" :key="index" class="skill-item">
+                    <div>
+                      <strong>{{ skillEntry.category }}:</strong> {{ skillEntry.skill.join(', ') }}
+                    </div>
                     <button @click="removeSkill(index)" class="remove-skill-btn">×</button>
                   </div>
+                </div>
+                <div class="form-group">
+                  <label>Add Field of Expertise</label>
+                  <input v-model="newFieldOfExpertise" placeholder="Enter a field (e.g., Web Development)" />
+                  <button type="button" @click="addFieldOfExpertise" class="add-field-btn">Add</button>
+                </div>
+                <div class="form-group expertise-list">
+                  <label>Current Fields of Expertise</label>
+                  <div v-for="(field, index) in user.fieldOfExpertise" :key="index" class="expertise-item">
+                    {{ field }}
+                    <button @click="removeFieldOfExpertise(index)" class="remove-expertise-btn">×</button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Coding Level</label>
+                  <select v-model="user.codingLevel">
+                    <option disabled value="">Select</option>
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                  </select>
                 </div>
               </div>
               <button type="submit" class="save-btn">Save</button>
             </form>
 
+            <!-- Interests Tab -->
             <form @submit.prevent="saveProfile" v-if="activeTab === 'Interests'">
               <h3>Edit Profile</h3>
-              <p class="last-update">Last Update August 1</p>
+
               <div class="form-section">
                 <h4>Interests</h4>
                 <div class="form-group">
@@ -162,75 +208,115 @@
               <button type="submit" class="save-btn">Save</button>
             </form>
 
-            <form @submit.prevent="saveProfile" v-if="activeTab === 'Experience'">
+            <!-- Education Tab -->
+            <form @submit.prevent="saveProfile" v-if="activeTab === 'Education'">
               <h3>Edit Profile</h3>
-              <p class="last-update">Last Update August 1</p>
+
               <div class="form-section">
-                <h4>Experience</h4>
+                <h4>Education</h4>
                 <div class="form-group">
-                  <label>Job Title</label>
-                  <input v-model="newExperience.jobTitle" placeholder="Enter job title" />
+                  <label>Institution</label>
+                  <input v-model="newEducation.institution" placeholder="Enter institution name" />
                 </div>
                 <div class="form-group">
-                  <label>Company</label>
-                  <input v-model="newExperience.company" placeholder="Enter company name" />
+                  <label>Degree Type</label>
+                  <select v-model="newEducation.degreeType">
+                    <option disabled value="">Select</option>
+                    <option value="High School">High School</option>
+                    <option value="Bachelors">Bachelors</option>
+                    <option value="Masters">Masters</option>
+                    <option value="PhD">PhD</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Course</label>
+                  <input v-model="newEducation.course" placeholder="Enter course (e.g., Computer Science)" />
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label>From</label>
-                    <input v-model="newExperience.from" type="date" placeholder="Start date" />
+                    <label>Start Year</label>
+                    <input v-model.number="newEducation.startYear" type="number" placeholder="Start year" />
                   </div>
                   <div class="form-group">
-                    <label>To</label>
-                    <input v-model="newExperience.to" type="date" placeholder="End date" />
+                    <label>Year of Completion</label>
+                    <input v-model.number="newEducation.yearOfCompletion" type="number" placeholder="End year" />
                   </div>
                 </div>
-                <button type="button" @click="addExperience" class="add-experience-btn">Add</button>
-                <div class="form-group experience-list">
-                  <label>Work Experience</label>
-                  <div v-for="(exp, index) in user.experience" :key="index" class="experience-item">
+                <button type="button" @click="addEducation" class="add-education-btn">Add</button>
+                <div class="form-group education-list">
+                  <label>Education History</label>
+                  <div v-for="(edu, index) in user.education" :key="index" class="education-item">
                     <div>
-                      <strong>{{ exp.jobTitle }}</strong> at {{ exp.company }} ({{ exp.from }} - {{ exp.to }})
+                      <strong>{{ edu.degreeType }}</strong> in {{ edu.course }} at {{ edu.institution }} ({{
+                        edu.startYear }} - {{ edu.yearOfCompletion }})
                     </div>
-                    <button @click="removeExperience(index)" class="remove-experience-btn">×</button>
+                    <button @click="removeEducation(index)" class="remove-education-btn">×</button>
                   </div>
                 </div>
               </div>
               <button type="submit" class="save-btn">Save</button>
             </form>
 
-            <form @submit.prevent="saveProfile" v-if="activeTab === 'Projects'">
+            <!-- Social Links Tab -->
+            <form @submit.prevent="saveProfile" v-if="activeTab === 'SocialLinks'">
               <h3>Edit Profile</h3>
-              <p class="last-update">Last Update August 1</p>
+
               <div class="form-section">
-                <h4>Projects</h4>
+                <h4>Social Links</h4>
                 <div class="form-group">
-                  <label>Project Name</label>
-                  <input v-model="newProject.name" placeholder="Enter project name" />
+                  <label>LinkedIn</label>
+                  <input v-model="user.socialLinks.linkedin" placeholder="Enter LinkedIn URL" type="url" />
                 </div>
                 <div class="form-group">
-                  <label>GitHub Link</label>
-                  <input v-model="newProject.githubLink" placeholder="Enter GitHub link" type="url" />
+                  <label>GitHub</label>
+                  <input v-model="user.socialLinks.github" placeholder="Enter GitHub URL" type="url" />
                 </div>
                 <div class="form-group">
-                  <label>Tech Stack</label>
-                  <input v-model="newProject.techStack" placeholder="Enter tech stack (e.g., Vue.js, Node.js)" />
+                  <label>Add Other Social Link</label>
+                  <input v-model="newSocialLink.platform" placeholder="Enter platform (e.g., Twitter)" />
+                  <input v-model="newSocialLink.link" placeholder="Enter link" type="url" />
+                  <button type="button" @click="addSocialLink" class="add-social-btn">Add</button>
                 </div>
-                <div class="form-group">
-                  <label>Team Members</label>
-                  <input v-model="newProject.teamMembers" placeholder="Enter team members (comma-separated)" />
-                </div>
-                <button type="button" @click="addProject" class="add-project-btn">Add</button>
-                <div class="form-group project-list">
-                  <label>Current Projects</label>
-                  <div v-for="(project, index) in user.projects" :key="index" class="project-item">
+                <div class="form-group social-links-list">
+                  <label>Other Social Links</label>
+                  <div v-for="(link, index) in user.socialLinks.Others" :key="index" class="social-link-item">
                     <div>
-                      <strong>{{ project.name }}</strong><br />
-                      GitHub: <a :href="project.githubLink" target="_blank">{{ project.githubLink }}</a><br />
-                      Tech Stack: {{ project.techStack }}<br />
-                      Team Members: {{ project.teamMembers }}
+                      {{ link.platform }}: <a :href="link.link" target="_blank">{{ link.link }}</a>
                     </div>
-                    <button @click="removeProject(index)" class="remove-project-btn">×</button>
+                    <button @click="removeSocialLink(index)" class="remove-social-link-btn">×</button>
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="save-btn">Save</button>
+            </form>
+
+            <!-- Coding Ranks Tab -->
+            <form @submit.prevent="saveProfile" v-if="activeTab === 'CodingRanks'">
+              <h3>Edit Profile</h3>
+
+              <div class="form-section">
+                <h4>Coding Ranks</h4>
+                <div class="form-group">
+                  <label>Platform</label>
+                  <input v-model="newCodingRank.platform" placeholder="Enter platform (e.g., LeetCode)" />
+                </div>
+                <div class="form-group">
+                  <label>Rank</label>
+                  <input v-model.number="newCodingRank.rank" type="number" placeholder="Enter rank" />
+                </div>
+                <div class="form-group">
+                  <label>Profile Link</label>
+                  <input v-model="newCodingRank.profileLink" placeholder="Enter profile link" type="url" />
+                </div>
+                <button type="button" @click="addCodingRank" class="add-coding-rank-btn">Add</button>
+                <div class="form-group coding-ranks-list">
+                  <label>Current Coding Ranks</label>
+                  <div v-for="(rank, index) in user.codingRanks" :key="index" class="coding-rank-item">
+                    <div>
+                      <strong>{{ rank.platform }}:</strong> Rank {{ rank.rank }} (<a :href="rank.profileLink"
+                        target="_blank">{{ rank.profileLink }}</a>)
+                    </div>
+                    <button @click="removeCodingRank(index)" class="remove-coding-rank-btn">×</button>
                   </div>
                 </div>
               </div>
@@ -244,31 +330,37 @@
 </template>
 
 <script>
+import avatarImage from '@/assets/images/avatar.jpg';
+
 export default {
   name: 'EditProfile',
   data() {
     return {
       user: {
-        avatar: '@/assets/images/avatar.jpg',
-        //avatar: '@/assets/images/avatar.jpg',
-        firstName: 'Mobina',
-        surname: 'Mirbagheri',
-        nationalCode: '',
-        dateOfBirth: '',
-        educationLevel: '',
+        name: 'Mobina Mirbagheri',
         email: '',
-        phoneNumber: '+989120000000',
-        country: '',
-        city: '',
-        statusMessage: 'Your account is ready, you can now apply for.',
-        skills: ['JavaScript', 'Vue.js'],
+        avatar: avatarImage,
+        password: '',
+        age: null,
+        bio: 'Your account is ready, you can now apply for.',
+        gender: '',
+        location: '',
+        role: 'Student',
+        fieldOfExpertise: [],
+        userSkills: [],
+        codingRanks: [],
+        codingLevel: '',
         interests: ['Photography', 'Traveling'],
-        experience: [
-          { jobTitle: 'Frontend Developer', company: 'Tech Corp', from: '2020-01-01', to: '2022-12-31' },
-        ],
-        projects: [
-          { name: 'ChatApp', githubLink: 'https://github.com/user/chatapp', techStack: 'Vue.js, Node.js', teamMembers: 'Alice, Bob' },
-        ],
+        education: [],
+        currentCollegeYear: null,
+        availability: '',
+        socialLinks: {
+          linkedin: '',
+          github: '',
+          Others: [],
+        },
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
       cities: [],
       availableCities: {
@@ -276,10 +368,13 @@ export default {
         Canada: ['Toronto', 'Vancouver', 'Montreal'],
         Iran: ['Tehran', 'Shiraz', 'Isfahan'],
       },
+      newSkillCategory: '',
       newSkill: '',
+      newFieldOfExpertise: '',
       newInterest: '',
-      newExperience: { jobTitle: '', company: '', from: '', to: '' },
-      newProject: { name: '', githubLink: '', techStack: '', teamMembers: '' },
+      newEducation: { institution: '', degreeType: '', course: '', startYear: null, yearOfCompletion: null },
+      newSocialLink: { platform: '', link: '' },
+      newCodingRank: { platform: '', rank: null, profileLink: '' },
       activeTab: 'Personal',
     };
   },
@@ -295,13 +390,33 @@ export default {
       alert('Profile saved successfully!');
     },
     addSkill() {
-      if (this.newSkill.trim() && !this.user.skills.includes(this.newSkill.trim())) {
-        this.user.skills.push(this.newSkill.trim());
+      if (this.newSkillCategory.trim() && this.newSkill.trim()) {
+        const existingCategory = this.user.userSkills.find(skillEntry => skillEntry.category === this.newSkillCategory.trim());
+        if (existingCategory) {
+          if (!existingCategory.skill.includes(this.newSkill.trim())) {
+            existingCategory.skill.push(this.newSkill.trim());
+          }
+        } else {
+          this.user.userSkills.push({
+            category: this.newSkillCategory.trim(),
+            skill: [this.newSkill.trim()],
+          });
+        }
+        this.newSkillCategory = '';
         this.newSkill = '';
       }
     },
     removeSkill(index) {
-      this.user.skills.splice(index, 1);
+      this.user.userSkills.splice(index, 1);
+    },
+    addFieldOfExpertise() {
+      if (this.newFieldOfExpertise.trim() && !this.user.fieldOfExpertise.includes(this.newFieldOfExpertise.trim())) {
+        this.user.fieldOfExpertise.push(this.newFieldOfExpertise.trim());
+        this.newFieldOfExpertise = '';
+      }
+    },
+    removeFieldOfExpertise(index) {
+      this.user.fieldOfExpertise.splice(index, 1);
     },
     addInterest() {
       if (this.newInterest.trim() && !this.user.interests.includes(this.newInterest.trim())) {
@@ -312,39 +427,241 @@ export default {
     removeInterest(index) {
       this.user.interests.splice(index, 1);
     },
-    addExperience() {
+    addEducation() {
       if (
-        this.newExperience.jobTitle.trim() &&
-        this.newExperience.company.trim() &&
-        this.newExperience.from.trim() &&
-        this.newExperience.to.trim()
+        this.newEducation.institution.trim() &&
+        this.newEducation.degreeType &&
+        this.newEducation.course.trim() &&
+        this.newEducation.startYear &&
+        this.newEducation.yearOfCompletion
       ) {
-        this.user.experience.push({ ...this.newExperience });
-        this.newExperience = { jobTitle: '', company: '', from: '', to: '' };
+        this.user.education.push({ ...this.newEducation });
+        this.newEducation = { institution: '', degreeType: '', course: '', startYear: null, yearOfCompletion: null };
       }
     },
-    removeExperience(index) {
-      this.user.experience.splice(index, 1);
+    removeEducation(index) {
+      this.user.education.splice(index, 1);
     },
-    addProject() {
-      if (
-        this.newProject.name.trim() &&
-        this.newProject.githubLink.trim() &&
-        this.newProject.techStack.trim() &&
-        this.newProject.teamMembers.trim()
-      ) {
-        this.user.projects.push({ ...this.newProject });
-        this.newProject = { name: '', githubLink: '', techStack: '', teamMembers: '' };
+    addSocialLink() {
+      if (this.newSocialLink.platform.trim() && this.newSocialLink.link.trim()) {
+        this.user.socialLinks.Others.push({ ...this.newSocialLink });
+        this.newSocialLink = { platform: '', link: '' };
       }
     },
-    removeProject(index) {
-      this.user.projects.splice(index, 1);
+    removeSocialLink(index) {
+      this.user.socialLinks.Others.splice(index, 1);
+    },
+    addCodingRank() {
+      if (this.newCodingRank.platform.trim() && this.newCodingRank.rank !== null && this.newCodingRank.profileLink.trim()) {
+        this.user.codingRanks.push({ ...this.newCodingRank });
+        this.newCodingRank = { platform: '', rank: null, profileLink: '' };
+      }
+    },
+    removeCodingRank(index) {
+      this.user.codingRanks.splice(index, 1);
     },
   },
 };
 </script>
 
 <style scoped>
+/* --------------------------------------
+   Education Section
+-------------------------------------- */
+.education-list {
+  margin-top: 0.5rem;
+}
+
+.education-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: #f7fafc;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+.add-education-btn {
+  background-color: #48bb78;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.add-education-btn:hover {
+  background-color: #41b883;
+}
+
+.remove-education-btn {
+  background: none;
+  border: none;
+  color: #ff4d4f;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+.remove-education-btn:hover {
+  color: #e53e3e;
+}
+
+/* --------------------------------------
+   Fields of Expertise Section
+-------------------------------------- */
+.expertise-list {
+  margin-top: 0.5rem;
+}
+
+.expertise-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: #f7fafc;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+.add-field-btn {
+  background-color: #48bb78;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.add-field-btn:hover {
+  background-color: #41b883;
+}
+
+.remove-expertise-btn {
+  background: none;
+  border: none;
+  color: #ff4d4f;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+.remove-expertise-btn:hover {
+  color: #e53e3e;
+}
+
+/* --------------------------------------
+   Social Links Section
+-------------------------------------- */
+.social-links-list {
+  margin-top: 0.5rem;
+}
+
+.social-link-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: #f7fafc;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+.social-link-item a {
+  color: #48bb78;
+  text-decoration: none;
+}
+
+.social-link-item a:hover {
+  text-decoration: underline;
+}
+
+.add-social-btn {
+  background-color: #48bb78;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.add-social-btn:hover {
+  background-color: #41b883;
+}
+
+.remove-social-link-btn {
+  background: none;
+  border: none;
+  color: #ff4d4f;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+.remove-social-link-btn:hover {
+  color: #e53e3e;
+}
+
+/* --------------------------------------
+   Coding Ranks Section
+-------------------------------------- */
+.coding-ranks-list {
+  margin-top: 0.5rem;
+}
+
+.coding-rank-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: #f7fafc;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+.coding-rank-item a {
+  color: #48bb78;
+  text-decoration: none;
+}
+
+.coding-rank-item a:hover {
+  text-decoration: underline;
+}
+
+.add-coding-rank-btn {
+  background-color: #48bb78;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.add-coding-rank-btn:hover {
+  background-color: #41b883;
+}
+
+.remove-coding-rank-btn {
+  background: none;
+  border: none;
+  color: #ff4d4f;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+.remove-coding-rank-btn:hover {
+  color: #e53e3e;
+}
 /* --------------------------------------
    Container and Layout
 -------------------------------------- */

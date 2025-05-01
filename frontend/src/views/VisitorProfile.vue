@@ -1,100 +1,144 @@
 <template>
-  <div class="visitor-profile-container">
-    <div class="main-content">
-      <!-- Profile Header -->
-      <div class="profile-header">
-        <img src="@/assets/images/avatar.jpg" alt="User Avatar" class="avatar" />
-        <div class="user-info">
-          <h1>{{ user.firstName }} {{ user.surname }}</h1>
-          <p>{{ user.statusMessage }}</p>
+  <div class="portfolio-wrapper">
+    <div class="portfolio-container">
+      <!-- Header Card -->
+      <div class="portfolio-card header-card">
+        <div class="header-content">
+          <img :src="user.avatar" alt="User Avatar" class="avatar" />
+          <div class="header-info">
+            <h1>{{ user.name }}</h1>
+            <p class="role">{{ user.role }}</p>
+            <p class="availability" :class="{ available: user.availability === 'openToJoin' }">
+              {{ user.availability === 'openToJoin' ? 'Open to Join' : 'Not Available' }}
+            </p>
+            <div class="contact-info">
+              <p><strong>Email:</strong> {{ user.email }}</p>
+              <p v-if="user.phoneNumber"><strong>Phone:</strong> {{ user.phoneNumber }}</p>
+              <p v-if="user.location"><strong>Location:</strong> {{ user.location }}</p>
+            </div>
+          </div>
+          <div class="social-links">
+            <p v-if="user.socialLinks.linkedin">
+              <a :href="user.socialLinks.linkedin" target="_blank" class="social-icon">LinkedIn</a>
+            </p>
+            <p v-if="user.socialLinks.github">
+              <a :href="user.socialLinks.github" target="_blank" class="social-icon">GitHub</a>
+            </p>
+            <p v-for="(link, index) in user.socialLinks.Others" :key="index">
+              <a :href="link.link" target="_blank" class="social-icon">{{ link.platform }}</a>
+            </p>
+          </div>
         </div>
       </div>
 
-      <!-- Profile Details -->
-      <div class="profile-details">
-        <!-- Personal Section -->
-        <div class="section">
-          <h2>Personal</h2>
-          <p><strong>First Name:</strong> {{ user.firstName }}</p>
-          <p><strong>Surname:</strong> {{ user.surname }}</p>
-          <p><strong>About:</strong> {{ user.statusMessage }}</p>
-          <p><strong>Date of Birth:</strong> {{ user.dateOfBirth }}</p>
-          <p><strong>Education Level:</strong> {{ user.educationLevel }}</p>
-        </div>
+      <!-- Summary Card -->
+      <div class="portfolio-card">
+        <h2>Summary</h2>
+        <p>{{ user.bio || 'No summary provided.' }}</p>
+      </div>
 
-        <!-- Contact Section -->
-        <div class="section">
-          <h2>Contact</h2>
-          <p><strong>Email:</strong> {{ user.email }}</p>
-          <p><strong>Phone Number:</strong> {{ user.phoneNumber }}</p>
-          <p><strong>Country:</strong> {{ user.country }}</p>
-          <p><strong>City:</strong> {{ user.city }}</p>
-        </div>
+      <!-- Personal Details Card -->
+      <div class="portfolio-card">
+        <h2>Personal Details</h2>
+        <p><strong>Age:</strong> {{ user.age || 'Not specified' }}</p>
+        <p><strong>Gender:</strong> {{ user.gender || 'Not specified' }}</p>
+        <p v-if="user.role === 'Student'"><strong>Current College Year:</strong> {{ user.currentCollegeYear ||
+          'Notspecified' }}</p>
+      </div>
 
-        <!-- Skills Section -->
-        <div class="section">
-          <h2>Skills</h2>
-          <ul>
-            <li v-for="(skill, index) in user.skills" :key="index">{{ skill }}</li>
-          </ul>
+      <!-- Education Card -->
+      <div class="portfolio-card">
+        <h2>Education</h2>
+        <div v-for="(edu, index) in user.education" :key="index" class="sub-card">
+          <p><strong>{{ edu.degreeType }} in {{ edu.course }}</strong></p>
+          <p>{{ edu.institution }} ({{ edu.startYear }} - {{ edu.yearOfCompletion }})</p>
         </div>
+        <p v-if="!user.education.length">No education details provided.</p>
+      </div>
 
-        <!-- Interests Section -->
-        <div class="section">
-          <h2>Interests</h2>
-          <ul>
-            <li v-for="(interest, index) in user.interests" :key="index">{{ interest }}</li>
-          </ul>
+      <!-- Skills Card -->
+      <div class="portfolio-card">
+        <h2>Skills</h2>
+        <div v-for="(skillEntry, index) in user.userSkills" :key="index" class="sub-card">
+          <p><strong>{{ skillEntry.category }}:</strong> {{ skillEntry.skill.join(', ') }}</p>
         </div>
+        <p v-if="!user.userSkills.length">No skills listed.</p>
+      </div>
 
-        <!-- Experience Section -->
-        <div class="section">
-          <h2>Experience</h2>
-          <div v-for="(exp, index) in user.experience" :key="index" class="experience-item">
-            <p><strong>{{ exp.jobTitle }}</strong> at {{ exp.company }} ({{ exp.from }} - {{ exp.to }})</p>
-          </div>
+      <!-- Field of Expertise Card -->
+      <div class="portfolio-card">
+        <h2>Fields of Expertise</h2>
+        <div class="expertise-list">
+          <span v-for="(field, index) in user.fieldOfExpertise" :key="index" class="expertise-tag">{{ field }}</span>
         </div>
+        <p v-if="!user.fieldOfExpertise.length">No fields of expertise listed.</p>
+      </div>
 
-        <!-- Projects Section -->
-        <div class="section">
-          <h2>Projects</h2>
-          <div v-for="(project, index) in user.projects" :key="index" class="project-item">
-            <p><strong>{{ project.name }}</strong></p>
-            <p>GitHub: <a :href="project.githubLink" target="_blank">{{ project.githubLink }}</a></p>
-            <p>Tech Stack: {{ project.techStack }}</p>
-            <p>Team Members: {{ project.teamMembers }}</p>
-          </div>
+      <!-- Coding Profile Card -->
+      <div class="portfolio-card">
+        <h2>Coding Profile</h2>
+        <p><strong>Coding Level:</strong> {{ user.codingLevel || 'Not specified' }}</p>
+        <div v-for="(rank, index) in user.codingRanks" :key="index" class="sub-card">
+          <p><strong>{{ rank.platform }}:</strong> Rank {{ rank.rank }} (<a :href="rank.profileLink" target="_blank">{{
+            rank.platform }} Profile</a>)</p>
         </div>
+        <p v-if="!user.codingRanks.length">No coding ranks provided.</p>
+      </div>
+
+      <!-- Interests Card -->
+      <div class="portfolio-card">
+        <h2>Interests</h2>
+        <div class="interests-list">
+          <span v-for="(interest, index) in user.interests" :key="index" class="interest-tag">{{ interest }}</span>
+        </div>
+        <p v-if="!user.interests.length">No interests listed.</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import avatarImage from '@/assets/images/avatar.jpg';
 export default {
   name: 'VisitorProfile',
   data() {
     return {
       user: {
-        avatar: '@/assets/images/avatar.jpg',
-        firstName: 'Mobina',
-        surname: 'Mirbagheri',
-        nationalCode: '',
-        dateOfBirth: '',
-        educationLevel: '',
-        email: '',
-        phoneNumber: '+989120000000',
-        country: '',
-        city: '',
-        statusMessage: 'Your account is ready, you can now apply for.',
-        skills: ['JavaScript', 'Vue.js'],
+        name: 'Mobina Mirbagheri',
+        email: 'mobina@example.com',
+        password: 'securepassword123', // Not displayed
+        avatar: avatarImage,
+        age: 29,
+        bio: 'Passionate developer with a focus on frontend technologies.',
+        gender: 'Female',
+        location: 'Tehran, Iran',
+        role: 'Student',
+        fieldOfExpertise: ['Web Development', 'UI/UX Design'],
+        userSkills: [
+          { category: 'Frontend', skill: ['JavaScript', 'Vue.js'] },
+          { category: 'Backend', skill: ['Node.js'] },
+        ],
+        codingRanks: [
+          { platform: 'LeetCode', rank: 1500, profileLink: 'https://leetcode.com/user' },
+          { platform: 'HackerRank', rank: 1200, profileLink: 'https://hackerrank.com/user' },
+        ],
+        codingLevel: 'intermediate',
         interests: ['Photography', 'Traveling'],
-        experience: [
-          { jobTitle: 'Frontend Developer', company: 'Tech Corp', from: '2020-01-01', to: '2022-12-31' },
+        education: [
+          { institution: 'Tech University', degreeType: 'Bachelors', course: 'Computer Science', startYear: 2018, yearOfCompletion: 2022 },
         ],
-        projects: [
-          { name: 'ChatApp', githubLink: 'https://github.com/user/chatapp', techStack: 'Vue.js, Node.js', teamMembers: 'Alice, Bob' },
-        ],
+        currentCollegeYear: 3,
+        availability: 'openToJoin',
+        socialLinks: {
+          linkedin: 'https://linkedin.com/in/mobina-mirbagheri',
+          github: 'https://github.com/mobinamir',
+          Others: [
+            { platform: 'Twitter', link: 'https://twitter.com/mobina_mir' },
+          ],
+        },
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        phoneNumber: '+989120000000',
       },
     };
   },
@@ -102,194 +146,169 @@ export default {
 </script>
 
 <style scoped>
-.visitor-profile-container {
-  display: flex;
-  height: 100vh;
+.portfolio-wrapper {
+  min-height: 100vh;
+  padding: 1rem;
 }
 
-.main-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding-left: 12rem;
-  padding-right: 3rem;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+.portfolio-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-.sidebar-nav {
-  width: 80px;
-  background-color: #f7fafc;
-  border-right: 1px solid #e2e8f0;
+.portfolio-card {
+  background: #ffffff;
+  border-radius: 12px;
+  height: 300px;
+  width: 100%;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 1rem 0;
+  justify-content: center;
+  padding: 1.25rem;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.logo img {
-  width: 40px;
-  height: 40px;
+.portfolio-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-nav ul {
-  list-style: none;
-  padding: 0;
-  margin-top: 2rem;
+.header-card {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, #41b883 0%, #2ecc71 100%);
+  color: #ffffff;
+  padding: 1.5rem;
 }
 
-nav ul li {
-  margin: 1rem 0;
-}
-
-nav ul li a {
-  display: block;
-  padding: 0.5rem;
-}
-
-nav ul li a img {
-  width: 24px;
-  height: 24px;
-}
-
-nav ul li a.active {
-  background-color: #e2e8f0;
-  border-radius: 8px;
-}
-
-.profile-header {
+.header-content {
   display: flex;
   align-items: center;
-  gap: 2rem;
-  background-color: #41b883;
-  border-radius: 100px;
-  margin-bottom: 3rem;
-  margin-right: 3rem;
-  width: 110rem;
-  height: 11rem;
+  gap: 1rem;
 }
 
 .avatar {
-  width: 170px;
-  height: 170px;
+  width: 250px;
+  height: 250px;
   border-radius: 50%;
+  border: 3px solid #ffffff;
   object-fit: cover;
 }
 
-.user-info h1 {
-  font-size: 2rem;
-  /* Larger headline */
-  font-weight: 700;
-  color: #ffffff;
-  margin: 0;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-  /* Subtle text shadow */
+.header-info {
+  flex: 1;
 }
 
-.user-info p {
-  color: #e6fffb;
-  /* Lighter text color for contrast */
-  font-size: 1.1rem;
-  margin-top: 0.5rem;
-  font-weight: 500;
-}
-
-.profile-details {
-  background-color: #ffffff;
-  padding: 2rem;
-  border-radius: 12px;
-  /* Larger radius for a modern feel */
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-  /* Softer shadow */
-  margin-right: 3rem;
-  margin-bottom: 3rem;
-  max-width: 120rem;
-  /* Consistent width with header */
-}
-
-.section {
-  margin-bottom: 2.5rem;
-  /* Increased spacing between sections */
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid #e2e8f0;
-  /* Subtle divider */
-}
-
-.section:last-child {
-  border-bottom: none;
-  /* Remove divider from last section */
-  margin-bottom: 0;
-}
-
-.section h2 {
+.header-info h1 {
   font-size: 1.5rem;
-  /* Larger section titles */
-  font-weight: 600;
-  margin-bottom: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: #ffffff;
+}
+
+.role {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0.25rem 0;
+  color: #e6f4ea;
+}
+
+.availability {
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin: 0.25rem 0;
+  color: #ffffff;
+}
+
+.availability.available {
+  color: #ffeb3b;
+}
+
+.contact-info p {
+  font-size: 0.85rem;
+  margin: 0.25rem 0;
+  color: #e6f4ea;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+}
+
+.social-icon {
+  background: #ffffff;
+  color: #41b883;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.social-icon:hover {
+  background: #e6f4ea;
   color: #2c3e50;
-  position: relative;
 }
 
-.section h2::after {
-  content: '';
-  position: absolute;
-  bottom: -0.5rem;
-  left: 0;
-  width: 50px;
-  height: 3px;
-  background-color: #41b883;
-  transition: width 0.3s ease;
+.portfolio-card h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 0.5rem 0;
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid #41b883;
 }
 
-.section:hover h2::after {
-  width: 100px;
-  /* Expand underline on hover for interactivity */
+.portfolio-card p {
+  font-size: 0.85rem;
+  color: #4a5568;
+  margin: 0.25rem 0;
+  line-height: 1.4;
 }
 
-.section p,
-.section ul {
-  font-size: 1rem;
-  /* Slightly larger text for readability */
-  color: #34495e;
-  margin: 0.75rem 0;
-  line-height: 1.6;
-  /* Better line spacing */
+.sub-card {
+  background: #f9fafb;
+  border-radius: 6px;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border-left: 3px solid #41b883;
 }
 
-.section ul {
-  list-style: disc;
-  padding-left: 2rem;
+.sub-card p {
+  margin: 0;
 }
 
-.experience-item,
-.project-item {
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  background-color: #f9fbfb;
-  border-radius: 8px;
-  border-left: 4px solid #41b883;
-  /* Highlighted border */
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.experience-item:hover,
-.project-item:hover {
-  transform: translateX(10px);
-  /* Slight shift on hover */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.project-item a {
+.sub-card a {
   color: #2ecc71;
   text-decoration: none;
-  font-weight: 500;
 }
 
-.project-item a:hover {
+.sub-card a:hover {
   text-decoration: underline;
   color: #27ae60;
+}
+
+.expertise-list,
+.interests-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.expertise-tag,
+.interest-tag {
+  background: #e6f4ea;
+  color: #2c3e50;
+  padding: 0.3rem 0.75rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
 }
 
 :deep(::-webkit-scrollbar) {
@@ -319,54 +338,29 @@ nav ul li a.active {
   background-color: #72cba4;
 }
 
-@media (max-width: 1200px) {
-  .main-content {
-    padding-left: 6rem;
-  }
-
-  .profile-header {
-    width: 100%;
-    max-width: 90rem;
-    height: 10rem;
-  }
-
-  .avatar {
-    width: 140px;
-    height: 140px;
-  }
-
-  .user-info h1 {
-    font-size: 1.75rem;
-  }
-
-  .user-info p {
-    font-size: 1rem;
-  }
-
-  .profile-details {
-    max-width: 90rem;
-  }
-}
-
+/* Responsive Design */
 @media (max-width: 768px) {
-  .profile-header {
+  .portfolio-container {
+    grid-template-columns: 1fr;
+  }
+
+  .header-content {
     flex-direction: column;
+    align-items: center;
     text-align: center;
-    height: auto;
-    padding: 1rem;
   }
 
   .avatar {
-    margin-bottom: 1rem;
+    width: 60px;
+    height: 60px;
   }
 
-  .main-content {
-    padding-left: 2rem;
+  .header-info h1 {
+    font-size: 1.25rem;
   }
 
-  .profile-details {
-    padding: 1rem;
-    margin-right: 1rem;
+  .social-links {
+    justify-content: center;
   }
 }
 </style>

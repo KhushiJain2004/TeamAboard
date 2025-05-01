@@ -1,3 +1,4 @@
+<!-- eslint-disable no-unused-vars -->
 <template>
   <div class="friends-and-mentors-page">
     <!-- Friend Requests Container (1/3) -->
@@ -68,112 +69,117 @@
 </template>
 
 <script>
+import { getRandomImage } from '@/Utils/randomImages';
+
+// Mock Data Configuration
+const mockData = {
+  firstNames: ['Emma', 'Liam', 'Olivia', 'Noah', 'Ava', 'Elijah', 'Charlotte', 'James', 'Amelia', 'William'],
+  lastNames: ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez'],
+  timePeriods: ['2 d', '1 w', '3 w', '1 m', '2 m', '6 m', '1 y', '2 y'],
+  tags: ['Photographer', 'Developer', 'Designer', 'Traveler', 'Foodie', 'Gamer', 'Musician', 'Artist', 'Writer', 'Athlete']
+};
+
+// Mock Data Generator
+const generateMockData = {
+  getName: () => `${mockData.firstNames[Math.floor(Math.random() * mockData.firstNames.length)]} ${mockData.lastNames[Math.floor(Math.random() * mockData.lastNames.length)]}`,
+  getTime: () => mockData.timePeriods[Math.floor(Math.random() * mockData.timePeriods.length)],
+  getTag: () => mockData.tags[Math.floor(Math.random() * mockData.tags.length)],
+  getMutualFriends: () => Math.floor(Math.random() * 10),
+
+  requests: (count, isSent = false) => {
+    return Array.from({ length: count }, () => ({
+      name: generateMockData.getName(),
+      time: generateMockData.getTime(),
+      ...(!isSent && { mutualFriends: generateMockData.getMutualFriends() }),
+      avatar: getRandomImage()
+    }));
+  },
+
+  suggestions: (count) => {
+    return Array.from({ length: count }, () => ({
+      name: generateMockData.getName(),
+      tag: generateMockData.getTag(),
+      avatar: getRandomImage()
+    }));
+  }
+};
+
 export default {
   name: 'FriendsAndMentors',
   data() {
     return {
-      activeTab: 'received', // Default tab: 'received' or 'sent'
-      receivedRequests: [
-        { name: 'AisHaa AriFF', time: '46 w', mutualFriends: 1, avatar: '@/assets/images/friend1.jpg' },
-        { name: 'Nishi Rajpoot', time: '1 y', mutualFriends: 0, avatar: '@/assets/images/friend2.jpg' },
-        { name: 'Ch Muneeb Muneeb Ameen', time: '1 y', mutualFriends: 1, avatar: '@/assets/images/friend3.jpg' },
-        { name: 'AisHaa AriFF', time: '46 w', mutualFriends: 1, avatar: '@/assets/images/friend1.jpg' },
-        { name: 'Nishi Rajpoot', time: '1 y', mutualFriends: 0, avatar: '@/assets/images/friend2.jpg' },
-        { name: 'Ch Muneeb Muneeb Ameen', time: '1 y', mutualFriends: 1, avatar: '@/assets/images/friend3.jpg' },
-        { name: 'AisHaa AriFF', time: '46 w', mutualFriends: 1, avatar: '@/assets/images/friend1.jpg' },
-        { name: 'Nishi Rajpoot', time: '1 y', mutualFriends: 0, avatar: '@/assets/images/friend2.jpg' },
-        { name: 'Ch Muneeb Muneeb Ameen', time: '1 y', mutualFriends: 1, avatar: '@/assets/images/friend3.jpg' },
-        { name: 'AisHaa AriFF', time: '46 w', mutualFriends: 1, avatar: '@/assets/images/friend1.jpg' },
-        { name: 'Nishi Rajpoot', time: '1 y', mutualFriends: 0, avatar: '@/assets/images/friend2.jpg' },
-        { name: 'Ch Muneeb Muneeb Ameen', time: '1 y', mutualFriends: 1, avatar: '@/assets/images/friend3.jpg' },
-        { name: 'AisHaa AriFF', time: '46 w', mutualFriends: 1, avatar: '@/assets/images/friend1.jpg' },
-        { name: 'Nishi Rajpoot', time: '1 y', mutualFriends: 0, avatar: '@/assets/images/friend2.jpg' },
-        { name: 'Ch Muneeb Muneeb Ameen', time: '1 y', mutualFriends: 1, avatar: '@/assets/images/friend3.jpg' },
-        { name: 'AisHaa AriFF', time: '46 w', mutualFriends: 1, avatar: '@/assets/images/friend1.jpg' },
-        { name: 'Nishi Rajpoot', time: '1 y', mutualFriends: 0, avatar: '@/assets/images/friend2.jpg' },
-        { name: 'Ch Muneeb Muneeb Ameen', time: '1 y', mutualFriends: 1, avatar: '@/assets/images/friend3.jpg' },
-        { name: 'AisHaa AriFF', time: '46 w', mutualFriends: 1, avatar: '@/assets/images/friend1.jpg' },
-        { name: 'Nishi Rajpoot', time: '1 y', mutualFriends: 0, avatar: '@/assets/images/friend2.jpg' },
-        { name: 'Ch Muneeb Muneeb Ameen', time: '1 y', mutualFriends: 1, avatar: '@/assets/images/friend3.jpg' },
-      ],
-      sentRequests: [
-        { name: 'Alex Johnson', time: '2 d', avatar: '@/assets/images/friend4.jpg' },
-        { name: 'Sara Smith', time: '1 w', avatar: '@/assets/images/friend5.jpg' },
-        { name: 'Mike Brown', time: '3 w', avatar: '@/assets/images/friend6.jpg' },
-        { name: 'Alex Johnson', time: '2 d', avatar: '@/assets/images/friend4.jpg' },
-        { name: 'Sara Smith', time: '1 w', avatar: '@/assets/images/friend5.jpg' },
-        { name: 'Mike Brown', time: '3 w', avatar: '@/assets/images/friend6.jpg' },
-        { name: 'Alex Johnson', time: '2 d', avatar: '@/assets/images/friend4.jpg' },
-        { name: 'Sara Smith', time: '1 w', avatar: '@/assets/images/friend5.jpg' },
-        { name: 'Mike Brown', time: '3 w', avatar: '@/assets/images/friend6.jpg' },
-        { name: 'Alex Johnson', time: '2 d', avatar: '@/assets/images/friend4.jpg' },
-        { name: 'Sara Smith', time: '1 w', avatar: '@/assets/images/friend5.jpg' },
-        { name: 'Mike Brown', time: '3 w', avatar: '@/assets/images/friend6.jpg' },
-        { name: 'Alex Johnson', time: '2 d', avatar: '@/assets/images/friend4.jpg' },
-        { name: 'Sara Smith', time: '1 w', avatar: '@/assets/images/friend5.jpg' },
-        { name: 'Mike Brown', time: '3 w', avatar: '@/assets/images/friend6.jpg' },
-        { name: 'Alex Johnson', time: '2 d', avatar: '@/assets/images/friend4.jpg' },
-        { name: 'Sara Smith', time: '1 w', avatar: '@/assets/images/friend5.jpg' },
-        { name: 'Mike Brown', time: '3 w', avatar: '@/assets/images/friend6.jpg' },
-        { name: 'Alex Johnson', time: '2 d', avatar: '@/assets/images/friend4.jpg' },
-        { name: 'Sara Smith', time: '1 w', avatar: '@/assets/images/friend5.jpg' },
-        { name: 'Mike Brown', time: '3 w', avatar: '@/assets/images/friend6.jpg' },
-        { name: 'Alex Johnson', time: '2 d', avatar: '@/assets/images/friend4.jpg' },
-        { name: 'Sara Smith', time: '1 w', avatar: '@/assets/images/friend5.jpg' },
-        { name: 'Mike Brown', time: '3 w', avatar: '@/assets/images/friend6.jpg' },
-      ],
-      suggestions: [
-        { name: 'NordFPV', tag: 'Hobby Store', avatar: '@/assets/images/nordfpv.jpg' },
-        { name: 'Aerial Clone', tag: 'Digital Creator', avatar: '@/assets/images/aerialclone.jpg' },
-        { name: 'DronePro', tag: 'Tech Enthusiast', avatar: '@/assets/images/dronepro.jpg' },
-        { name: 'NordFPV', tag: 'Hobby Store', avatar: '@/assets/images/nordfpv.jpg' },
-        { name: 'Aerial Clone', tag: 'Digital Creator', avatar: '@/assets/images/aerialclone.jpg' },
-        { name: 'DronePro', tag: 'Tech Enthusiast', avatar: '@/assets/images/dronepro.jpg' },
-        { name: 'NordFPV', tag: 'Hobby Store', avatar: '@/assets/images/nordfpv.jpg' },
-        { name: 'Aerial Clone', tag: 'Digital Creator', avatar: '@/assets/images/aerialclone.jpg' },
-        { name: 'DronePro', tag: 'Tech Enthusiast', avatar: '@/assets/images/dronepro.jpg' },
-        { name: 'NordFPV', tag: 'Hobby Store', avatar: '@/assets/images/nordfpv.jpg' },
-        { name: 'Aerial Clone', tag: 'Digital Creator', avatar: '@/assets/images/aerialclone.jpg' },
-        { name: 'DronePro', tag: 'Tech Enthusiast', avatar: '@/assets/images/dronepro.jpg' },
-        { name: 'NordFPV', tag: 'Hobby Store', avatar: '@/assets/images/nordfpv.jpg' },
-        { name: 'Aerial Clone', tag: 'Digital Creator', avatar: '@/assets/images/aerialclone.jpg' },
-        { name: 'DronePro', tag: 'Tech Enthusiast', avatar: '@/assets/images/dronepro.jpg' },
-      ],
+      activeTab: 'received',
+      receivedRequests: [],
+      sentRequests: [],
+      suggestions: [],
       searchQuery: '',
       filteredSuggestions: [],
+      isLoading: false,
+      error: null
     };
   },
   created() {
-    this.filteredSuggestions = [...this.suggestions];
+    this.initializeData();
   },
   methods: {
+    async initializeData() {
+      this.isLoading = true;
+      try {
+        await this.loadMockData();
+      } catch (err) {
+        this.error = err.message;
+        console.error('Failed to load data:', err);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
+    // Mock Data Implementation
+    async loadMockData() {
+      this.receivedRequests = generateMockData.requests(15);
+      this.sentRequests = generateMockData.requests(10, true);
+      this.suggestions = generateMockData.suggestions(12);
+      this.filteredSuggestions = [...this.suggestions];
+    },
+
+    // Mock Action Methods
+    async confirmRequest(index) {
+      const request = this.receivedRequests[index];
+      console.log('Confirmed request:', request.name);
+      this.receivedRequests.splice(index, 1);
+    },
+
+    async deleteRequest(index) {
+      const request = this.receivedRequests[index];
+      console.log('Deleted request:', request.name);
+      this.receivedRequests.splice(index, 1);
+    },
+
+    async cancelRequest(index) {
+      const request = this.sentRequests[index];
+      console.log('Cancelled request:', request.name);
+      this.sentRequests.splice(index, 1);
+    },
+
+    async followSuggestion(index) {
+      const suggestion = this.filteredSuggestions[index];
+      console.log('Followed suggestion:', suggestion.name);
+      this.filteredSuggestions.splice(index, 1);
+    },
+
+    // UI Methods
     toggleTab() {
       this.activeTab = this.activeTab === 'received' ? 'sent' : 'received';
     },
-    confirmRequest(index) {
-      console.log(`Confirmed friend request from ${this.receivedRequests[index].name}`);
-      this.receivedRequests.splice(index, 1);
-    },
-    deleteRequest(index) {
-      console.log(`Deleted friend request from ${this.receivedRequests[index].name}`);
-      this.receivedRequests.splice(index, 1);
-    },
-    cancelRequest(index) {
-      console.log(`Cancelled request to ${this.sentRequests[index].name}`);
-      this.sentRequests.splice(index, 1);
-    },
-    followSuggestion(index) {
-      console.log(`Followed ${this.filteredSuggestions[index].name}`);
-      this.filteredSuggestions.splice(index, 1);
-    },
+
     filterSuggestions() {
       const query = this.searchQuery.toLowerCase();
       this.filteredSuggestions = this.suggestions.filter(suggestion =>
         suggestion.name.toLowerCase().includes(query) ||
         suggestion.tag.toLowerCase().includes(query)
       );
-    },
-  },
+    }
+  }
 };
 </script>
 

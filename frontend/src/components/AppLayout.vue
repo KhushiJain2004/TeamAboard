@@ -17,7 +17,7 @@ export default {
   },
   computed: {
     isLoginPage() {
-      const loginPaths = ['login', 'register', 'recover'];
+      const loginPaths = ['login', 'register', 'recover', 'landing'];
       return loginPaths.includes(this.$route.name);
     },
   },

@@ -3,70 +3,51 @@
     <b-card id="cardLogin" class="scale-in-bl">
       <b-form @submit="onSubmit" @reset="onReset" v-if="show" id="formLogin">
         <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="blob">
-          <path
-            fill="#41B883"
+          <path fill="#41B883"
             d="M66.2,-49.1C81.5,-33.5,86.8,-6.2,79.8,15.6C72.7,37.5,53.3,53.9,30.9,65.1C8.5,76.2,-16.9,81.9,-36.2,73.3C-55.5,64.7,-68.8,41.7,-70.8,19.9C-72.8,-2,-63.6,-22.7,-49.9,-37.8C-36.2,-53,-18.1,-62.7,3.6,-65.6C25.4,-68.5,50.8,-64.6,66.2,-49.1Z"
-            transform="translate(100 100)"
-          />
+            transform="translate(100 100)" />
         </svg>
 
         <h1 class="text-center mb-3">Sign Up</h1>
         <h2 class="text-center mb-4">Register with:</h2>
-        <!-- <img src="../assets/images/logo.png" fluid class="logoLogin mb-4" /> -->
+
         <div class="d-flex justify-content-center mb-4">
-          <img src="../assets/images/google.png" fluid class="icons" />
-          <img src="../assets/images/github.png" fluid class="icons mx-4" />
+          <img src="../assets/images/google.png" alt="Google" class="icons" />
+          <img src="../assets/images/github.png" alt="GitHub" class="icons mx-4" />
         </div>
-        <span class="text-center mb-4 other-account">Or create your own account</span>
-        <b-form-group id="input-group-1" label-for="email">
-          <b-form-input
-            id="name"
-            class="input"
-            v-model="form.name"
-            type="text"
-            placeholder="Full name"
-            required
-          ></b-form-input>
+
+        <p class="text-center mb-4 other-account">Or create your own account</p>
+
+        <b-form-group label-for="name">
+          <b-form-input id="name" class="input" v-model="form.name" type="text" placeholder="Name"
+            required></b-form-input>
         </b-form-group>
 
-        <b-form-group id="input-group-1" label-for="email">
-          <b-form-input
-            id="email"
-            class="input"
-            v-model="form.email"
-            type="email"
-            placeholder="Email"
-            required
-          ></b-form-input>
+        <b-form-group label-for="email">
+          <b-form-input id="email" class="input" v-model="form.email" type="email" placeholder="Email"
+            required></b-form-input>
         </b-form-group>
 
-        <b-form-group id="input-group-2" label-for="input-2">
-          <b-form-input
-            id="password"
-            class="input"
-            v-model="form.password"
-            placeholder="Password"
-            type="password"
-            required
-          ></b-form-input>
+        <b-form-group label-for="role">
+          <b-form-select id="role" class="input" v-model="form.role" :options="roleOptions" required
+            placeholder="Register as"></b-form-select>
+        </b-form-group>
+
+        <b-form-group label-for="password">
+          <b-form-input id="password" class="input" v-model="form.password" type="password" placeholder="Password"
+            required></b-form-input>
         </b-form-group>
 
         <div class="d-flex justify-content-start flex-wrap">
-          <b-form-checkbox value="remember" class="remember">
+          <b-form-checkbox v-model="form.agreeToTerms" class="remember" :value="true">
             I have read and agree to the terms of use
           </b-form-checkbox>
         </div>
 
-        <!-- <div class="d-flex justify-content-center mt-3">
-          <b-button type="submit" variant="primary" class="btn-login"
-            >Entrar <font-awesome-icon icon="arrow-right" class="arrow"
-          /></b-button>
-        </div> -->
-
         <div class="d-flex justify-content-center mt-3">
-          <a href="#">
-            <font-awesome-icon icon="arrow-right" class="arrow-btn" />
-          </a>
+          <b-button variant="primary" type="submit" class="arrow-btn">
+            <font-awesome-icon icon="arrow-right" />
+          </b-button>
         </div>
 
         <div class="d-flex justify-content-center flex-wrap mt-4 register">
@@ -85,25 +66,31 @@ export default {
       form: {
         email: "",
         name: "",
-        food: null,
-        checked: [],
+        password: "",
+        role: null,
+        agreeToTerms: false,
       },
       show: true,
+      roleOptions: ["Mentor", "Student"],
     };
   },
   methods: {
     onSubmit(event) {
       event.preventDefault();
-      alert(JSON.stringify(this.form));
+      if (!this.form.agreeToTerms) {
+        alert("Please agree to the terms of use.");
+        return;
+      }
     },
     onReset(event) {
       event.preventDefault();
-      // Reset our form values
-      this.form.email = "";
-      this.form.name = "";
-      this.form.food = null;
-      this.form.checked = [];
-      // Trick to reset/clear native browser form validation state
+      this.form = {
+        email: "",
+        name: "",
+        password: "",
+        role: null,
+        agreeToTerms: false,
+      };
       this.show = false;
       this.$nextTick(() => {
         this.show = true;
@@ -113,7 +100,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 @import "../assets/css/animations.css";
 @import "../assets/css/variables.css";
 @import "../assets/css/fonts.css";
@@ -173,29 +160,19 @@ body {
   opacity: 0.2;
 }
 
-.forgotPassword {
-  color: var(--gray);
-  text-decoration: none;
-}
-
-.forgotPassword:hover {
-  color: var(--primary);
-  transition: 0.5s ease-in-out;
-}
-
 .arrow-btn {
   width: 100px;
   border-radius: 15px;
   background: var(--primary);
   color: #fff;
-  font-size: 60px;
-  padding: 5px;
+  font-size: 24px;
+    padding: 12px;
   box-shadow: -4px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .arrow-btn:hover {
   background: var(--secondary);
-  transition: 0.5s ease-in-out;
+  transition: 0.3s ease-in-out;
   box-shadow: none;
 }
 

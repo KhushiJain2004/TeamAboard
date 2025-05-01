@@ -2,15 +2,14 @@
   <div class="chat-window">
     <div class="chat-header">
       <img :src="selectedChat.avatar" alt="Avatar" class="avatar" />
-      <h2>{{ selectedChat.name }}</h2>
+      <div class="chat-info">
+        <h2>{{ selectedChat.name }}</h2>
+        <p v-if="selectedChat.type === 'group'">(Group Chat)</p> <!-- Added -->
+      </div>
     </div>
     <div class="messages">
-      <message
-        v-for="message in messages"
-        :key="message.id"
-        :message="message"
-        :is-own="message.sender === currentUser"
-      />
+      <message v-for="message in messages" :key="message.id" :message="message" :is-own="message.sender === currentUser"
+        :is-group="selectedChat.type === 'group'" />
     </div>
     <message-input @send="$emit('send-message', $event)" />
   </div>
@@ -41,6 +40,10 @@ export default {
 </script>
 
 <style scoped>
+.chat-info p {
+  font-size: 0.875rem;
+  color: #000000;
+}
 .chat-window {
   flex: 1;
   display: flex;
