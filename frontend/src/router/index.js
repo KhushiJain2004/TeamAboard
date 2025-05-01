@@ -20,7 +20,7 @@ const routes = [
         path: '',
         name: 'landing',
         component: Landing,
-        meta: { hideSidebar: true }
+        meta: { hideSidebar: true, fullPage: true },
       },
 
       // Auth pages (no sidebar)

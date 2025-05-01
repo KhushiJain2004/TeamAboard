@@ -69,7 +69,6 @@ export default {
   align-items: center;
   overflow: hidden;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  /* Removed pointer-events: none */
 }
 
 .background-blur {
